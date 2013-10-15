@@ -1,21 +1,27 @@
-var app = angular.module("littleSketcher",["ngRoute"]);
+var app = angular.module("littleSketcher",["ngRoute","ngResource"]);
 
 app.controller("rootCtrl",function($scope,$rootScope) {
-  console.log("constructed root");
-  // TODO - best practice around this?
-  var removed = $rootScope.$on("back",function(v) {
-    console.log("root")
-  });
-  $scope.$on("$destroy",function() {
-    removed();
-  })
 });
 
-app.controller("drawingCreateCtrl",function($scope,$rootScope,backState) {
-  console.log("constructed draw");
+
+app.factory("errors",function() {
+  return function(msg) {
+    alert(msg)
+  }
+})
+
+app.controller("drawingCreateCtrl",
+  function($scope,$rootScope,backState,DrawingRecord,$routeParams,errors) {
+
   $scope.currentDrawing = {};
   $scope.commands = $scope.currentDrawing.commands = [];
   $scope.undone = [];
+
+  $scope.persistance = new DrawingRecord();
+  if($routeParams.id != null) {
+    $scope.persistance.id = $routeParams.id;
+    $scope.persistance.$get();
+  }
 
   $scope.newStroke = function(command) {
     $scope.undone = [];
@@ -31,6 +37,11 @@ app.controller("drawingCreateCtrl",function($scope,$rootScope,backState) {
     if($scope.undone.length < 1) return;
     $scope.commands.push($scope.undone.pop());
   };
+  $scope.save = function() {
+    $scope.persistance.commands = $scope.commands
+    $scope.persistance.$create().catch(_.partial(errors,"There was a problem saving your drawing!"))
+  };
+
   backState("Home","/");
 });
 
@@ -47,6 +58,14 @@ app.directive("backButton",function(backState) {
       scope.back = backState()
     }
   };
+});
+
+app.factory("DrawingRecord",function($resource) {
+  var Drawing = $resource("/api/drawing/:id",{},{
+    'query':  {method:'GET', isArray:true, url: "/api/drawings"},
+    'create':  {method:'POST', url: "/api/drawings"},
+  })
+  return Drawing;
 });
 
 app.factory("backState",function() {
@@ -97,7 +116,7 @@ app.directive("drawing",function() {
   };
 });
 
-app.directive("draw",function($rootElement) {
+app.directive("draw",function($document) {
   var $ = angular.element;
   return function link(scope,el,attrs) {
     var command = [];
@@ -109,7 +128,8 @@ app.directive("draw",function($rootElement) {
     var ctx = el[0].getContext("2d")
     el.on("mousedown",lineStart)
 
-    cleanup.push( $rootElement.on("mouseup",lineEnd) )
+    $document.on("mouseup",lineEnd)
+    cleanup.push( function() { $document.off("mouseup",lineEnd) } )
     cleanup.push( scope.$on("$destroy",function() {
       cleanup.forEach(function(x) { x() })
       cleanup = []
