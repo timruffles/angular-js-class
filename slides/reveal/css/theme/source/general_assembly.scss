@@ -1,0 +1,77 @@
+/**
+ * General Assembly Theme
+ * @author Tim Ruffles <truffles.me.uk>
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Include theme-specific fonts
+
+
+// Override theme settings (see ../template/settings.scss)
+$mainFont: sans-serif;
+$mainColor: #000;
+$headingFont: sans-serif;
+$headingColor: #000;
+$headingTextShadow: none;
+$headingTextTransform: none;
+$backgroundColor: #fff;
+$linkColor: #000;
+$linkColorHover: lighten( $linkColor, 20% );
+$selectionBackgroundColor: rgba(0, 0, 0, 0.99);
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+.reveal {
+  h1, h2 {
+    text-transform: uppercase;
+  }
+  h2 {
+    font-size: 1.5em;
+    margin-bottom: 2em;
+    font-weight: 500;
+  }
+  .organisation {
+    display: block;
+    width: 223px;
+    height: 24px;
+    text-indent: -500em;
+    overflow: hidden;
+    background: url(images/general_assembly.png);
+  }
+  .slides {
+    text-align: left;
+  }
+  blockquote {
+    background: #eaeaea;
+  }
+  blockquote::before, blockquote::after {
+    content: "";
+  }
+  .large-text {
+    text-align: center;
+    padding-top: 2em;
+    p {
+      font-size: 1.5em;
+      margin: 1em;
+    }
+    .explanation {
+      font-size: 1.25em;
+    }
+  }
+}
+html.title .reveal {
+  background: #000;
+  color: #fff;
+  h1,h2,h3,h4,h5,h6 {
+    color: #fff;
+  }
+  -webkit-transition: all 0.25s;
+}
