@@ -36,7 +36,7 @@ app.controller("drawingCreateCtrl",
     if(record.$isNew()) {
       return $scope.saved ? "Created" : "Create"
     } else {
-      return $scope.saved ? "Updated" : "Update"
+      return $scope.saved ? "Up to date" : "Update"
     }
   }
   $scope.undo = function() {

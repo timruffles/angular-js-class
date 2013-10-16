@@ -4,7 +4,7 @@ app.config(function($locationProvider) {
 app.config(function($routeProvider) {
   $routeProvider
     .when("/",{
-      template: "<h1>Welcome</h1><a href='/drawings' class=button>List drawings</a><a href='/drawings/new' class=button>Start a drawing</a>",
+      templateUrl: "/tpls/index.html",
       controller: "rootCtrl"
     })
     .when("/drawings",{

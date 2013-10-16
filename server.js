@@ -1,6 +1,5 @@
 var fs = require("fs")
 var express = require("express")
-var autocrud = require("auto-crud")
 var PORT = 8004
 
 function createServer(drawings) {
@@ -26,6 +25,12 @@ function createServer(drawings) {
       if(err) return res.send(500)
       if(!drawing) return res.send(404)
       res.send(drawing);
+    })
+  });
+  app.post("/api/drawing/:id",function(req,res) {
+    db.update({_id: req.params.id},req.body,{},function(err) {
+      if(err) return res.send(500)
+      res.send(200);
     })
   });
   app.post("/api/drawings",function(req,res) {
