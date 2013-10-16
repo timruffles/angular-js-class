@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app=exercise>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Angular Exercise</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="../vendor/foundation/css/normalize.css" rel="stylesheet">
+        <link href="../vendor/foundation/css/foundation.css" rel="stylesheet">
+
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <h2>Your co-worker left some half finished code - can you help?</h2>
+
+        <div ng-controller=defineMe>
+        </div>
+
+        <div ng-controller=listful>
+          <!-- something missing -->
+          <div>Only me display when nothing is here</div>
+          <p ng-repeat="item in list">
+            {{ item.title }}
+          </p>
+        </div>
+
+        <div ng-controller=tabs>
+          <a ng-click='showTab("a")'>Show a</a>
+          <a ng-click='showTab("b")'>Show b</a>
+          <a ng-click='showTab("c")'>Show c</a>
+          <p ng-show='tab == "a"'>
+            I am tab A
+          </p>
+          <p ng-show='tab == "b"'>
+            I am tab B
+          </p>
+          <p ng-show='tab == "c"'>
+            I am tab C
+          </p>
+        </div>
+
+        <script src="../vendor/underscore.js"></script>
+        <script src="../vendor/angular/angular.js"></script>
+        <script src="main.js"></script>
+    </body>
+</html>

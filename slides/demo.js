@@ -35,6 +35,14 @@ app.directive("codeSample",function($compile) {
     }
   }
 });
+app.directive("codeExample",function($compile) {
+  return function(scope,el) {
+    var code = angular.element("<div class=code-sample><code></code></div>")
+    var src = formatLines(el.html())
+    code[0].querySelector("code").innerText = src;
+    el.replaceWith(code)
+  }
+});
 
 
 function formatLines(src) {
