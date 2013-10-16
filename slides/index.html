@@ -53,10 +53,10 @@
 
 <section>
   
-  <div code-sample>
+  <script type=cs code-sample>
     <h2>HTML {{ verb }} for web apps!</h2>
     <input ng-model='verb' ng-init='verb = "enhanced"' />
-  </div>
+  </script>
 
 </section>
 
@@ -73,7 +73,7 @@
 
 <section>
   
-  <div code-sample>
+  <script type=cs code-sample>
     <h2>Slide on ng, in ng</h2>
     <ul ng-init='thoughts = ["ng - WTH?","bit magic","performance?","expressive"]'>
       <li ng-repeat='thought in thoughts'>
@@ -81,7 +81,7 @@
         <a ng-click='thoughts.splice(thoughts.indexOf(thought),1)'>X</a>
       </li>
     </ul>
-  </div>
+  </script>
 
 </section>
 
@@ -153,11 +153,10 @@
 
 <section>
 
-  <h2>So let's meet a scope</h2>
+  <h2>Controllers + Scopes</h2>
 
-
-  <div code-sample>
-    <div>
+  <script type=code-sample code-sample>
+    <div ng-controller=clicking>
       <button ng-click=clicked()>Click me</button>
       <p>You've clicked the button {{clicks}} times.</p>
     </div>
@@ -169,45 +168,31 @@
         }
       })
     </code>
-  </div>
-
-</section>
-
-<section>
-  
-  <h2>Filters</h2>
-
-  <ul>
-  <li>quick, declarative transformation of output
-  <li>works with data-binding
-  <li>pure: take data in, return new version
-  </ul>
-
-  <div code-sample>
-    <p>Unfiltered: '{{val}}', filtered: '{{val|uppercase}}'</p>
-    <input ng-model=val ng-init='val = "foo"'>
-  </div>
+  </script>
 
 </section>
 
 
 <section data-markdown><script type="text/template">
-  
-  ## Controllers DO
 
-  - define functions for view to invoke
-  - trigger code from services
+  ## Breaking it down
+
+  - `ng-click` directive, not onclick
+  - Angular expression evaluated against a new `Scope`
+  - `ng-click` runs expression inside an `$apply`, which triggers a `$digest()`
+
+  ```
+  // inside ng-click directive source
+  scope.$apply(function() {
+    clickHandler(scope, {$event: event});
+  });
+  ```
+
+  - inside the `$digest()`, the watch expression from `{{click}}` will fire, updating the DOM!
+  - `ng-controller` directive creates a new scope
 
 </script></section>
 
-<section data-markdown><script type="text/template">
-  
-  ## Controllers DON'T
-
-  - talk about the DOM
-  - read from the scope (write-only)
-
-</script></section>
 
 <section data-markdown><script type="text/template">
   
@@ -237,12 +222,119 @@
 
   - data-binding is all about scopes
   - properties on scopes are bound to
-  - we use watch expressions to bind
+  - we use watch expressions - JS functions or ng expressions - to bind
   - when value of expression changes, we update bindings
   - digest triggered by Angular usually
-  - if we make changes to scope outside of Angular's world (e.g AJAX callback, non-Angular event callback) we'll need to tell Angular
 
 </script></section>
+
+<section data-markdown><script type="text/template">
+
+  ## `$digest()`?
+
+  - digest evaluates all watch expressions/functions against current value of scope
+  - has kept old results of all watches
+  - if they change, will fire handlers
+  - directive's handlers are often for updating DOM
+  - e.g ng-repeat on new item
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+
+  ## `$digest()`
+
+  ```
+  angular.injector(["ng"]).invoke(function($rootScope) {
+
+    var scope = $rootScope.$new();
+    scope.on = true;
+    scope.$watch("on",function(on) {
+      console.log("lightbulb now: " + (on ? "on" : "off"))
+    });
+    // nothing happens, digest hasn't been called
+    scope.on = false;
+    scope.on = true;
+    scope.on = false;
+    // will trigger
+    scope.$digest()
+    // triggers again, $apply = do then digest
+    scope.$apply(function() {
+      scope.on = true;
+    });
+
+  });
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## ng-world, JS-world
+
+  - if we make changes to scope outside of Angular's world we'll need to tell Angular
+  - e.g AJAX callback, non-Angular event callback
+  - when writing your own directives
+  - reading Angular directive's source is great way of answer "how do I do X?"
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Controller
+
+  - glue between models, services etc, and view
+  - has access to scope, not DOM
+  - here, we've written a method for view to call:
+
+  ```
+  module.controller('clicking',function($scope) {
+    $scope.clicks = 0;
+    $scope.clicked = function() {
+      $scope.clicks += 1;
+    }
+  })
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Controllers DO
+
+  - define functions for view to invoke
+  - trigger code from services
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Controllers DON'T
+
+  - talk about the DOM
+  - read from the scope (write-only)
+
+</script></section>
+
+
+
+<section>
+  
+  <h2>Filters</h2>
+
+  <ul>
+  <li>quick, declarative transformation of output
+  <li>works with data-binding
+  <li>pure: take data in, return new version
+  </ul>
+
+  <script type=cs code-sample>
+    <p>Unfiltered: '{{val}}', filtered: '{{val|uppercase}}'</p>
+    <input ng-model=val ng-init='val = "foo"'>
+  </script>
+
+</section>
+
 
 <section data-markdown><script type="text/template">
   
@@ -480,9 +572,6 @@
     ]
 
   });
-Reveal.addEventListener( 'highlight', function() {
-  console.log("state")
-}, false );
   
 </script>
 </body>

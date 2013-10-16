@@ -12,3 +12,9 @@
   margin-top: 0.5rem;
   text-align: left;
 }
+.reveal h1 code,
+.reveal h2 code,
+.reveal h3 code,
+.reveal h4 code {
+  text-transform: none;
+}
