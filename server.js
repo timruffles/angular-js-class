@@ -1,6 +1,7 @@
 var fs = require("fs")
 var express = require("express")
 var autocrud = require("auto-crud")
+var PORT = 8004
 
 function createServer(drawings) {
   var app = express()
@@ -20,7 +21,7 @@ function createServer(drawings) {
       res.send(drawings)
     });
   });
-  app.get("/api/drawings/:id",function(req,res) {
+  app.get("/api/drawing/:id",function(req,res) {
     db.findOne({_id: req.params.id},function(err,drawing) {
       if(err) return res.send(500)
       if(!drawing) return res.send(404)
@@ -33,7 +34,7 @@ function createServer(drawings) {
       res.send(doc)
     });
   });
-  app.delete("/api/drawings/:id",function(req,res) {
+  app.delete("/api/drawing/:id",function(req,res) {
     db.remove({_id: req.params.id},{},function(err,removeCount) {
       if(err) return res.send(500)
       if(removeCount < 1) return res.send(404)
@@ -44,7 +45,8 @@ function createServer(drawings) {
 
   app.use(express.static("app"))
 
-  app.listen(8004)
+  app.listen(PORT)
+  console.log("Server listening on localhost:" + PORT)
 }
 
 var Datastore = require('nedb');

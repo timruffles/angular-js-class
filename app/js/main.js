@@ -13,58 +13,89 @@ app.factory("errors",function() {
 app.controller("drawingCreateCtrl",
   function($scope,$rootScope,backState,DrawingRecord,$routeParams,errors) {
 
-  $scope.currentDrawing = {};
-  $scope.commands = $scope.currentDrawing.commands = [];
   $scope.undone = [];
+  $scope.saved = false
 
-  $scope.persistance = new DrawingRecord();
+  var record = $scope.record = new DrawingRecord();
   if($routeParams.id != null) {
-    $scope.persistance.id = $routeParams.id;
-    $scope.persistance.$get();
+    record._id = $routeParams.id;
+    record.$get()
+  } else {
+    record.commands = []
   }
+  $scope.saved = true
 
   $scope.newStroke = function(command) {
+    $scope.saved = false
     $scope.undone = [];
-    $scope.commands.push(_.defaults({
+    record.commands.push(_.defaults({
       type: "path"
     },command))
   };
+  $scope.verb = function() {
+    if(record.$isNew()) {
+      return $scope.saved ? "Created" : "Create"
+    } else {
+      return $scope.saved ? "Updated" : "Update"
+    }
+  }
   $scope.undo = function() {
-    if($scope.commands < 1) return;
-    $scope.undone.push($scope.commands.pop());
+    $scope.saved = false
+    if(record.commands < 1) return;
+    $scope.undone.push(record.commands.pop());
   };
   $scope.redo = function() {
+    $scope.saved = false
     if($scope.undone.length < 1) return;
-    $scope.commands.push($scope.undone.pop());
+    record.commands.push($scope.undone.pop());
   };
   $scope.save = function() {
-    $scope.persistance.commands = $scope.commands
-    $scope.persistance.$create().catch(_.partial(errors,"There was a problem saving your drawing!"))
+    var verb = record.$isNew() ? "create" : "save"
+    record["$" + verb]().catch(_.partial(errors,"There was a problem saving your drawing!"))
   };
 
   backState("Home","/");
 });
 
-app.controller("drawingsCtrl",function($scope) {
-  $scope.drawings = [];
+_.mixin({
+  spliceOut: function(arr,obj) {
+    var index = _.indexOf(arr,obj)
+    arr.splice(index,1)
+  }
+})
+
+app.controller("drawingsCtrl",function($scope,DrawingRecord) {
+  $scope.drawings = DrawingRecord.query();
+  $scope.deleteDrawing = function(drawing) {
+    drawing.$delete()
+      .then(function() {
+        $scope.$emit("notify:completed","Drawing deleted");
+        _.spliceOut($scope.drawings,drawing)
+      })
+      .catch(function() {
+        $scope.$emit("notify:error","Drawing could not be deleted");
+      })
+  }
 });
 
-app.directive("backButton",function(backState) {
+app.directive("backButton",function(backState,$location) {
   return {
-    template: "<a ng-href='{{ back.route }}'>{{back.name}}</a>",
+    template: "<a ng-hide='location.path() == back.route' ng-href='{{ back.route }}'>{{back.name}}</a>",
     replace: true,
     scope: {},
     link: function(scope,element,attrs) {
       scope.back = backState()
+      scope.location = $location
     }
   };
 });
 
 app.factory("DrawingRecord",function($resource) {
-  var Drawing = $resource("/api/drawing/:id",{},{
+  var Drawing = $resource("/api/drawing/:id",{id: '@_id'},{
     'query':  {method:'GET', isArray:true, url: "/api/drawings"},
     'create':  {method:'POST', url: "/api/drawings"},
   })
+  Drawing.prototype.$isNew = function() { return this._id == null }
   return Drawing;
 });
 
@@ -91,6 +122,7 @@ app.directive("drawing",function() {
       ctx.clearRect(0,0,width,height)
     }
     function draw(commands) {
+      if(!commands) return;
       var box = el[0].getBoundingClientRect();
       width = box.width;
       height = box.height;

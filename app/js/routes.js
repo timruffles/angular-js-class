@@ -14,5 +14,9 @@ app.config(function($routeProvider) {
     .when("/drawings/new",{
       templateUrl: "/tpls/drawing_new.html",
       controller: "drawingCreateCtrl"
+    })
+    .when("/drawings/:id",{
+      templateUrl: "/tpls/drawing_new.html",
+      controller: "drawingCreateCtrl"
     });
 });

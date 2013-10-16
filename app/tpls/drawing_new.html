@@ -1,10 +1,8 @@
-<h1>New Drawing</h1>
-
-<div class=canvases>
-  <canvas drawing commands=currentDrawing.commands width=320 height=400></canvas>
+<div class=canvases ng-class="{loading:loading}">
+  <canvas drawing commands=record.commands width=320 height=400></canvas>
   <canvas draw onpath=newStroke(command) width=320 height=400></canvas>
 </div>
 
-<button ng-click=undo() ng-disabled="currentDrawing.commands.length == 0">Undo</button>
+<button ng-click=undo() ng-disabled="record.commands.length == 0">Undo</button>
 <button ng-click=redo() ng-disabled="undone.length == 0">Redo</button>
-<button ng-click=save(currentDrawing)>Save</button>
+<button ng-click=save() ng-disabled="saved">{{verb()}}</button>
