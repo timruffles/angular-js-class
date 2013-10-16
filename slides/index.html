@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
     <meta charset="utf-8">  
     <title>AngularJS</title>
@@ -15,7 +16,7 @@
     <link rel="stylesheet" href="css/slides.css">
 </head>
 
-<body>
+<body ng-app=slides>
 
 <div class="reveal">
 <div class="slides">
@@ -35,17 +36,357 @@
   
   # Todo
 
-  - Angular: what, why
   - Impressionist glimpse of ng
+  - Angular: what, why
   - Views & controllers
   - scopes
   - digest loop
   - routes
   - services - where did JS go?
   - modules
+  - filters
   - $resource
   - writing directives
   - testing
+
+</script></section>
+
+<section>
+  
+  <div code-sample>
+    <h2>HTML {{ verb }} for web apps!</h2>
+    <input ng-model='verb' ng-init='verb = "enhanced"' />
+  </div>
+
+</section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Impression
+
+  - data-binding
+  - custom markup - like Dojo
+  - very little Javascript (code example was complete)
+  - back to Javascript in HTML
+
+</script></section>
+
+<section>
+  
+  <div code-sample>
+    <h2>Slide on ng, in ng</h2>
+    <ul ng-init='thoughts = ["ng - WTH?","bit magic","performance?","expressive"]'>
+      <li ng-repeat='thought in thoughts'>
+        {{ thought }}
+        <a ng-click='thoughts.splice(thoughts.indexOf(thought),1)'>X</a>
+      </li>
+    </ul>
+  </div>
+
+</section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Angular's goals
+
+  - build out from HTML, not expand JS's job
+  - radical testability - no untestable bits
+  - 'just Javascript' for model layer
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Angular's solutions
+
+  - extensions to HTML - what you've seen - via directives
+  - dependency injection container as module system
+  - change watching, not events (like Backbone etc)
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+
+  ## MVC
+
+  - model: what your app does for users
+  - view: interative representation of model
+  - controller: glue
+  - key: seperate what your app does/is: model, how: view + controller
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+
+  ## Angular's MVC
+
+  - model: your Javascript, watched by Angular
+  - view: HTML extended via directives
+  - controller: Javascript to glue views to models
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+  ## How is Angular different?
+
+  - to jQuery/flat JS: much less DOM manipulation, more structure
+  - to Backbone: less DOM manipulation, larger goals
+  - to Ember: change watching instead of events
+  - to old-style JS in HTML: scoped, not arbitrary JS
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+  ## How does it work?
+
+  - Angular compiles your view
+  - creates scopes: object to data-bind
+  - attaches all directives from compilation to scopes
+  - fires `$digest()` after events to check for changes
+  - directives update DOM
+  - last two steps keep happening: $digest -> change -> update
+
+</script></section>
+
+<section>
+
+  <h2>So let's meet a scope</h2>
+
+
+  <div code-sample>
+    <div>
+      <button ng-click=clicked()>Click me</button>
+      <p>You've clicked the button {{clicks}} times.</p>
+    </div>
+    <code class=controller>
+      module.controller('clicking',function($scope) {
+        $scope.clicks = 0;
+        $scope.clicked = function() {
+          $scope.clicks += 1;
+        }
+      })
+    </code>
+  </div>
+
+</section>
+
+<section>
+  
+  <h2>Filters</h2>
+
+  <ul>
+  <li>quick, declarative transformation of output
+  <li>works with data-binding
+  <li>pure: take data in, return new version
+  </ul>
+
+  <div code-sample>
+    <p>Unfiltered: '{{val}}', filtered: '{{val|uppercase}}'</p>
+    <input ng-model=val ng-init='val = "foo"'>
+  </div>
+
+</section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## Controllers DO
+
+  - define functions for view to invoke
+  - trigger code from services
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Controllers DON'T
+
+  - talk about the DOM
+  - read from the scope (write-only)
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Scopes
+
+  - core of data-binding
+  - an object to bind to
+  - have parent/child relationships
+  - used by controller/view/directives
+  - we have one `$rootScope`
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## Scopes inheritance
+
+  - scopes prototypically inherit from parents
+  - this makes for intuative cooperation between controllers
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Digest loop
+
+  - data-binding is all about scopes
+  - properties on scopes are bound to
+  - we use watch expressions to bind
+  - when value of expression changes, we update bindings
+  - digest triggered by Angular usually
+  - if we make changes to scope outside of Angular's world (e.g AJAX callback, non-Angular event callback) we'll need to tell Angular
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Routes
+
+  - trio of modules - `location`, `route`, `routeParams`
+  - we define routes via `$routeProvider`
+  - we control how URL works via $locationProvider (e.g pushState vs hash)
+  - our controllers can see current route's params via `$routeParams`
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## Services
+
+  - any property of a module
+  - different flavours
+  - all singletons
+  - have 3 steps: create provider, create factory, create instance via factory
+  - 3 steps are to allow configuration before factory, and then to inject instance's dependencies
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## `constant`, `value`
+
+  - simple values
+  - `constant`s can't change, `value`s can
+
+  ```
+  TODO
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## `factory`, `service`
+
+  - `factory`: your function's return value is the singleton
+  - `service`: the result of calling `new yourFunction(dep1,dep2...)` is the singleton
+  - so: `factory` for returned things, `service` for constructors taking Angular arguments
+  - if you're wrapping normal JS libraries, you'll actually normally use `factory` as other JS doesn't take angular dependencies as constructor args
+
+  ```
+  TODO
+  ```
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## The rest
+
+  - `controller`, `directive` etc are all defined via the same process as `factory` and `constant` etc
+  - the root method is `provide` - it has an additional step to allow configuration of the provider (which creates our factory)
+  - so the rest are sugar for provide
+  - provide returns a config object with, at minimum, `$get`
+  - use when you have extra config to perform/expose
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## `module`s
+
+  - Angular's modules group related functionality
+  - don't use to group by type - e.g `angular.module("controllers")`
+  - not a module-loader, like RequireJS, but a module system
+  - can depend on other modules - you'll often depend on `ngRoute` for instance
+  - angular is bootstrapped by `ng-init="someModule"`, or `angular.bootstrap(["someModule"])`, passing the modules that define controllers etc found on elements
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Directive
+
+  - The big USP of angular
+  - Extend the DOM
+  - As simple as preventing default click-behaviour on `a href=''`
+  - To whole new widgets, with their own hierarchy of controllers
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## Directives in DOM
+
+  - Can be triggered in many ways: element names (IE9+), classes, attributes, etc
+  - Can lock down triggers per directive
+  - e.g `a` directive only available as element name, so augments all `<a>`s
+
+  ```
+  app.directive("myDirective",function() {});
+  ```
+
+  ```
+  <my-directive></my-directive>
+  <div my-directive></div>
+  <div class="my-directive"></div>
+  <div data-my-directive></div>
+  ```
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## Directives in Angular
+
+  - All the cool bits are from directives
+  - `ngRepeat`, `ngInclude`, `ngClick` etc all directives
+  - So no magic: all tools available to `ng` is available to you
+
+</script></section>
+
+
+
+<section data-markdown><script type="text/template">
+  
+  ## `$resource`
+
+  - boiler-plate reduction for HTTP APIs
+  - one of the many flavours of REST by default
+  - gives you a constructor for instances, and static query methods
+  - return empty instances - `{}` or `[]` - for easy data-binding
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Testing
+
+  - where all the complexity of the module system pays off
+  - angular gives you helpers to mock/stub
+  - two flavours: unit, and end-to-end
 
 </script></section>
 
@@ -72,6 +413,8 @@
 </div>
 </div>
 
+<script src="angular.js"></script>
+<script src="demo.js"></script>
 <script src="reveal/lib/js/head.min.js"></script>
 <script src="reveal/js/reveal.min.js"></script>
 <script>
@@ -143,3 +486,4 @@ Reveal.addEventListener( 'highlight', function() {
   
 </script>
 </body>
+</html>
