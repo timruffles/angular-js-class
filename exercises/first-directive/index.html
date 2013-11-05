@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html ng-app=exercise>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Angular Exercise</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="../vendor/foundation/css/normalize.css" rel="stylesheet">
+        <link href="../vendor/foundation/css/foundation.css" rel="stylesheet">
+
+        <link href="style.css" rel="stylesheet">
+
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div ng-controller="orders" tour class=row>
+
+          <h1>Bakery orders</h1>
+
+          <div class=tour-dialog ng-hide="tourDismissed">
+            <div ng-show="tourUnstarted()">
+              Welcome to BakeryTron 2000®. To learn about the app, <a ng-click=nextTourStep()>start the tour</a>.
+            </div>
+            <div ng-show="tourInProgress()">
+              {{ tourStep().text }}
+              <button ng-click=nextTourStep()>Next</button>
+            </div>
+            <div ng-show="tourComplete()">
+              Thanks! You've completed the tour.
+              <button ng-click="restartTour()">Restart</button>
+              <button ng-click="dismissTour()">Done</button>
+            </div>
+            <div ng-show="tourInProgress()">
+              Step {{ tourPosition }} of {{ tourSteps.length }}
+            </div>
+          </div>
+
+          <div class=feed ng-controller=orderList tour-step="Read about new orders here" tour-priority=10>
+            <h2>Feed</h2>
+            <div ng-repeat='order in orders' class=order>
+              {{ order.text }} 
+              <button class=small tour-step="Mark an order 'Done' here" tour-if="0 == $index">Done</button>
+            </div>
+          </div>
+
+          <div class=add-order ng-controller=addOrder>
+            <h2>New order</h2>
+            <form tour-step="Input new orders here" tour-priority=5>
+              <label>
+                Order text
+                <input ng-model='newOrder.text'>
+              </label>
+              <button>Add order</button>
+            </form>
+          </div>
+
+        </div>
+
+
+        <script src="../vendor/underscore.js"></script>
+        <script src="../vendor/angular/angular.js"></script>
+        <script src="main.js"></script>
+    </body>
+</html>

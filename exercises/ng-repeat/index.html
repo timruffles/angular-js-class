@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app=exercise>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Angular Exercise</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="../vendor/foundation/css/normalize.css" rel="stylesheet">
+        <link href="../vendor/foundation/css/foundation.css" rel="stylesheet">
+
+        <link href="style.css" rel="stylesheet">
+
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div ng-controller="orders" class=row>
+
+          <h1>Bakery orders</h1>
+
+          <div class=feed ng-controller=orderList class=orders>
+            <h2>Feed</h2>
+            <div ng-repeat='order in orders' class=order>
+              {{ order.text }} 
+              <button class=small>Done</button>
+            </div>
+          </div>
+
+
+          <div class=add-order ng-controller=addOrder>
+            <h2>New order</h2>
+            <form>
+              <label>
+                Order text
+                <input ng-model='newOrder.text'>
+              </label>
+              <button>Add order</button>
+            </form>
+          </div>
+
+        </div>
+
+
+        <script src="../vendor/underscore.js"></script>
+        <script src="../vendor/angular/angular.js"></script>
+        <script src="main.js"></script>
+    </body>
+</html>
