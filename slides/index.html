@@ -36,18 +36,10 @@
   
   # Todo
 
-  - Impressionist glimpse of ng
-  - Angular: what, why
-  - Views & controllers
-  - scopes
-  - digest loop
-  - routes
-  - services - where did JS go?
-  - modules
-  - filters
-  - $resource
-  - writing directives
-  - testing
+  - Impression of Angular
+  - Philosophy: goals, non-goals
+  - Guide to Angular + exercises
+  - Rebuild the little example app
 
 </script></section>
 
@@ -87,7 +79,7 @@
 
 <section data-markdown><script type="text/template">
   
-  ## Angular's goals
+  ## Goals
 
   - build out from HTML, not expand JS's job
   - radical testability - no untestable bits
@@ -96,7 +88,7 @@
 </script></section>
 
 <section data-markdown><script type="text/template">
-  ## Angular's solutions
+  ## Solutions
 
   - extensions to HTML - what you've seen - via directives
   - dependency injection container as module system
@@ -133,7 +125,6 @@
 
   - to jQuery/flat JS: much less DOM manipulation, more structure
   - to Backbone: less DOM manipulation, larger goals
-  - to Ember: change watching instead of events
   - to old-style JS in HTML: scoped, not arbitrary JS
 
 </script></section>
@@ -172,7 +163,7 @@
   ## What's going on?
 
   - We've added `ng-click` and `{{ }}` for data-binding
-  - We've defined a 'model': `{clicks: 0}`
+  - We've defined a 'model': `{clicks: 0}`, on `$scope`
   - We've defined a function to glue UI interaction to model changes
 
 </script></section>
@@ -190,12 +181,12 @@
 
 <section>
 
-  <h2>Getting specific</h2>
+  <h2>Need to learn about...</h2>
 
   <ul>
-    <li>Angular fires click: `ng-click` directive
-    <li>Controller updates scope: `Scope`
-    <li>Data-binding updated: `$digest()`
+    <li>Controller updates scope: Controllers + Scopes
+    <li>Data-binding: `$digest()`
+    <li>`ng-click`: directives
   </ul>
 
   <script type=cs code-example>
@@ -214,26 +205,6 @@
   </code></div>
 
 </section>
-
-<section data-markdown><script type="text/template">
-
-  ## Breaking it down
-
-  - `ng-click` directive, not onclick
-  - Angular expression evaluated against a new `Scope`
-  - `ng-click` runs expression inside an `$apply`, which triggers a `$digest()`
-
-  ```
-  // inside ng-click directive source
-  scope.$apply(function() {
-    clickHandler(scope, {$event: event});
-  });
-  ```
-
-  - inside the `$digest()`, the watch expression from `{{click}}` will fire, updating the DOM!
-  - `ng-controller` directive creates a new scope
-
-</script></section>
 
 <section data-markdown><script type="text/template">
   
@@ -404,6 +375,28 @@
 </script></section>
 
 
+<section data-markdown><script type="text/template">
+
+  ## Breaking it down
+
+  - now we know what's going on!
+  - `ng-click` directive, not onclick
+  - Angular expression evaluated against a new `Scope`
+  - `ng-click` runs expression inside an `$apply`, which triggers a `$digest()`
+
+  ```
+  // inside ng-click directive source
+  scope.$apply(function() {
+    clickHandler(scope, {$event: event});
+  });
+  ```
+
+  - inside the `$digest()`, the watch expression from `{{click}}` will fire, updating the DOM!
+  - `ng-controller` directive creates a new scope and links with controller
+
+</script></section>
+
+
 <section data-markdown data-state=highlight><script type="text/template">
   
   # Let's try that out
@@ -417,11 +410,10 @@
 
 <section data-markdown data-state=highlight><script type="text/template">
   
-  ## Other nice bits of Angular
+  ## What else can Angular do?
 
   - Filtering output
   - Routing
-  - JSON APIs
 
 </script></section>
 
@@ -552,6 +544,47 @@
   - not a module-loader, like RequireJS, but a module system
   - can depend on other modules - you'll often depend on `ngRoute` for instance
   - angular is bootstrapped by `ng-init="someModule"`, or `angular.bootstrap(["someModule"])`, passing the modules that define controllers etc found on elements
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## Why the complexity?
+
+  - One of Angular's goals is radical testability
+  - Having all dependencies of providers and instances controllable provides testability
+  - not supposed to change how you write your JS code (e.g singletons)
+  - Just use to get your code into Angular
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## Dependency injection
+
+  - How can we intercept `new DB` below?
+  - We can't, so we'd like to get the depndency in programmatically
+
+  ```
+  function SomeObject() {
+  }
+  SomeObject.prototype.update = function() {
+    var db = new DB()
+  }
+  ```
+
+  - For things that make sense in constructor, we can pass
+  - Actually: I'd argue prototypes let us do it too
+
+  ```
+  // easy to stub in tests
+  SomeObject.prototypes.DB = function() { return DB }
+  ```
+
+  - Angular solves problem with its module-system & injector
+
 
 </script></section>
 
@@ -753,13 +786,74 @@
 </script></section>
 
 
+<section data-markdown><script type="text/template">
+  
+  ## Defining
+
+  - defined on modules as normal
+  - return either a config object, or just fn to link to element
+  - lots of control: we'll cover a moderately complex case
+  - advanced directives: you'll need to look at `$compile`
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Define example
+
+  ~~~javascript
+  app.directive("someName",function($location /* injected */) {
+    return {
+      link: function(scope,el,attrs) {
+      }
+    }
+  });
+  // equivalent
+  app.directive("someName",function($location /* injected */) {
+    return function(scope,el,attrs) {
+    }
+  });
+  ~~~
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## Templates
+
+  - can specify via `template` for a template string, or `templateUrl`
+  - pass `replace: true` to replace the current element with the template
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## Directive Scopes
+
+  - need to control level of sharing with parent
+  - default: shares parent scope
+  - in config, `scope: true` to create a child scope
+  - pass a `scope: {}`, create an isolate scope
+  - isolate: can control access to individual attrs on parent
+
+  ```javascript
+  scope: {
+    "localName": "=name", // 2 way binding between localName and name
+    "href": "@href", // live binding to href on directive's DOM el 
+    "dyanmic": "&someExpression" // provides a function wrapper for an expression
+  }
+  ```
+
+</script></section>
+
+
 <section data-markdown data-state=highlight><script type="text/template">
   
   # Let's make one!
 
-  - your-app/js/back-button.js
-  - goal: 'semantic back', not based on browser history
-  - per controller definition of what back means for them
+  - goal: product tour
 
 </script></section>
 
@@ -771,7 +865,7 @@
 </script></section>
 
 
-<section data-markdown data-state=highlight><script type="text/template">
+<section data-markdown><script type="text/template">
   
   ## Two options
 
@@ -799,9 +893,108 @@
 </script></section>
 
 
+<section data-markdown><script type="text/template">
+  
+  ## `$resource` in use
+
+  ```
+  $scope.users = Users.query()
+  // can now use in 'ng-repeat="user in users"'
+  $scope.user = new User()
+  $scope.user.id = 15
+  $scope.user.get(); // will fetch data
+  ```
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## `$resource` configuration
+
+  - configure a specific `$resource`
+  - can do lower-level config via same params as `$http`
+
+  ```
+  var User = $resource("/api/user/:id",{id: '@id'},{
+    'query':  {method:'GET', isArray:true, url: "/api/users"},
+    'create':  {method:'POST', url: "/api/users"},
+  })
+  ```
+
+</script></section>
+
 <section data-markdown data-state=highlight><script type="text/template">
   
-  ## Let's build it out!
+  ## No tests?!
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Testing
+
+  - unit testing: isolation
+  - end to end testing: integration/functional
+  - this is where dependency-injection comes in handy!
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Unit tests
+
+  - test one unit of functionality in isolation
+  - stub out dependencies for speed/simplicity of testing
+
+  ```
+  // app code
+  var app = angular.module("app",[]);
+  app.filter("first",function(xs) { return xs[0] });
+
+  // test code
+  describe("myFilter",function() {
+    // setup our injector with the module we want
+    beforeEach(module("app"))
+    // wrap test code with injector to get at our code
+    it("should only return first",inject(function(first) {
+      expect(first("hello")).toEqual("h");
+    })
+  })
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## `module()`
+
+  - sets up injector to include module(s)
+  - or to stub dependencies
+
+  ```
+  module("app")
+  module(function($provide) {
+    // here we use $provide just like our module
+    // allowing us to override factories, values etc
+    $provide.value("something",override);
+  })
+  ```
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## `inject()`
+
+  - runs function with dependencies taken from module(s)
+
+</script></section>
+
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  ## Let's write a test!
 
 </script></section>
 
