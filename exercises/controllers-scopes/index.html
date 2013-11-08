@@ -19,17 +19,27 @@
         <h2>Your co-worker left some half finished code - can you help?</h2>
 
         <div ng-controller=defineMe>
+          <!-- all we need to do here is stop this
+            controller throwing an error by defining it
+            (can't just delete this div, cheater) -->
         </div>
 
         <div ng-controller=listful>
-          <!-- something missing -->
-          <div>Only me display when nothing is here</div>
+          <!--
+            we'll need to give this view some data
+            & implement the show behaviour for the
+            default content displayed if the list is empty
+            -->
+          <div>Only me display when list is empty</div>
           <p ng-repeat="item in list">
             {{ item.title }}
           </p>
         </div>
 
         <div ng-controller=tabs>
+          <!-- read through the properties/functions
+            this div is using - what needs to be defined
+            on our scope? -->
           <a ng-click='showTab("a")'>Show a</a>
           <a ng-click='showTab("b")'>Show b</a>
           <a ng-click='showTab("c")'>Show c</a>
