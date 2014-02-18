@@ -22,15 +22,23 @@
         <h1>Hello {{ something }}</h1>
         <input ng-model=something ng-init='something = "angular"' >
 
+        <!-- LIBRARIES -->
         <script src="../vendor/underscore.js"></script>
         <script src="../vendor/angular/angular.js"></script>
-        <script src="main.js"></script>
 
+        <!-- TEST LIBRARIES -->
         <script src="../vendor/jasmine/jasmine.js"></script>
         <script src="../vendor/jasmine/jasmine-html.js"></script>
 
         <script src="../vendor/angular/angular-mocks.js"></script>
-        <script src="tracking_test.js"></script>
-        <script src="test.js"></script>
+
+        <!-- YOUR CODE -->
+        <script src="main.js"></script>
+
+        <!-- YOUR TESTS -->
+        <script src="main-test.js"></script>
+
+        <!-- KICK OFF TESTS -->
+        <script src="run-tests.js"></script>
     </body>
 </html>
