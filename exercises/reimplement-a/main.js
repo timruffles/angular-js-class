@@ -1,21 +1,9 @@
+var rewrite = angular.module("exercise",['helper']);
 
-
-var rewrite = angular.module("exercise",[]);
-
-
-// <ng-shadow></ng-shadow>  or <div ng-shadow></div>
-// <our-a href=""></out-a> -> <span our-a></span> <!-- our-a -->
-rewrite.directive("a",function() {
+// this overrides the 'a' with your own version
+angular.module("ng").factory("aDirective",function() {
+  // YOUR CODE HERE
   return {
-    restrict: "E",
-    link: function(scope,element,attrs) {
-      //
-      element.on("click",function(event) {
-        var href = $(this).attr("href")
-        if(href === "") return event.preventDefault()
-      })
-    }
-  } 
-})
-
+  }
+});
 
