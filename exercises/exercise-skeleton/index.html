@@ -9,16 +9,20 @@
 
         <link href="../vendor/foundation/css/normalize.css" rel="stylesheet">
         <link href="../vendor/foundation/css/foundation.css" rel="stylesheet">
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8">
 
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+        <div class=row>
 
+          <h1>Hello {{ something }}</h1>
+          <form>
+            <input ng-model=something ng-init='something = "angular"' >
+          </form>
 
-        <h1>Hello {{ something }}</h1>
-        <input ng-model=something ng-init='something = "angular"' >
+          <p class='alert-box success'>The above is just to show AngularJS has booted fine. Delete this placeholder HTML and modify <code>main.js</code>.</p>
+
+        </div>
 
         <script src="../vendor/underscore.js"></script>
         <script src="../vendor/angular/angular.js"></script>
