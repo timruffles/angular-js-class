@@ -128,6 +128,17 @@
 
 </script></section>
 
+<section data-markdown><script type="text/template">
+
+  ## Angular's MVW
+
+  - model, view, whatever
+  - e.g leaves things up to you
+  - contrast with Ember: 'complete' framework
+  - bring-your-own model, and app superstructure
+
+</script></section>
+
 
 <section data-markdown data-state=highlight><script type="text/template">
 
@@ -171,12 +182,37 @@
 
   ## So how does it work?
 
-  - Angular has compiled our views - see our additions
+  - View: Angular has compiled our views - to attach directives
   - Has created scopes: object to data-bind on
-  - attached all directives from compilation to scopes
-  - watched model for changes, updated DOM
+  - Controller: passes scopes to controller:
+  - Model: watched for changes, changes trigger updates to view
 
 </script></section>
+
+<section>
+
+  <h2>Annotated MVC</h2>
+
+  <script type=code-sample code-sample>
+    <!-- VIEW -->
+    <div ng-controller=clicking>
+      <button ng-click=clicked()>Click me</button>
+      <p>You've clicked the button {{counter.clicks}} times.</p>
+    </div>
+    <code class=controller>
+      // controller
+      module.controller('clicking',function($scope) {
+        // very simple model
+        $scope.counter = /* model */ {clicks: 0};
+        // glue between view & controller
+        $scope.clicked = function() {
+          $scope.counter.clicks += 1;
+        }
+      })
+    </code>
+  </script>
+
+</section>
 
 <section>
 
@@ -250,6 +286,81 @@
 
 </script></section>
 
+<section data-markdown data-state=highlight><script type="text/template">
+  ## Built in directives
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Not the kitchen sink
+
+  - Angular defines a core set of directives
+  - Directives are the view in Angular's MVW
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## How to use directives
+
+  - picked up via HTML element attributes or tag names
+  - use Angular expressions to bind data from the scope to attributes
+
+</script></section>
+
+<section>
+  <h2>e.g <code>ng-repeat</code></h2>
+
+  <script type=code-sample code-sample>
+    <ul ng-init='stepsForDirectives = ["choose directive","insert into HTML","configure via attributes, potentially bound to scope"]'>
+      <li ng-repeat='step in stepsForDirectives'>
+        {{ step }}
+      </li>
+    </ul>
+  </script>
+
+</section>
+
+<section>
+  <h2>e.g <code>ng-click</code></h2>
+
+  <script type=code-sample code-sample>
+    <div ng-controller=clicking>
+      <p>{{ counter.clicks }}</p>
+      <button ng-click=clicked()>Click me</button>
+    </div>
+  </script>
+  <div class=code-sample><code>module.controller('clicking',function($scope) {
+  $scope.counter = {clicks: 0};
+  $scope.clicked = function() {
+    $scope.counter.clicks += 1;
+  }
+})
+  </code></div>
+
+</section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Build-in highlights
+
+  - `ng-hide`, `ng-show`, `ng-if`: control visibility or presence of HTML via expression
+  - `ng-include` include HTML code and compile it
+  - `ng-class`, `ng-style`, `ng-attributes`: control classnames, style and attrs via expressions
+
+</script></section>
+
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  # Let's use them!
+
+  - exercises/using-built-in-directives
+
+</script></section>
+
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  ## Digesting scopes
+
+</script></section>
+
 <section data-markdown><script type="text/template">
   
   ## Scopes
@@ -294,6 +405,33 @@
   - if they change, will fire handlers
   - directive's handlers are often for updating DOM
   - e.g ng-repeat on new item
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Watch expressions
+
+  ```
+  scope.$watch("user.name",function(oldValue,newValue) {
+    // run only when value changes
+  });
+
+  scope.$watch(function() {
+    // same functionality as above
+    return scope.user.name;
+  },function(oldValue,newValue) {
+    // run only when value changes
+  });
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+  # Let's do some watching
+
+  - exercises/watching-scope
 
 </script></section>
 
@@ -816,6 +954,16 @@
 
 </script></section>
 
+<section data-markdown><script type="text/template">
+  
+  ## Let's write one
+
+  - reimplement the `a` directive
+  - `a` simply cancels default events when `href == ''`
+  - execises/reimplement-a
+
+</script></section>
+
 
 <section data-markdown><script type="text/template">
   
@@ -833,7 +981,27 @@
 
   - need to control level of sharing with parent
   - default: shares parent scope
-  - in config, `scope: true` to create a child scope
+  - in config, `scope: true` to create a new child scope
+  - pass a `scope: {}`, create an isolate scope
+  - isolate: can control access to individual attrs on parent
+
+  ```javascript
+  scope: {
+    "localName": "=name", // 2 way binding between localName and name
+    "href": "@href", // live binding to href on directive's DOM el 
+    "dyanmic": "&someExpression" // provides a function wrapper for an expression
+  }
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Directive controllers
+
+  - need to control level of sharing with parent
+  - default: shares parent scope
+  - in config, `scope: true` to create a new child scope
   - pass a `scope: {}`, create an isolate scope
   - isolate: can control access to individual attrs on parent
 
@@ -850,9 +1018,11 @@
 
 <section data-markdown data-state=highlight><script type="text/template">
   
-  # Let's make one!
+  # All together
 
   - goal: product tour
+  - read through code
+  - code-to-read/complex-directive
 
 </script></section>
 

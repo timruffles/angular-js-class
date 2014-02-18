@@ -7,8 +7,8 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link href="../vendor/foundation/css/normalize.css" rel="stylesheet">
-        <link href="../vendor/foundation/css/foundation.css" rel="stylesheet">
+        <link href="../../exercises/vendor/foundation/css/normalize.css" rel="stylesheet">
+        <link href="../../exercises/vendor/foundation/css/foundation.css" rel="stylesheet">
 
         <link href="style.css" rel="stylesheet">
 
@@ -22,6 +22,10 @@
 
           <h1>Bakery orders</h1>
 
+          <p class='alert-box success'>Read through the HTML and JS to get an idea of how a more involved directive works. Angular's directive system needs to be this powerful to ensure a clean separation of view concerns from our model/controller code.</p>
+
+          <!-- here we use the hooks provided by our directive to design the UI. You can
+               see there are many possible implementations of the 'front-end' of this directive -->
           <div class=tour-dialog ng-hide="tourDismissed">
             <div ng-show="tourUnstarted()">
               Welcome to BakeryTron 2000®. To learn about the app, <a ng-click=nextTourStep()>start the tour</a>.
@@ -62,8 +66,8 @@
         </div>
 
 
-        <script src="../vendor/underscore.js"></script>
-        <script src="../vendor/angular/angular.js"></script>
+        <script src="../../exercises/vendor/underscore.js"></script>
+        <script src="../../exercises/vendor/angular/angular.js"></script>
         <script src="main.js"></script>
     </body>
 </html>

@@ -1,22 +1,8 @@
 var app = angular.module("exercise",[]);
 
-app.controller("orders",function($scope) {
-  $scope.orders = [
-    {text:"warm cheese and mushroom cupcake"},
-    {text:"citrus banoffee tart"},
-    {text:"polenta meringue"},
-    {text:"half a baker's dozen of unboiled bagles"}
-  ];
-})
-
-app.controller("orderList",function($scope) {
-});
-
-app.controller("addOrder",function($scope) {
-});
-
 app.directive("tour",function() {
   return {
+    // define our tour controller
     controller: function($scope) {
       $scope.tourSteps = []
       $scope.tourPosition = 0;
@@ -43,6 +29,7 @@ app.directive("tour",function() {
         var currStep = scope.tourSteps[current - 1];
         if(currStep) currStep.el.addClass("tour"); 
       })
+      // useful functions for views to display the state of the tour
       scope.tourStep = function(index) {
         return scope.tourSteps[scope.tourPosition - 1];
       }
@@ -68,8 +55,11 @@ app.directive("tour",function() {
 app.directive("tourStep",function() {
   return {
     // ^ prefix: search element's parents
+    // for a given controller
     require: "^tour",
     link: function(scope,element,attrs,tourController) {
+      // here the controller we've found can be used, allowing us
+      // to register tour steps to a parent tour controller
       if(attrs.tourIf != null && !scope.$eval(attrs.tourIf)) {
         return;
       }
@@ -81,3 +71,20 @@ app.directive("tourStep",function() {
     }
   }
 });
+
+// STUBBED CONTROLLERS
+app.controller("orders",function($scope) {
+  $scope.orders = [
+    {text:"warm cheese and mushroom cupcake"},
+    {text:"citrus banoffee tart"},
+    {text:"polenta meringue"},
+    {text:"half a baker's dozen of unboiled bagles"}
+  ];
+})
+
+app.controller("orderList",function($scope) {
+});
+
+app.controller("addOrder",function($scope) {
+});
+
