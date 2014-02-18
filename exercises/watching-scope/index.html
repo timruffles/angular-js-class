@@ -12,12 +12,19 @@
 
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
 
 
-        <div ng-controller=user></div>
+        <div ng-controller=user class=row>
+          <h1>Using <code>scope.$watch()</code></h1>
+          <div class='alert-box'>Have a play with the controls below while looking at the console. Write your own <code>$watch()</code> expressions.</div>
+
+          <input ng-model='user.name'>
+
+          <p>The user's name is {{ user.name }}</p>
+
+          <button ng-click="">Has an ng-click</button>
+          <button ng-click="timeout()">ng-click calls function that uses $timeout</button>
+        </div>
 
         <script src="../vendor/underscore.js"></script>
         <script src="../vendor/angular/angular.js"></script>

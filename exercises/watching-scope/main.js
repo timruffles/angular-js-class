@@ -1,31 +1,29 @@
 var app = angular.module("exercise",[]);
 
 app.controller("user",function($scope,$timeout) {
-  $scope.list = [];
+  $scope.user = {list: [],name: "bob the generic user"};
 
-  // <h1>Hello {{name}}</h1>
-  $scope.$watch("name",function(newValue,oldValue) {
+  $scope.$watch(function() {
+    console.log("Digest fired");
+  });
 
-  })
-
-
-  $scope.$watch("list.length",function(length,oldLength) {
+  // Exactly the watch created by <h1>Hello {{user.name}}</h1>
+  $scope.$watch("user.name",function(newValue,oldValue) {
     // run whenever value of expression changes
+    console.log("user.name now '%s' was '%s'",newValue,oldValue);
   });
+
+
   $scope.$watch(function($scope) {
-    return $scope.list.length;
-  },function(length,oldLength) {
+    return $scope.user.name;
+  },function(newVal,old) {
     // run whenever return value of function changes
-    console.log("via fn",length,oldLength)
+    console.log("via fn, new/old",newVal,old);
   });
 
+  $scope.timeout = function() {
+    $timeout(function() {},500);
+  }
 
-  setTimeout(function() {
-    $scope.$apply(function() {
-      $scope.list.push("A")
-    })
-  },250)
-  $timeout(function() {
-    $scope.list.push("B")
-  },500)
+
 });

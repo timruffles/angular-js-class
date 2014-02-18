@@ -1,6 +1,5 @@
-.tour {
+.task {
   background: yellow;
-}
-.order button {
-  margin-top: 1em;
+  padding: 1em;
+  margin: 1em 0;
 }

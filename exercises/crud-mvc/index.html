@@ -14,16 +14,18 @@
 
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
 
         <div ng-controller="orders" class=row>
 
           <h1>Bakery orders</h1>
 
+          <div class=task>
+            Your job is to finish the implementation of this simple order management system. It needs to be possible to add and remove orders.
+          </div>
+
           <div class=feed ng-controller=orderList class=orders>
             <h2>Feed</h2>
+            <div class=task>Display orders to the user, and allow user to remove completed orders</div>
             <div ng-repeat='order in orders' class=order>
               {{ order.text }} 
               <button class=small>Done</button>
@@ -33,10 +35,11 @@
 
           <div class=add-order ng-controller=addOrder>
             <h2>New order</h2>
+            <div class=task>Allow the user to add orders via the below form, using directives and the addOrder controller.</div>
             <form>
               <label>
                 Order text
-                <input ng-model='newOrder.text'>
+                <input>
               </label>
               <button>Add order</button>
             </form>

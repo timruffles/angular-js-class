@@ -1,5 +1,13 @@
 var app = angular.module("exercise",[]);
 
+app.controller("orderList",function($scope) {
+  // YOUR CODE
+});
+
+app.controller("addOrder",function($scope) {
+  // YOUR CODE
+});
+
 app.controller("orders",function($scope) {
   $scope.orders = [
     {text:"warm cheese and mushroom cupcake"},
@@ -9,8 +17,3 @@ app.controller("orders",function($scope) {
   ];
 })
 
-app.controller("orderList",function($scope) {
-});
-
-app.controller("addOrder",function($scope) {
-});
