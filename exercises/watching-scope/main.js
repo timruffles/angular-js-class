@@ -4,7 +4,7 @@ app.controller("user",function($scope,$timeout) {
   $scope.user = {list: [],name: "bob the generic user"};
 
   $scope.$watch(function() {
-    console.log("Digest fired");
+    console.log("$digest checking watchers");
   });
 
   // Exactly the watch created by <h1>Hello {{user.name}}</h1>
