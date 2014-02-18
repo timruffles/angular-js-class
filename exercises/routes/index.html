@@ -9,22 +9,47 @@
 
         <link href="../vendor/foundation/css/normalize.css" rel="stylesheet">
         <link href="../vendor/foundation/css/foundation.css" rel="stylesheet">
+        <style>
+          .panel { margin-top: 1em; } 
+        </style>
 
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
 
+        <div class=row>
+          <h1>Routes</h1>
 
-        <a href="#">root</div>
-        <a href="#b">b</div>
-        <a href="#c">c</div>
-        <div ng-view></div>
+          <div class='alert-box success'>
+            <p>Routes allow us to use the URL to navigate between different templates.</p>
+            <p>Configure the rooting in main.js to power the tab system below.</p>
+            <p>Look up <code>ng-view</code> to place the routed content in the panel below.</p>
+            <p>Define some templates below in the script tags. The first has been defined for you - read the <code>type</code> and <code>id</code> attributes carefully.</p>
+
+          </div>
+
+          <div class=button-group>
+            <a class=button href="#">Home</a>
+            <a class=button href="#baked-goods">Baked goods</a>
+            <a class=button href="#coffee">Coffee</a>
+          </div>
+
+          <div class=panel>
+            <!-- YOUR CODE -->
+            <!-- we want to attach the routed content here -->
+            <!-- have a look at how to use ng-view to achieve that -->
+          </div>
+
+        </div>
+
+        <!-- TEMPLATES -->
+        <script type="text/ng-template" id="home.html">
+          <h1>Home</h1> 
+        </script>
 
         <script src="../vendor/underscore.js"></script>
         <script src="../vendor/angular/angular.js"></script>
         <script src="../vendor/angular/angular-route.js"></script>
         <script src="main.js"></script>
+
     </body>
 </html>
