@@ -427,7 +427,7 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-state=highlight><script type="text/template">
 
   # Let's do some watching
 
@@ -547,10 +547,7 @@
 
 <section data-markdown data-state=highlight><script type="text/template">
   
-  ## What else can Angular do?
-
-  - Filtering output
-  - Routing
+  ## Filters
 
 </script></section>
 
@@ -573,14 +570,27 @@
 
 </section>
 
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  ## It still feels a bit Flash 2003...
+
+</script></section>
+
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  ## ...what about URLs?
+
+</script></section>
+
 
 <section data-markdown><script type="text/template">
   
   ## Routes
 
   - trio of modules - `location`, `route`, `routeParams`
+  - one directive: `ng-view` where content appears
   - we define routes via `$routeProvider`
-  - we control how URL works via $locationProvider (e.g pushState vs hash)
+  - we control how URL works via `$locationProvider` (e.g pushState or hash)
   - our controllers can see current route's params via `$routeParams`
 
 </script></section>
@@ -1164,6 +1174,11 @@
 <section data-markdown data-state=highlight><script type="text/template">
   
   ## Let's write a test!
+
+  - implement a tracking system
+  - `event(eventName)` counts the number of times its invoked with a given event
+  - `save()` fires a `HTTP POST` with the currently tracked events
+  - exercises/first-test
 
 </script></section>
 
