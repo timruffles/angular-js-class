@@ -12,21 +12,21 @@
 
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+        <div class=row>
 
-        <h3>Someone is trying out Angular, but the fabled data-binding isn't working. Can you help?</h3>
-        <p>Issue 1: only one count works</p>
-        <p>Issue 2: delayed increase doesn't work first time, then causes 'jumps' in immediate increase</p>
+          <h3>Someone is trying out Angular, but the fabled data-binding isn't working. Can you help?</h3>
+          <p class='alert-box alert'>Issue 1: only one count works</p>
+          <p class='alert-box alert'>Issue 2: delayed increase doesn't work first time, then causes 'jumps' of &gt; 1 when the other button is pressed.</p>
+          <p class='alert-box success'>Make sure you can see the issues described, then take a look and figure out what the cause could be &amp; try out your fix.</p>
 
 
-        <div ng-controller=main>
-          <p>Count is: {{count}}</p>
-          <div ng-controller=child>
+          <div ng-controller=main>
             <p>Count is: {{count}}</p>
-            <button ng-click=increment()>Increase</button>
-            <button ng-click=delayedIncrement()>Delayed Increase</button>
+            <div ng-controller=child>
+              <p>Count is: {{count}}</p>
+              <button ng-click=increment()>Increase</button>
+              <button ng-click=delayedIncrement()>Delayed Increase</button>
+            </div>
           </div>
         </div>
 
