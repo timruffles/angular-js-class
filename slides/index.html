@@ -134,7 +134,7 @@
 
   - model, view, whatever
   - e.g leaves things up to you
-  - contrast with Ember: 'complete' framework
+  - contrast with Ember which aims to be complete
   - bring-your-own model, and app superstructure
 
 </script></section>
@@ -219,27 +219,16 @@
   <h2>Need to learn about...</h2>
 
   <ul>
-    <li>Controller updates scope: Controllers + Scopes
-    <li>Data-binding: `$digest()`
-    <li>`ng-click`: directives
+    <li>Controllers
+    <li>Directives: `ng-click`
+    <li>Scopes: `$digest()`
   </ul>
 
-  <script type=cs code-example>
-    <div ng-controller=clicking>
-      <button ng-click=clicked()>Click me</button>
-      <p>You've clicked the button {{counter.clicks}} times.</p>
-    </div>
-  </script>
-
-  <div class=code-sample><code>module.controller('clicking',function($scope) {
-  $scope.counter = {clicks: 0};
-  $scope.clicked = function() {
-    $scope.counter.clicks += 1;
-  }
-})
-  </code></div>
-
 </section>
+
+<section data-markdown data-state=highlight><script type="text/template">
+  ## Controller
+</script></section>
 
 <section data-markdown><script type="text/template">
   
