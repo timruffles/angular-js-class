@@ -142,7 +142,7 @@
 
 <section data-markdown data-state=highlight><script type="text/template">
 
-  ## Let's take a look
+  ## Let's read some code
 
 </script></section>
 
@@ -998,19 +998,38 @@
   
   ## Directive controllers
 
-  - need to control level of sharing with parent
-  - default: shares parent scope
-  - in config, `scope: true` to create a new child scope
-  - pass a `scope: {}`, create an isolate scope
-  - isolate: can control access to individual attrs on parent
+  - directives can need controllers too
+  - allows multiple directives to communicate & share a parent
+  - same job: expose behaviour to scope
 
-  ```javascript
-  scope: {
-    "localName": "=name", // 2 way binding between localName and name
-    "href": "@href", // live binding to href on directive's DOM el 
-    "dyanmic": "&someExpression" // provides a function wrapper for an expression
-  }
-  ```
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+## Example
+
+```javascript
+app.directive("tourStep",function() {
+    return {
+      controller: function($scope) {
+        // normal controller code - nothing
+        // related to DOM
+      }
+    }
+});
+
+app.directive("tourStep",function() {
+    return {
+      // prefix like '^' controls where controller is
+      // looked for: so here looking up DOM to find a directive 
+      // called 'tour' with a controller defined
+      require: "^tour",
+      link: function(scope,el,attrs,controller) {
+        // fourth argument becomes our controller
+      }
+    }
+});
+```
 
 </script></section>
 
