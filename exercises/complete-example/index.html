@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app=exercise>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Angular Exercise</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="../vendor/foundation/css/normalize.css" rel="stylesheet">
+        <link href="../vendor/foundation/css/foundation.css" rel="stylesheet">
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8">
+
+    </head>
+    <body>
+        <div class=row>
+
+          <h1>Hello {{ something }}</h1>
+          <form>
+            <input ng-model=something ng-init='something = "angular"' >
+          </form>
+
+          <p class='alert-box success'>The above is just to show AngularJS has booted fine. Delete this placeholder HTML and modify <code>main.js</code>.</p>
+
+        </div>
+
+        <script src="vendor/sinon.js"></script>
+        <script src="vendor/fake-server.js"></script>
+
+        <script>
+          createFakeServer("things");
+        </script>
+
+        <script src="../vendor/underscore.js"></script>
+        <script src="../vendor/angular/angular.js"></script>
+        <script src="main.js"></script>
+    </body>
+</html>

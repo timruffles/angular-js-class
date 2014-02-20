@@ -1,9 +1,9 @@
-[fade-out] {
+[flash] {
   transition: all 0.5s;
   -moz-transition: all 0.5s;
   -webkit-transition: all 0.5s;
   -ms-transition: all 0.5s;
 }
-[fade-out].go {
+[flash].go {
   opacity: 0;
 }

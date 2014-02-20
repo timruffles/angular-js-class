@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app='exercise'>
+<html ng-app=exercise>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,14 +13,14 @@
     </head>
     <body>
 
-        <h1>Reimplement the 'a' directive</h1>
-        <h2 fade-out>Page loaded...</h2>
+        <div class=row>
+          <h1>Implement a flash message - click to dismiss</h1>
 
-        <a href='' ng-click="">Clicking me shouldn't cause another page load</a>
+          <a class='alert-box success' flash>Here's a temporary message - click to dismiss</a>
+        </div>
 
         <script src="../vendor/underscore.js"></script>
         <script src="../vendor/angular/angular.js"></script>
-        <script src="helper.js"></script>
         <script src="main.js"></script>
     </body>
 </html>

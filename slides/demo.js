@@ -37,10 +37,11 @@ app.directive("codeSample",function($compile) {
 });
 app.directive("codeExample",function($compile) {
   return function(scope,el) {
-    var code = angular.element("<div class=code-sample><code></code></div>")
+    var code = angular.element("<div class=code-example><pre><code></code></pre></div>")
     var src = formatLines(el.html())
     code[0].querySelector("code").innerText = src;
     el.replaceWith(code)
+		hljs.highlightBlock( code[0] );
   }
 });
 
