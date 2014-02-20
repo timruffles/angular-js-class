@@ -1375,6 +1375,34 @@ app.directive("tourStep",function() {
 
 </script></section>
 
+<section data-markdown><script type="text/template">
+  
+  ## Tranclusion
+
+  - ARGH! Sounds so scary
+  - Actually pretty simple: function to clone & comile a chunk of DOM
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Tranclusion example
+
+  ```javascript
+  app.directive("transcludeDemo",function() {
+    return {
+      transclude: "element",
+      template: "<section><div ng-transclude></div></section>",
+      compile: function(el,attr,transcludeLink) {
+        return function link(scope,el,attrs,controller) {
+        }
+      }
+    }
+  });
+  ```
+
+</script></section>
+
 
 <section data-markdown data-state=highlight><script type="text/template">
   
