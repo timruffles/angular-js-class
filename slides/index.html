@@ -779,7 +779,7 @@
 
   ```javascript
   app.controller("video",function($scope) {
-    $scope.watch = function(video) {
+    $scope.$watch = function(video) {
       // up 
       $scope.$emit("watched",video.id);
       // down
@@ -1040,7 +1040,7 @@
   ## Dependency injection
 
   - How can we intercept `new Date` below?
-  - We can't, so we'd like to get the depndency in programmatically
+  - We can't, so we'd like to get the dependency in programmatically
   - Not everything makes sense to put in constructor
 
   ```
@@ -1802,7 +1802,7 @@ app.directive("tourStep",function() {
 
   ```javascript
   app.controller("user",function($scope,tracking,$interval) {
-    $scope.watch = function() {
+    $scope.$watch = function() {
       tracking.event("watch");
     }
     $interval(function() {
