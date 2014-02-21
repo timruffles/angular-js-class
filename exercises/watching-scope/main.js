@@ -1,10 +1,20 @@
 var app = angular.module("exercise",[]);
 
 app.controller("user",function($scope,$timeout) {
-  $scope.user = {list: [],name: "bob the generic user"};
+  $scope.user = {list: [],name: "bob the generic user",count:0};
 
   $scope.$watch(function() {
     console.log("$digest checking watchers");
+  });
+  
+  $scope.$watch("user.count",function(newValue,oldValue) {
+    $scope.user.count += 1;
+  });
+  
+  
+  $scope.$watch("user",function(newValue,oldValue) {
+    // run whenever value of expression changes
+    console.log("user now '%s' was '%s'",newValue,oldValue);
   });
 
   // Exactly the watch created by <h1>Hello {{user.name}}</h1>
