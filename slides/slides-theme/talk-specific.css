@@ -1,0 +1,33 @@
+.snobs body {
+  background: url(../img/snob.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.change body {
+  background: url(../img/change.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.split body {
+  background: url(../img/split.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.change .reveal h2 {
+  color: #000;
+}
+.split .reveal h2, .snobs .reveal h2 {
+  color: #fff;
+}
+
+.combined body {
+  background: url(../img/captain-planet.jpg);
+  background-size: cover;  
+}
+
+.combined h2 {
+  background-color: white;
+  font-size: 1.6em;
+  text-align: center;
+  padding: 12px 5px;
+}

@@ -1,0 +1,110 @@
+@font-face {
+  font-family: "Exo";
+  src: url(./fonts/Exo-Light.ttf);
+  font-weight: 400;
+}
+@font-face {
+  font-family: Exo;
+  src: url(./fonts/Exo-Thin.ttf);
+  font-weight: 100;
+}
+@font-face {
+  font-family: Exo;
+  src: url(fonts/Exo-ExtraLight.ttf);
+  font-weight: 200;
+}
+@font-face {
+  font-family: Exo;
+  src: url(fonts/Exo-Regular.ttf);
+  font-weight: 800;
+}
+
+body {
+  box-sizing: border-box;
+  background: rgb(250,250,250);
+  color: #222;
+  font-family: Exo;
+  font-size: 48px;
+}
+
+.title body {
+  background: #19B8D2;
+}
+.title .reveal h1, .title .reveal h2 {
+  color: rgb(250,250,250);
+}
+
+.reveal .slides > section {
+  font-weight: 100;
+}
+
+.reveal h1,.reveal h2, .reveal h3 {
+  font-weight: 200;
+  text-align: left;
+  color: #19B8D2;
+  line-height: 1.125em;
+  margin-bottom: 0.25em;
+}
+
+.slides section {
+  min-height: 700px;
+}
+
+.reveal h1 {
+  font-size: 4em;
+  margin-bottom: 3rem;
+}
+
+/* overrides */
+.reveal ul {
+  display: block;
+}
+.reveal .slides p {
+  text-align: left;
+}
+.reveal pre code {
+  font-size: 1.5rem;
+  line-height: 1em;
+  padding: 0.5em;
+  max-height: none;
+}
+.reveal blockquote {
+    padding: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.reveal pre {
+    width: 100% !important;
+}
+
+.center {
+    text-align: center !important;
+}
+
+.gallary img, .gallary .item {
+  float: left;
+  margin: 0.5rem;
+}
+
+.reveal a {
+  color: #19B8D2;
+
+}
+.reveal .front .spaced {
+  margin-top: 2rem;
+  text-align: left;
+}
+.reveal .front a {
+  font-size: 3rem;
+  line-height: 1.25em;
+  display: block;
+}
+
+.monospace {
+  font-family: monospace !important;
+  font-weight: normal !important;
+}
+
+.wifi {
+}
+
