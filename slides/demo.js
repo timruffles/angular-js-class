@@ -1,7 +1,7 @@
 var app = angular.module("slides",[]);
 
 app.directive("codeSample",function($compile) {
-  var tpl = "<div class=code-sample><div class='target'></div><code>{{ code }}</code><code class=controller ng-show='controllerCode != null'>{{controllerCode}}</code></div>";
+  var tpl = "<div class=code-sample><div class='target'></div><pre><code>{{ code }}</code></pre><pre><code class=controller ng-show='controllerCode != null'>{{controllerCode}}</code></pre></div>";
   var samples = 0;
   var $ = angular.element
   return {

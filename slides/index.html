@@ -4,16 +4,17 @@
     <meta charset="utf-8">  
     <title>AngularJS</title>
     <link rel="stylesheet" href="reveal/css/reveal.css">
-    <link rel="stylesheet" href="reveal/css/theme/solarized.css" id="theme">
     <!-- <link rel="stylesheet" href="reveal/css/print/pdf.css"> -->
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- For syntax highlighting reveal/-->
-    <link rel="stylesheet" href="reveal/lib/css/zenburn.css">
-    <link rel="stylesheet" href="css/slides.css">
+    <link rel="stylesheet" href="reveal/css/reveal.min.css">
+    <link rel="stylesheet" href="reveal/lib/css/github.css">
+
+    <link rel="stylesheet" href="slides-theme/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -33,19 +34,19 @@
 </section>
 
 <section data-markdown><script type="text/template">
-  # AngularJS
-  <h2 style='text-transform:inherit'>wifi: hubwestminster / HubWest1</h2>
-  <h2 > clone/DL: github.com/timruffles/angular-js-class</h2>
+  <h3 style='text-transform:inherit' contenteditable>wifi: hubwestminster / HubWest1</h3>
+  <h3 contenteditable> clone/DL: github.com/timruffles/angular-js-class</h3>
 </script>
 </section>
 
 <section data-markdown data-state=highlight><script type="text/template">
   
-  # Todo
+  # Today
 
   - Impression of Angular
   - Philosophy: goals, non-goals
   - Guide to Angular + exercises
+  - Build something with Angular!
 
 </script></section>
 
@@ -156,7 +157,7 @@
 
 <section>
 
-  <h2>First M, V & C</h2>
+  <h2>First Angular M, V & C</h2>
 
   <script type=code-sample code-sample>
     <div ng-controller=clicking>
@@ -177,21 +178,10 @@
 
 <section data-markdown><script type="text/template">
 
-  ## What's going on?
-
-  - We've added `ng-click` and `{{ }}` for data-binding
-  - We've defined a 'model': `{clicks: 0}`, on `$scope`
-  - We've defined a function to glue UI interaction to model changes
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-
   ## So how does it work?
 
-  - View: Angular has compiled our views - to attach directives
-  - Has created scopes: object to data-bind on
-  - Controller: passes scopes to controller:
+  - View: Angular has compiled our HTML, attaching directives
+  - Controller: passes scopes to controller
   - Model: watched for changes, changes trigger updates to view
 
 </script></section>
@@ -226,7 +216,7 @@
   <h2>Need to learn about...</h2>
 
   <ul>
-    <li>Directives: `ng-click`
+    <li>Directives
     <li>Controllers
     <li>Scopes
   </ul>
@@ -275,13 +265,33 @@
       <button ng-click=clicked()>Click me</button>
     </div>
   </script>
-  <div class=code-sample><code>module.controller('clicking',function($scope) {
+  <pre><code>module.controller('clicking',function($scope) {
   $scope.counter = {clicks: 0};
   $scope.clicked = function() {
     $scope.counter.clicks += 1;
   }
 })
-  </code></div>
+  </code></pre>
+
+</section>
+
+<section>
+  <h2>e.g <code>ng-show</code></h2>
+
+  <script type=code-sample code-sample>
+    <div ng-controller=show>
+      <p ng-show=content.visible>{{ content.text }}</p>
+      <button ng-click=toggle()>Click me</button>
+    </div>
+    <code class=controller>
+      module.controller('show',function($scope) {
+        $scope.content = {visible: true, text: "Now you see me"};
+        $scope.toggle = function() {
+          $scope.content.visible = !$scope.content.visible;
+        }
+      });
+    </code>
+  </script>
 
 </section>
 
@@ -405,13 +415,6 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
-
-  ![tree in tree](img/tree-in-your-tree.jpg)
-
-  (I'm sorry)
-</script></section>
-
 <section data-markdown data-state=highlight><script type="text/template">
   
   # Let's have a go!
@@ -468,7 +471,7 @@
 
 <section data-markdown><script type="text/template">
   
-  ## Prototypical inheritance
+  ## Prototypal inheritance
 
 
   ```
@@ -700,25 +703,25 @@
 
 <section data-markdown><script type="text/template">
   
-  ## Prototypical inheritance
+  ## Sharing data
 
-  - if a child scope updates a property you'll lose reference to parent's value
-  - use objects to share properties between scopes
+  - child's own property will hide parent's
+  - use objects to share data between scopes
 
   ```
   var parent = {
-    title: "foo", 
+    title: "app", 
     user: {name: "bob"}
   };
   var child = Object.create(parent)
-  child.title // 'foo'
+  child.title // 'app'
 
-  parent.title = 'bar'
-  child.title // 'bar'
+  parent.title = 'fancy app'
+  child.title // 'fancy app'
 
-  child.title = 'qux'
-  child.title // 'qux'
-  parent.title // 'bar'
+  child.title = 'child'
+  parent.title // 'changed again'
+  child.title // 'child'
   // we lost link - child now has its own 'title' property
 
   child.user.name = 'sue'
@@ -827,173 +830,6 @@
   })
   ```
   
-
-</script></section>
-
-
-<section data-markdown data-state=highlight><script type="text/template">
-  
-  ## Filters
-
-</script></section>
-
-
-
-<section>
-  
-  <h2>Filters</h2>
-
-  <ul>
-  <li>quick, declarative transformation of output
-  <li>works with data-binding
-  <li>pure: take data in, return new version
-  </ul>
-
-  <script type=cs code-sample>
-    <p>Unfiltered: '{{val}}', filtered: '{{val|uppercase}}'</p>
-    <input ng-model=val ng-init='val = "foo"'>
-  </script>
-
-</section>
-
-
-<section data-markdown data-state=highlight><script type="text/template">
-  
-  ## It still feels a bit Flash 2003...
-
-</script></section>
-
-<section data-markdown data-state=highlight><script type="text/template">
-  
-  ## ...what about URLs?
-
-</script></section>
-
-
-<section data-markdown><script type="text/template">
-  ## Routes
-</script></section>
-
-<section>
-<h2>A... module</h2>
-
-<ul>
-  <li>not in core
-  <li>so we need to include the module
-</ul>
-
-<div class=code-sample>
-<code>&lt;script src='vendor/angular/angular-routes.js'>&lt;/script>
-</code>
-</div>
-
-<div class=code-sample><code>var ourModule = angular.module("ourModule",["ngRoute"]);</code></div>
-
-</section>
-
-<section data-markdown><script type="text/template">
-  - trio of services - `location`, `route`, `routeParams`
-  - one directive: `ng-view` where content appears
-  - we define routes via `$routeProvider`
-  - we control how URL works via `$locationProvider` (e.g pushState or hash)
-  - our controllers can see current route's params via `$routeParams`
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-  
-  ## `routeProvider`
-
-  ```
-  app.config(function($routeProvider) {
-    $routeProvider
-      .when("/item/:id",{
-        templateUrl: "/tpls/show.html",
-        controller: "showCtrl"
-      })
-      // ... more roots
-  });
-  ```
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## `routeProvider`
-
-  - very powerful
-  - e.g can be given promises for dependencies required
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Template
-
-  - either `template` for a HTML string/function returning HTML string
-  - or `templateUrl` for a URL to get an HTML string
-  - hack: if there's a script tag with `id == templateUrl`, it'll use that
-  - we'll need that as we're on a `file://` url
-</script></section>
-
-<section data-markdown><script type="text/template">
-  
-  ## `location`
-
-  ```
-  app.config(function($locationProvider) {
-    $locationProvider.html5Mode(true);
-  });
-  ```
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## No push state for us...
-  - we're on a `file://` url
-</script></section>
-
-<section data-markdown><script type="text/template">
-  
-  ## `routeParams`
-
-  ```
-  $routeProvider
-  .when("/item/:id",{
-    templateUrl: "/tpls/show.html",
-    controller: "showCtrl"
-  })
-  ```
-
-  - How do we access params?
-
-  ```
-  app.controller("drawingCreateCtrl",function($scope,$routeParams) {
-      routeParams.id
-      // use any params defined in route config
-  })
-
-  ```
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## If there's only one controller for a template...
-  - just put it in the template
-</script></section>
-
-
-
-<section data-markdown data-state=highlight><script type="text/template">
-  
-  # Let's use them
-
-  - exercises/routes
-
-</script></section>
-
-
-<section data-markdown data-state=highlight><script type="text/template">
-  
-  # You just met some services!
 
 </script></section>
 
@@ -1208,7 +1044,208 @@
 
 <section data-markdown data-state=highlight><script type="text/template">
   
-  ## Magic defeated! Time for... more magic!
+  ## A more complete example
+
+  - exercises/crud-mvc
+
+</script></section>
+
+
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  ## Filters
+
+</script></section>
+
+
+
+<section>
+  
+  <h2>Filters</h2>
+
+  <ul>
+  <li>quick, declarative transformation of output
+  <li>works with data-binding
+  <li>pure: take data in, return new version
+  </ul>
+
+  <script type=cs code-sample>
+    <p>Unfiltered: '{{val}}', filtered: '{{val|uppercase}}'</p>
+    <input ng-model=val ng-init='val = "foo"'>
+  </script>
+
+</section>
+
+<section data-markdown ><script type="text/template">
+  
+  ## Example filters
+
+  - can work on anything - here an array or a string
+  - about simplest thing you can write in Angular!
+
+  ```javascript
+  app.filter("everyOther",function() {
+    return function alternate(input) {
+      return input.filter(function(el,i) {
+        return i % 2 == 0
+      })
+    }
+  });
+  ```
+
+  ```javascript
+  app.filter("titleCase",function() {
+    return function titleCase(input) {
+      return input.split(" ").map(function(word) {
+        return word[0].toUpperCase() + word.slice(1)
+      }).join(" ")
+    }
+  });
+  ```
+
+</script></section>
+
+
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  ## It still feels a bit Flash 2003...
+
+</script></section>
+
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  ## ...what about URLs?
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  ## Routes
+</script></section>
+
+<section>
+<h2>A... module</h2>
+
+<ul>
+  <li>not in core
+  <li>so we need to include the module
+</ul>
+
+<pre>
+<code>&lt;script src='vendor/angular/angular-routes.js'>&lt;/script>
+</code>
+</pre>
+
+<pre><code>var ourModule = angular.module("ourModule",["ngRoute"]);</code></pre>
+
+</section>
+
+<section data-markdown><script type="text/template">
+  - trio of services - `location`, `route`, `routeParams`
+  - one directive: `ng-view` where content appears
+  - we define routes via `$routeProvider`
+  - we control how URL works via `$locationProvider` (e.g pushState or hash)
+  - our controllers can see current route's params via `$routeParams`
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## `routeProvider`
+
+  ```
+  app.config(function($routeProvider) {
+    $routeProvider
+      .when("/item/:id",{
+        templateUrl: "/tpls/show.html",
+        controller: "showCtrl"
+      })
+      // ... more roots
+  });
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## `routeProvider`
+
+  - very powerful
+  - e.g can be given promises for dependencies required
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Template
+
+  - either `template` for a HTML string/function returning HTML string
+  - or `templateUrl` for a URL to get an HTML string
+  - hack: if there's a script tag with `id == templateUrl`, it'll use that
+  - we'll need that as we're on a `file://` url
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## `location`
+
+  ```
+  app.config(function($locationProvider) {
+    $locationProvider.html5Mode(true);
+  });
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## No push state for us...
+  - we're on a `file://` url
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## `routeParams`
+
+  ```
+  $routeProvider
+  .when("/item/:id",{
+    templateUrl: "/tpls/show.html",
+    controller: "showCtrl"
+  })
+  ```
+
+  - How do we access params?
+
+  ```
+  app.controller("drawingCreateCtrl",function($scope,$routeParams) {
+      routeParams.id
+      // use any params defined in route config
+  })
+
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## If there's only one controller for a template...
+  - just put it in the template
+</script></section>
+
+
+
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  # Let's use them
+
+  - exercises/routes
+
+</script></section>
+
+
+
+
+
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  ## Time for... more magic!
 
 
 </script></section>
@@ -1377,7 +1414,7 @@ app.directive("tourStep",function() {
 
 <section data-markdown><script type="text/template">
   
-  ## Tranclusion
+  ## Transclusion
 
   - ARGH! Sounds so scary
   - Actually pretty simple: function to clone & comile a chunk of DOM
@@ -1386,7 +1423,7 @@ app.directive("tourStep",function() {
 
 <section data-markdown><script type="text/template">
   
-  ## Tranclusion example
+  ## Transclusion example
 
   ```javascript
   app.directive("transcludeDemo",function() {
@@ -1402,7 +1439,6 @@ app.directive("tourStep",function() {
   ```
 
 </script></section>
-
 
 <section data-markdown data-state=highlight><script type="text/template">
   
