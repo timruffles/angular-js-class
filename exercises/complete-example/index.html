@@ -13,14 +13,23 @@
 
     </head>
     <body>
-        <div class=row>
+        <div class=row ng-controller='todo'>
 
-          <h1>Hello {{ something }}</h1>
+          <h1>Things to learn about Angular</h1>
           <form>
-            <input ng-model=something ng-init='something = "angular"' >
+            <label ng-model=titleGlob>Filter: <input type=search ng-model=filter></label>
           </form>
-
-          <p class='alert-box success'>The above is just to show AngularJS has booted fine. Delete this placeholder HTML and modify <code>main.js</code>.</p>
+          <ul ng-controller=topicList>
+            <p ng-show='topicList.length == 0'>You have nothing left to learn!</p>
+            <li ng-repeat='topic in topicList | filter:titleMatch(titleGlob)'>
+              {{ topic.title }}
+            </li>
+          </ul>
+          <form ng-controller=addItem ng-submit='addItem(item)'>
+            <h3>Add item to learn</h3>
+            <input ng-model='item.title' required>
+            <button>Create item</button>
+          </form>
 
         </div>
 
@@ -28,11 +37,13 @@
         <script src="vendor/fake-server.js"></script>
 
         <script>
-          createFakeServer("things");
+          createFakeServer("topics");
         </script>
 
         <script src="../vendor/underscore.js"></script>
         <script src="../vendor/angular/angular.js"></script>
+        <script src="../vendor/angular/angular-resource.js"></script>
+        
         <script src="main.js"></script>
     </body>
 </html>

@@ -7,20 +7,6 @@ app.controller("orderList",function($scope) {
   }
 });
 
-app.factory("Order",function() {
-  function Order(title) {
-    this.title=  title;
-  }
-  return Order;
-})
-
-
-function Order(title) {
-  this.title=  title;
-}
-return Order;
-app.value("Order",Order);
-
 app.controller("addOrder",function($scope) {
   // YOUR CODE
   $scope.addOrder = function() {

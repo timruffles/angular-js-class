@@ -9,5 +9,9 @@ app.config(function($locationProvider) {
 app.config(function($routeProvider) {
   // we'd like to define three routes for the three paths
   // - how can we do that?
+  $routeProvider
+  .when("/",{templateUrl: "home.html"})
+  .when("/baked-goods",{templateUrl: "baked-goods.html"})
+  .otherwise({templateUrl: '404.html'})
 });
 

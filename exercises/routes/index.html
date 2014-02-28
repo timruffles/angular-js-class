@@ -33,7 +33,7 @@
             <a class=button href="#coffee">Coffee</a>
           </div>
 
-          <div class=panel>
+          <div class=panel ng-view>
             <!-- YOUR CODE -->
             <!-- we want to attach the routed content here -->
             <!-- have a look at how to use ng-view to achieve that -->
@@ -44,6 +44,12 @@
         <!-- TEMPLATES -->
         <script type="text/ng-template" id="home.html">
           <h1>Home</h1> 
+        </script>
+        <script type="text/ng-template" id="baked-goods.html">
+          <h1>Baked</h1> 
+        </script>
+        <script type="text/ng-template" id="404.html">
+          <h1>WTF?</h1> 
         </script>
 
         <script src="../vendor/underscore.js"></script>

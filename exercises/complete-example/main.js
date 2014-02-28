@@ -1,30 +1,35 @@
-var app = angular.module("exercise",[]);
+var app = angular.module("exercise",["ngResource"]);
 
 app.value("dummy",{defined: true});
 
-angular.injector(["ng"]).invoke(function($http) {
-
-  var err = console.error.bind(console);
-  var yay = console.log.bind(console);
-
-  // retrieve all
-  $http.get("/api/things")
-    .then(yay,err)
-
-  // complete CRUD example
-  $http.post("/api/things",{name: "hi"})
-    .then(function(resp) {
-      return $http.put("/api/things/" + resp.data.id,{name: "changed"})
-    })
-    .then(function(resp) {
-      return $http.get("/api/things/" + resp.data.id).then(function(resp) {
-        if(resp.data.name !== "changed") throw new Error("Couldn't update/retrieve")
-        return resp
-      })
-    })
-    .then(function(resp) {
-      return $http.delete("/api/things/" + resp.data.id)
-    },err)
-
+app.factory("Topic",function($resource){
+  return $resource("/api/topics/:id",{id: "@id"});
 });
 
+app.controller("todo",function($scope,Topic) {
+  $scope.topicList = Topic.query();
+})
+
+app.controller("topicList",function($scope,Topic) {
+});
+
+app.controller("addItem",function($scope,Topic) {
+  $scope.addItem = function(item) {
+    var topic = new Topic(item);
+    topic.$save().then(function() {
+      $scope.topicList.push(topic);
+    })
+    $scope.item = {};
+  };
+});
+
+
+app.filter("titleMatch",function() {
+  return function(input,glob) {
+    debugger
+    if(!glob) return input;
+    return input.filter(function(topic) {
+      return topic.title.indexOf(glob) !== -1
+    })
+  }
+});
