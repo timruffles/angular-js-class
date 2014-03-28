@@ -108,3 +108,7 @@ body {
 .wifi {
 }
 
+.reveal input, .reveal textarea, .reveal select, .reveal button {
+  font-size: inherit;
+}
+
