@@ -15,23 +15,25 @@
 
         <div ng-controller=exercise>
           <h1>Use <code>ng-model</code> to achieve data-binding with the below input</h1>
-          <h3>and this '' quoted phrase</h3>
-          <input ng-init='something = "data-binding"'>
+          <h3>and this '{{ something }}' quoted phrase</h3>
+          <input ng-model=something>
         </div>
 
         <div ng-controller=exercise ng-init='bakedGoods = ["muffin","danish","carrot cake"]'>
           <h1>Use <code>ng-repeat</code> to display a range of baked goods</h1>
           <h3>Baked goods:</h3>
           <ul>
-            <li>I should repeat with the name of a baked good</li>
+            <li ng-repeat='good in bakedGoods'>
+              {{ good }}
+            </li>
           </ul>
         </div>
 
         <div ng-controller=exercise>
           <h1>Use <code>ng-click</code> and <code>ng-show</code> to create a toggled section</h1>
-          <p>Here one second</p>
-          <p>Gone the next</p>
-          <button>Toggle</button>
+          <p ng-show=visible>Here one second</p>
+          <p ng-hide=visible>Gone the next</p>
+          <button ng-click='visible = !visible'>Toggle</button>
         </div>
 
 

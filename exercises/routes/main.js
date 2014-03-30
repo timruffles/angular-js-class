@@ -9,5 +9,18 @@ app.config(function($locationProvider) {
 app.config(function($routeProvider) {
   // we'd like to define three routes for the three paths
   // - how can we do that?
+  $routeProvider
+  .when("/",{
+    templateUrl: "home.html"
+  })
+  .when("/baked-goods",{
+    templateUrl: "baked-goods.html"
+  })
+  .when("/coffee/:type",{
+    templateUrl: "coffee.html"
+  });
 });
 
+app.controller("coffee",function($scope,$routeParams) {
+  $scope.type = $routeParams.type;
+})

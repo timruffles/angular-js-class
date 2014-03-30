@@ -32,8 +32,12 @@
               & implement the show behaviour for the
               default content displayed if the list is empty
               -->
-            <div>Only display me when list is empty</div>
-            <p ng-repeat="item in list">
+            <div ng-show='list.length === 0'>Only display me when list is empty</div>
+            <form ng-submit=add()>
+              <h3>Add</h3>
+              <input ng-model='newItem'>
+            </form>
+            <p ng-repeat="item in list" ng-click=remove($index)>
               {{ item.title }}
             </p>
           </div>

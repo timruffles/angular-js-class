@@ -30,21 +30,33 @@
           <div class=button-group>
             <a class=button href="#">Home</a>
             <a class=button href="#baked-goods">Baked goods</a>
-            <a class=button href="#coffee">Coffee</a>
+            <a class=button href="#coffee/kenyan">Coffee</a>
           </div>
 
           <div class=panel>
             <!-- YOUR CODE -->
             <!-- we want to attach the routed content here -->
             <!-- have a look at how to use ng-view to achieve that -->
+            <div ng-view></div>
           </div>
 
         </div>
 
         <!-- TEMPLATES -->
         <script type="text/ng-template" id="home.html">
-          <h1>Home</h1> 
+          <h1>Home</h1>
+          <p>Some stuff about home</p>
         </script>
+        <script type="text/ng-template" id="baked-goods.html">
+          <h1>Baked goods</h1>
+          <p>CAKES ARE NICE</p>
+        </script>
+        <script type="text/ng-template" id="coffee.html">
+          <div ng-controller=coffee>
+            <h1>Coffee type: {{ type }}</h1>
+          </div>
+        </script>
+        
 
         <script src="../vendor/underscore.js"></script>
         <script src="../vendor/angular/angular.js"></script>

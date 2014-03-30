@@ -27,8 +27,16 @@
             <h2>Feed</h2>
             <div class=task>Display orders to the user, and allow user to remove completed orders</div>
             <div ng-repeat='order in orders' class=order>
-              {{ order.text }} 
-              <button class=small>Done</button>
+              <!--  <span inline-edit>{{ order.text }}</span> -->
+              <span ng-hide=order.editing ng-click='order.editing =true'>
+                {{ order.text }}
+              </span>
+              <input ng-show=order.editing ng-model=order.text>
+              <button 
+                ng-click='order.editing = false' ng-show=order.editing>
+                Finished editing
+              </button>
+              <button ng-click='remove($index)' class=small>Done</button>
             </div>
           </div>
 
@@ -36,10 +44,10 @@
           <div class=add-order ng-controller=addOrder>
             <h2>New order</h2>
             <div class=task>Allow the user to add orders via the below form, using directives and the addOrder controller.</div>
-            <form>
+            <form ng-submit="add()">
               <label>
                 Order text
-                <input>
+                <input ng-model=newOrder>
               </label>
               <button>Add order</button>
             </form>
