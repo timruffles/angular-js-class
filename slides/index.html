@@ -174,7 +174,9 @@
 
   ```javascript
   var players = [{id:1,score: 10},{id:2, score:20}];
+  ```
 
+  ```javascript
   function BankAccount(balance) {
     this._balance = balance;
   }
@@ -184,6 +186,8 @@
   ## View
   -  HTML extended via directives
   - e.g `ng-repeat`
+  - data-binding
+  - filters: transform model
 
 </script></section>
 <section data-markdown><script type="text/template">
@@ -240,7 +244,7 @@
 </section>
 
 
-<section data-markdown data-state=highlight><script type="text/template">
+<section data-markdown data-state=title><script type="text/template">
   ## Built in directives
 </script></section>
 
@@ -329,7 +333,7 @@
 
 </script></section>
 
-<section data-markdown data-state=highlight><script type="text/template">
+<section data-markdown data-state=title><script type="text/template">
   ## Controllers
 </script></section>
 
@@ -376,14 +380,59 @@
 </script></section>
 
 
-<section data-markdown><script type="text/template">
-  ## I'm sorry to say...
+<section data-markdown data-state=title><script type="text/template">
+  ## Filters
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section>
   
-  ## ...there's lots of oppression in Angular
+  <h2>Filters</h2>
 
+  <ul>
+  <li>quick, declarative transformation of output
+  <li>works with data-binding
+  <li>pure: take data in, return new version
+  </ul>
+
+  <script type=cs code-sample>
+    <p>Unfiltered: '{{val}}', filtered: '{{val|uppercase}}'</p>
+    <input ng-model=val ng-init='val = "foo"'>
+  </script>
+
+</section>
+
+<section data-markdown ><script type="text/template">
+  
+  ## Example filters
+
+  - can work on anything - here an array or a string
+  - about simplest thing you can write in Angular!
+
+  ```javascript
+  app.filter("everyOther",function() {
+    return function alternate(input) {
+      return input.filter(function(el,i) {
+        return i % 2 == 0
+      })
+    }
+  });
+  ```
+
+  ```javascript
+  app.filter("titleCase",function() {
+    return function titleCase(input) {
+      return input.split(" ").map(function(word) {
+        return word[0].toUpperCase() + word.slice(1)
+      }).join(" ")
+    }
+  });
+  ```
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  ## Angular believes in hierarchy
 </script></section>
 
 <section data-markdown><script type="text/template">
@@ -442,8 +491,8 @@
 </script></section>
 
 
-<section data-markdown data-state=highlight><script type="text/template">
-  ## Digesting scopes
+<section data-markdown data-state=title><script type="text/template">
+  ## How do scopes work?
 </script></section>
 
 <section data-markdown><script type="text/template">
@@ -584,7 +633,7 @@
 
 
 
-<section data-markdown data-state=highlight><script type="text/template">
+<section data-markdown data-state=title><script type="text/template">
   ## When does the digest loop run?
 </script></section>
 
@@ -998,10 +1047,10 @@
 
 <section data-markdown><script type="text/template">
   
-  ## Magic circle expulsion
+  ## REGEX (like all good magic)
 
-  - parses our function as a string! (really)
-  - minification will break, can be specific
+  - parses our function as a string!
+  - minification breaks: transform in build
 
   ```
   var hasDeps = function($log) {
@@ -1021,55 +1070,6 @@
 </script></section>
 
 
-<section data-markdown data-state=highlight><script type="text/template">
-  ## Filters
-</script></section>
-
-<section>
-  
-  <h2>Filters</h2>
-
-  <ul>
-  <li>quick, declarative transformation of output
-  <li>works with data-binding
-  <li>pure: take data in, return new version
-  </ul>
-
-  <script type=cs code-sample>
-    <p>Unfiltered: '{{val}}', filtered: '{{val|uppercase}}'</p>
-    <input ng-model=val ng-init='val = "foo"'>
-  </script>
-
-</section>
-
-<section data-markdown ><script type="text/template">
-  
-  ## Example filters
-
-  - can work on anything - here an array or a string
-  - about simplest thing you can write in Angular!
-
-  ```javascript
-  app.filter("everyOther",function() {
-    return function alternate(input) {
-      return input.filter(function(el,i) {
-        return i % 2 == 0
-      })
-    }
-  });
-  ```
-
-  ```javascript
-  app.filter("titleCase",function() {
-    return function titleCase(input) {
-      return input.split(" ").map(function(word) {
-        return word[0].toUpperCase() + word.slice(1)
-      }).join(" ")
-    }
-  });
-  ```
-
-</script></section>
 
 <section data-markdown><script type="text/template">
   ## We're ready for the big time!
@@ -1085,13 +1085,13 @@
 
 
 
-<section data-markdown data-state=highlight><script type="text/template">
+<section data-markdown data-state=title><script type="text/template">
   
-  ## It still feels a bit Flash 2003...
+  ## This is a web app, so...
 
 </script></section>
 
-<section data-markdown data-state=highlight><script type="text/template">
+<section data-markdown data-state=title><script type="text/template">
   
   ## ...what about URLs?
 
@@ -1120,7 +1120,7 @@
 </section>
 
 <section data-markdown><script type="text/template">
-  ## Complicated but not complex :)
+  ## Complex but not difficult :)
 </script></section>
 
 <section data-markdown><script type="text/template">
@@ -1228,7 +1228,7 @@
 
 
 
-<section data-markdown data-state=highlight><script type="text/template">
+<section data-markdown data-state=title><script type="text/template">
   
   ## Time for... more magic!
 
@@ -1436,7 +1436,7 @@ app.directive("tourStep",function() {
 </script></section>
 
 
-<section data-markdown data-state=highlight><script type="text/template">
+<section data-markdown data-state=title><script type="text/template">
   
   ## What about HTTP?
 
@@ -1601,7 +1601,7 @@ app.directive("tourStep",function() {
 </script></section>
 
 
-<section data-markdown data-state=highlight><script type="text/template">
+<section data-markdown data-state=title><script type="text/template">
   
   ## No tests?!
 
@@ -1911,7 +1911,7 @@ app.directive("tourStep",function() {
 </script></section>
 
 
-<section data-markdown data-state=highlight><script type="text/template">
+<section data-markdown data-state=title><script type="text/template">
   
   # That's a wrap!
 
