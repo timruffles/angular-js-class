@@ -234,11 +234,12 @@
 </script></section>
 
 <section>
-  <h2>Angular five hour plan</h2>
+  <h2>The plan</h2>
   <ul>
     <li>Directives - see something
     <li>Controllers &amp; scopes - get data/behaviour into it
     <li>Module system - enabling testing
+    <li>Routes and HTTP
     <li>Testing - testing all of the above
   </ul>
 </section>
@@ -495,11 +496,11 @@
   ## How do scopes work?
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section  data-tags=inside data-markdown><script type="text/template">
   ## Scopes: power data-binding
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
 
   ## ...they are
 
@@ -509,17 +510,17 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## ...but how?
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## Hierarchy
 
   - what else in JS have parent/child relationships?
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## Objects!
 
   - the prototype chain
@@ -534,7 +535,7 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## Prototypal inheritance
 
@@ -552,15 +553,15 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## Okay that was easy...
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## ...how does binding work?
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## `scope.$watch()`
 
@@ -585,7 +586,7 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## `scope.$watch()`
 
@@ -600,7 +601,7 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## `scope.$watchCollection()`
 
@@ -609,11 +610,11 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section  data-tags=inside data-markdown><script type="text/template">
   ## Digesting is just about firing watchers
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## Digest loop
 
@@ -623,7 +624,7 @@
 
 </script></section>
 
-<section data-markdown data-state=highlight><script type="text/template">
+<section data-markdown  data-tags=inside data-state=highlight><script type="text/template">
 
   ## Let's do some watching
 
@@ -633,15 +634,15 @@
 
 
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown  data-tags=inside data-state=title><script type="text/template">
   ## When does the digest loop run?
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## When you tell it to
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
 
   ## `$digest()`
 
@@ -670,11 +671,11 @@
 </script></section>
 
 
-<section data-markdown><script type="text/template">
+<section data-tags=inside data-markdown><script type="text/template">
   ## ...or when a Angular component does
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section  data-tags=inside data-markdown><script type="text/template">
   ## What's Angular doing here?
 
   <script type=a code-example>
@@ -683,7 +684,7 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## What's Angular doing here?
 
   - wrap your callback with `$apply()`
@@ -695,7 +696,7 @@
 </script></section>
 
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## ng-world, JS-world
 
   - if we make changes to scope outside of Angular's world we'll need to tell Angular
@@ -704,27 +705,27 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## `$digest` vs `$apply`
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## `$digest`: scope downwards
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section  data-tags=inside data-markdown><script type="text/template">
   ## `$apply`: `$rootScope` downwards
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ![digest](img/digest.png)
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ![apply](img/apply.png)
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## Pseudo-code
 
   - note the `$exceptionHandler`
@@ -742,18 +743,18 @@
   ```
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## `$exceptionHandler`
 
   - by default just logs
   - can override - perhaps to publish it?
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## Well that's not very magic...
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## ...but there are still gotchas
 </script></section>
 
@@ -769,12 +770,22 @@
   ## Why?
 </script></section>
 
+
+<section data-markdown><script type="text/template">
+  ## TO ESCAPE THE GHOSTS!!!
+</script></section>
+
+
 <section data-markdown><script type="text/template">
   
   ## Sharing data
 
-  - child's own property will hide parent's
+  - child's own property will ghost parent's
   - use objects to share data between scopes
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Ghost spotting
 
   ```
   var parent = {
@@ -808,7 +819,7 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## Scope life-cycle
 
   - scopes don't live forever
@@ -817,32 +828,32 @@
   - make sure you clean up times etc!
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section  data-tags=inside data-markdown><script type="text/template">
   ## listen you say?
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown  data-tags=inside data-state=title><script type="text/template">
   ## Scope's pubSub
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## `$emit` and `$broadcast`
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## `$emit`
    
   - triggers event on current scope and then back up to root
 </script></section>
 
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## `$broadcast`
 
   - like `$digest`, current scope and down
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## Using pubSub
 
   - more like DOM events than other systems
@@ -871,7 +882,7 @@
 </script></section>
 
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## How to use
 
@@ -881,7 +892,7 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## So back to `$destroy`
 
@@ -971,10 +982,10 @@
 
 <section data-markdown><script type="text/template">
   
-  ## `angular.module()`
+  ## `angular` <br> `.module()`
 
   - Angular's modules group related functionality
-  - not a module-loader, like RequireJS, but a module system
+  - *not* a module-*loader*, like RequireJS, but a module *system*
 
 </script></section>
 
@@ -1228,14 +1239,14 @@
 
 
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown data-tags=inside data-state=title><script type="text/template">
   
   ## Time for... more magic!
 
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section  data-tags=inside data-markdown><script type="text/template">
   
   ## Directives
 
@@ -1247,7 +1258,7 @@
 </script></section>
 
 
-<section>
+<section data-tags=inside>
   
   <h2>Directives in DOM</h2>
 
@@ -1269,7 +1280,7 @@
 </section>
 
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## Directives in Angular
 
@@ -1280,7 +1291,7 @@
 </script></section>
 
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## Defining
 
@@ -1291,7 +1302,7 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## Define example
 
@@ -1311,7 +1322,7 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## Let's write one
 
@@ -1320,7 +1331,7 @@
 </script></section>
 
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## Templates
 
@@ -1329,11 +1340,11 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## ...what are isolate scopes?
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## Directive scopes
 
@@ -1344,7 +1355,7 @@
   - isolate: can control access to individual attrs on parent
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
 
   ## It's all about weird symbols
 
@@ -1358,7 +1369,7 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## Directive controllers
 
@@ -1368,7 +1379,7 @@
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
 ## Example
 
@@ -1397,7 +1408,7 @@ app.directive("tourStep",function() {
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## Transclusion
 
@@ -1406,7 +1417,7 @@ app.directive("tourStep",function() {
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   
   ## Transclusion example
 
@@ -1415,7 +1426,7 @@ app.directive("tourStep",function() {
     return {
       transclude: "element",
       template: "<section><div ng-transclude></div></section>",
-      compile: function(el,attr,transcludeLink) {
+      compile: function data-tags=inside(el,attr,transcludeLink) {
         return function link(scope,el,attrs,controller) {
         }
       }
@@ -1425,7 +1436,7 @@ app.directive("tourStep",function() {
 
 </script></section>
 
-<section data-markdown data-state=highlight><script type="text/template">
+<section data-markdown  data-tags=inside data-state=highlight><script type="text/template">
   
   ## All together
 
@@ -1453,11 +1464,11 @@ app.directive("tourStep",function() {
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## Promises
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
 
   ## An IOU
 
@@ -1468,7 +1479,7 @@ app.directive("tourStep",function() {
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
 
   ## Intuition
 
@@ -1476,7 +1487,7 @@ app.directive("tourStep",function() {
 
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
 
   ## Promises in practice
 
@@ -1497,7 +1508,7 @@ app.directive("tourStep",function() {
 </script></section>
 
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
 
   ## `then` is either:
 
@@ -1507,7 +1518,7 @@ app.directive("tourStep",function() {
 </script></section>
 
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## Angular's promises
 
   - `$q` - is to `Q` as `jQLite` is to `jQuery`
@@ -1524,7 +1535,7 @@ app.directive("tourStep",function() {
   ```
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## Now we can take a look
 </script></section>
 
@@ -1798,11 +1809,11 @@ app.directive("tourStep",function() {
   ## ...what about the hard parts?
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## Directives
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section  data-tags=inside data-markdown><script type="text/template">
   ## What's required?
 
   - compile a template containing our directive
@@ -1810,7 +1821,7 @@ app.directive("tourStep",function() {
   - check if directive worked
 </script></section>
 
-<section data-markdown><script type="text/template">
+<section data-markdown data-tags=inside><script type="text/template">
   ## Testing directives
 
   ```javascript 
@@ -1935,6 +1946,17 @@ app.directive("tourStep",function() {
 </div>
 </div>
 
+<script>
+pruneOutByTag("inside")
+function pruneOutByTag() {
+  [].slice.call(arguments).forEach(function(tag) {
+    [].forEach.call(document.querySelectorAll("section[data-tags*=" + tag + "]"),function(el) {
+      el.parentElement.removeChild(el);
+    });
+  });
+}
+</script>
+
 <script src="angular.js"></script>
 <script src="demo.js"></script>
 <script src="reveal/lib/js/head.min.js"></script>
@@ -2021,6 +2043,7 @@ app.directive("tourStep",function() {
 
   Reveal.addEventListener( 'ready', function( event ) {
     angular.injector(["ng"]).invoke(function($q) {
+      // bootstrap the slides after they've been markdown compiled
       $q.all([hljsPromise,mdPromise]).then(function() {
         angular.bootstrap(document.body,["slides"]);
         angular.injector(["ng","slides"]).invoke(function($compile,$rootScope) {
