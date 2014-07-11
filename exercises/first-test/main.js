@@ -5,6 +5,6 @@ function trackingFactory($http) {
   return tracking;
 }
 
-app.service("tracking",trackingFactory);
+app.factory("tracking",trackingFactory);
 
 
