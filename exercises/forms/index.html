@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app=exercise>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Angular Exercise</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="../vendor/foundation/css/normalize.css" rel="stylesheet">
+        <link href="../vendor/foundation/css/foundation.css" rel="stylesheet">
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8">
+
+    </head>
+    <body>
+        <div ng-controller=ShoelaceListCtrl>
+
+          <h1>Sally's Shoelace Shop</h1>
+
+          <div ng-controller=BuyShoelaceCtrl>
+
+            Preview: <span ng-style="{ color: shoelace.color }">S</span>
+
+            <p ng-if=message>{{ message }}</p>
+
+            <!-- TODO handle submission by calling `buy()` method -->
+            <form name=shoelaceForm ng-submit=buy()>
+              <label for=shoelace-color>
+                Colour
+                <input ng-model=shoelace.color name=color 
+                       id=shoelace-color type=color>
+              </label>
+
+              <label for=shoelace-quantity>
+                Quantity
+                <input ng-model=shoelace.count name=count 
+                       id=shoelace-quantity required type=number min=1 max=5>
+              </label>
+
+              <!-- TODO disable submit until the form is valid -->
+              <button>Buy</button>
+            </form>
+
+          </div>
+
+          <ul>
+            <li ng-repeat="lace in laces">
+              <span ng-style="{ color: lace.color }">S</span>
+              {{ lace.count }} x laces
+            </li>
+          </ul>
+
+        </div>
+
+        <script src="../vendor/underscore.js"></script>
+        <script src="../vendor/angular/angular.js"></script>
+        <script src="main.js"></script>
+    </body>
+</html>

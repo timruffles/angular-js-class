@@ -380,6 +380,54 @@
 
 </script></section>
 
+<section data-markdown><script type="text/template">
+  
+  ## Forms
+
+  - view: input widgets
+  - controller: handle submission
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Directives involved
+
+  - `form` - like `a` it's an element directive
+  - `ng-submit`
+  - `ng-model`
+  - `input`
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Simple form
+
+  - creates `scope.signupForm` with the form object
+  - will assign to `user` object on scope
+  - ng shims most HTML5 validators
+
+  <script type=cs code-example>
+    <form name=signupForm ng-submit=signup()>
+      <input name=username ng-model=user.name required>
+      <input name=password type=passsword
+             ng-model=user.password required>
+      <button>Buy</button>
+    </form>
+  </script>
+
+</script></section>
+
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  # Let's try that out
+
+  - exercises/forms
+
+</script></section>
+
+
 
 <section data-markdown data-state=title><script type="text/template">
   ## Filters
@@ -1947,7 +1995,16 @@ app.directive("tourStep",function() {
 </div>
 
 <script>
-pruneOutByTag("inside")
+if(qString()["prune"]) {
+  pruneOutByTag.apply(null, qString()["prune"].split(","));
+}
+function qString() {
+  return location.search.substr(1).replace(/\/$/,'').split("&").reduce(function(all,pair) {
+    pair = pair.split("=");
+    all[pair[0]] = pair[1];
+    return all;
+  }, {});
+}
 function pruneOutByTag() {
   [].slice.call(arguments).forEach(function(tag) {
     [].forEach.call(document.querySelectorAll("section[data-tags*=" + tag + "]"),function(el) {
