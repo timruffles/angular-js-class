@@ -27,14 +27,11 @@
   # AngularJS
   ![shield](img/angular-shield.svg)
 
-  ### @timruffles
-  ### sidekickjs.com
-
 </script>
 </section>
 
 <section data-markdown><script type="text/template">
-  <h3 style='text-transform:inherit' contenteditable>wifi: hubwestminster / HubWest1</h3>
+  <h3 style='text-transform:inherit' contenteditable>wifi: ??? / ???</h3>
   <h3 contenteditable> clone/DL: github.com/timruffles/angular-js-class</h3>
 </script>
 </section>
@@ -43,10 +40,26 @@
   
   # Today
 
-  - Impression of Angular
   - Angular's ideology
-  - Angular & MVC
-  - Guide to Angular + exercises
+  - Angular's directives
+  - Controllers
+  - Controller/view interaction: forms + filters
+  - Services
+  - Routing
+  - Directives
+  - HTTP + promises
+
+</script></section>
+
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  # Tomorrow
+
+  - data-binding in depth
+  - scopes considered
+  - application structure
+  - writing directives
+  - testing
 
 </script></section>
 
@@ -380,6 +393,13 @@
 
 </script></section>
 
+
+<section data-markdown><script type="text/template">
+  
+  ## If controllers don't do it, who does?
+
+</script></section>
+
 <section data-markdown><script type="text/template">
   
   ## Forms
@@ -426,7 +446,6 @@
   - exercises/forms
 
 </script></section>
-
 
 
 <section data-markdown data-state=title><script type="text/template">
@@ -536,427 +555,6 @@
   # Let's have a go!
 
   - exercises/controllers-scopes
-
-</script></section>
-
-
-<section data-markdown data-state=title><script type="text/template">
-  ## How do scopes work?
-</script></section>
-
-<section  data-tags=inside data-markdown><script type="text/template">
-  ## Scopes: power data-binding
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-
-  ## ...they are
-
-  - an object to bind to
-  - organised into parent/child relationships
-  - used by controller/view/directives
-
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## ...but how?
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## Hierarchy
-
-  - what else in JS have parent/child relationships?
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## Objects!
-
-  - the prototype chain
-</script></section>
-
-<section data-markdown><script type="text/template">
-
-  ## Scopes are just objects
-
-  - scopes prototypally inherit from parents
-  - this makes for intuitive cooperation between controllers
-
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  
-  ## Prototypal inheritance
-
-
-  ```
-  var parent = {
-    title: "Our lovely app", 
-    user: {name: "bob"}
-  };
-  var child = Object.create(parent)
-
-  child.title // "Our lovely app"
-  child.user === parent.user // true
-  ```
-
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## Okay that was easy...
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## ...how does binding work?
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  
-  ## `scope.$watch()`
-
-  - all binding goes via `$watch()` internally
-
-  ```javascript
-  scope.$watch("user.name",function(newValue,old) {
-    // run only when value changes
-  });
-
-  scope.$watch(function() {
-    // same functionality as above
-    return scope.user.name;
-  },function(newValue,old) {
-    // run only when value changes
-  });
-  ```
-
-  <script type=a code-example>
-    <a>{{ user.name }}</a>
-  </script>
-
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  
-  ## `scope.$watch()`
-
-  - defaults to `===`
-  - pass `true` to third argument for deep comparison
-  - deep uses `angular.copy` to cache objects, so if poss only watch scalars for speed/space
-
-  ```javascript
-  // 'eq' means deep, so you can see it copies to store last value
-  watch.last = watch.eq ? copy(value) : value;
-  ```
-
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  
-  ## `scope.$watchCollection()`
-
-  - when watching items in a key-value or ordered collection
-  - shallow watches: therefore fires on add, delete and reorder
-
-</script></section>
-
-<section  data-tags=inside data-markdown><script type="text/template">
-  ## Digesting is just about firing watchers
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  
-  ## Digest loop
-
-  - `$digest()` is a `Scope` method
-  - if value of expression has changed, fires handler
-  - handlers update bindings - e.g for `<a ng-repeat='user in users'></a>`
-
-</script></section>
-
-<section data-markdown  data-tags=inside data-state=highlight><script type="text/template">
-
-  ## Let's do some watching
-
-  - exercises/watching-scope
-
-</script></section>
-
-
-
-<section data-markdown  data-tags=inside data-state=title><script type="text/template">
-  ## When does the digest loop run?
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## When you tell it to
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-
-  ## `$digest()`
-
-  ```javascript
-  angular.injector(["ng"]).invoke(function($rootScope) {
-
-    var scope = $rootScope.$new();
-    scope.on = true;
-    scope.$watch("on",function(on) {
-      console.log("lightbulb now: " + (on ? "on" : "off"))
-    });
-    // nothing happens, digest hasn't been called
-    scope.on = false;
-    scope.on = true;
-    scope.on = false;
-    // will trigger
-    scope.$digest()
-    // triggers again, $apply = do then digest
-    scope.$apply(function() {
-      scope.on = true;
-    });
-
-  });
-  ```
-
-</script></section>
-
-
-<section data-tags=inside data-markdown><script type="text/template">
-  ## ...or when a Angular component does
-</script></section>
-
-<section  data-tags=inside data-markdown><script type="text/template">
-  ## What's Angular doing here?
-
-  <script type=a code-example>
-    <a ng-click='showError("Do not click this button!!")'>Don't click me</a>
-  </script>
-
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## What's Angular doing here?
-
-  - wrap your callback with `$apply()`
-
-  <script type=a code-example>
-    <a ng-click='showError("Do not click this button!!")'>Don't click me</a>
-  </script>
-
-</script></section>
-
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## ng-world, JS-world
-
-  - if we make changes to scope outside of Angular's world we'll need to tell Angular
-  - e.g AJAX callback, non-Angular event callback
-  - very important when writing your own directives
-
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## `$digest` vs `$apply`
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## `$digest`: scope downwards
-</script></section>
-
-<section  data-tags=inside data-markdown><script type="text/template">
-  ## `$apply`: `$rootScope` downwards
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ![digest](img/digest.png)
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ![apply](img/apply.png)
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## Pseudo-code
-
-  - note the `$exceptionHandler`
-
-  ```javascript
-  function $apply(expr) {
-    try {
-      return $eval(expr);
-    } catch (e) {
-      $exceptionHandler(e);
-    } finally {
-      $root.$digest();
-    }
-  }
-  ```
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## `$exceptionHandler`
-
-  - by default just logs
-  - can override - perhaps to publish it?
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## Well that's not very magic...
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## ...but there are still gotchas
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Never bind to the scope...
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## ...bind to an object *on* the scope
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Why?
-</script></section>
-
-
-<section data-markdown><script type="text/template">
-  ## TO ESCAPE THE GHOSTS!!!
-</script></section>
-
-
-<section data-markdown><script type="text/template">
-  
-  ## Sharing data
-
-  - child's own property will ghost parent's
-  - use objects to share data between scopes
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Ghost spotting
-
-  ```
-  var parent = {
-    title: "app", 
-    user: {name: "bob"}
-  };
-  var child = Object.create(parent)
-  child.title // 'app'
-
-  parent.title = 'fancy app'
-  child.title // 'fancy app'
-
-  child.title = 'child'
-  parent.title // 'changed again'
-  child.title // 'child'
-  // we lost link - child now has its own 'title' property
-
-  child.user.name = 'sue'
-  child.user.name  // what'll it be?
-  parent.user.name  // and here?
-  ```
-
-</script></section>
-
-<section data-markdown data-state=highlight><script type="text/template">
-  
-  # Let's try that out
-
-  - exercises/tricky-scopes
-
-
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## Scope life-cycle
-
-  - scopes don't live forever
-  - e.g in a `ng-repeat` when item is deleted
-  - listen to `$destroy` event
-  - make sure you clean up times etc!
-</script></section>
-
-<section  data-tags=inside data-markdown><script type="text/template">
-  ## listen you say?
-</script></section>
-
-<section data-markdown  data-tags=inside data-state=title><script type="text/template">
-  ## Scope's pubSub
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## `$emit` and `$broadcast`
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## `$emit`
-   
-  - triggers event on current scope and then back up to root
-</script></section>
-
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## `$broadcast`
-
-  - like `$digest`, current scope and down
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## Using pubSub
-
-  - more like DOM events than other systems
-  - can cancel, see current/target scope etc
-
-  ```javascript
-  app.controller("video",function($scope) {
-    $scope.$watch = function(video) {
-      // up 
-      $scope.$emit("watched",video.id);
-      // down
-      $scope.$broadcast("watched",video.id);
-    }
-  })
-  ```
-
-  ```javascript
-  app.controller("watchCount",function($scope) {
-    var counts = {};
-    $scope.$on("watched",function(event,id) {
-      counts[id] = (counts[id] || 0) + 1;
-    })
-  })
-  ```
-
-</script></section>
-
-
-<section data-markdown data-tags=inside><script type="text/template">
-  
-  ## How to use
-
-  - I'd suggest: for very scope dependent things
-  - e.g no need for controllers to care where event came from
-  - For more general use, pick a simpler/faster option
-
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  
-  ## So back to `$destroy`
-
-  ```javascript
-  app.controller("watchCount",function($scope,$interval) {
-    var tick = $interval(function() {
-      // $scope isn't getting GC'd until this
-      // function is
-    },500);
-    $scope.$on("$destroy",function() {
-      // frees the callback, and therefore the $scope
-      $interval.cancel(tick);
-    })
-  })
-  ```
-  
 
 </script></section>
 
@@ -1656,8 +1254,473 @@ app.directive("tourStep",function() {
     return User;
   })
   ```
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Round-up
+
+  - Have your code specialise via MVC
+  - Bring your own model
+  - Big HTML!
+  - Controllers write to scope, views read
+  - Services are a module system concept only
 
 </script></section>
+
+<section data-markdown><script type="text/template">
+  ## So...
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Time to build something complete!
+
+  - exercises/complete-example
+</script></section>
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-mardown data-state=title><script type="text/template">
+
+  ## Day two
+
+  - data-binding in depth
+  - scopes considered
+  - application structure
+  - writing directives
+  - testing
+
+</script></section>
+
+<section data-markdown data-state=title><script type="text/template">
+  ## How do scopes work?
+</script></section>
+
+<section  data-tags=inside data-markdown><script type="text/template">
+  ## Scopes: power data-binding
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+
+  ## ...they are
+
+  - an object to bind to
+  - organised into parent/child relationships
+  - used by controller/view/directives
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## ...but how?
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Hierarchy
+
+  - what else in JS have parent/child relationships?
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Objects!
+
+  - the prototype chain
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+  ## Scopes are just objects
+
+  - scopes prototypally inherit from parents
+  - this makes for intuitive cooperation between controllers
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## Prototypal inheritance
+
+  ```
+  var parent = {
+    title: "Our lovely app", 
+    user: {name: "bob"}
+  };
+  var child = Object.create(parent)
+
+  child.title // "Our lovely app"
+  child.user === parent.user // true
+  ```
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Okay that was easy...
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## ...how does binding work?
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## `scope.$watch()`
+
+  - all binding goes via `$watch()` internally
+
+  ```javascript
+  scope.$watch("user.name",function(newValue,old) {
+    // run only when value changes
+  });
+
+  scope.$watch(function() {
+    // same functionality as above
+    return scope.user.name;
+  },function(newValue,old) {
+    // run only when value changes
+  });
+  ```
+
+  <script type=a code-example>
+    <a>{{ user.name }}</a>
+  </script>
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## `scope.$watch()`
+
+  - defaults to `===`
+  - pass `true` to third argument for deep comparison
+  - deep uses `angular.copy` to cache objects, so if poss only watch scalars for speed/space
+
+  ```javascript
+  // 'eq' means deep, so you can see it copies to store last value
+  watch.last = watch.eq ? copy(value) : value;
+  ```
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## `scope.$watchCollection()`
+
+  - when watching items in a key-value or ordered collection
+  - shallow watches: therefore fires on add, delete and reorder
+
+</script></section>
+
+<section  data-tags=inside data-markdown><script type="text/template">
+  ## Digesting is just about firing watchers
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## Digest loop
+
+  - `$digest()` is a `Scope` method
+  - if value of expression has changed, fires handler
+  - handlers update bindings - e.g for `<a ng-repeat='user in users'></a>`
+
+</script></section>
+
+<section data-markdown  data-tags=inside data-state=highlight><script type="text/template">
+
+  ## Let's do some watching
+
+  - exercises/watching-scope
+
+</script></section>
+
+
+
+<section data-markdown  data-tags=inside data-state=title><script type="text/template">
+  ## When does the digest loop run?
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## When you tell it to
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+
+  ## `$digest()`
+
+  ```javascript
+  angular.injector(["ng"]).invoke(function($rootScope) {
+
+    var scope = $rootScope.$new();
+    scope.on = true;
+    scope.$watch("on",function(on) {
+      console.log("lightbulb now: " + (on ? "on" : "off"))
+    });
+    // nothing happens, digest hasn't been called
+    scope.on = false;
+    scope.on = true;
+    scope.on = false;
+    // will trigger
+    scope.$digest()
+    // triggers again, $apply = do then digest
+    scope.$apply(function() {
+      scope.on = true;
+    });
+
+  });
+  ```
+
+</script></section>
+
+
+<section data-tags=inside data-markdown><script type="text/template">
+  ## ...or when a Angular component does
+</script></section>
+
+<section  data-tags=inside data-markdown><script type="text/template">
+  ## What's Angular doing here?
+
+  <script type=a code-example>
+    <a ng-click='showError("Do not click this button!!")'>Don't click me</a>
+  </script>
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## What's Angular doing here?
+
+  - wrap your callback with `$apply()`
+
+  <script type=a code-example>
+    <a ng-click='showError("Do not click this button!!")'>Don't click me</a>
+  </script>
+
+</script></section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## ng-world, JS-world
+
+  - if we make changes to scope outside of Angular's world we'll need to tell Angular
+  - e.g AJAX callback, non-Angular event callback
+  - very important when writing your own directives
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## `$digest` vs `$apply`
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## `$digest`: scope downwards
+</script></section>
+
+<section  data-tags=inside data-markdown><script type="text/template">
+  ## `$apply`: `$rootScope` downwards
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ![digest](img/digest.png)
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ![apply](img/apply.png)
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Pseudo-code
+
+  - note the `$exceptionHandler`
+
+  ```javascript
+  function $apply(expr) {
+    try {
+      return $eval(expr);
+    } catch (e) {
+      $exceptionHandler(e);
+    } finally {
+      $root.$digest();
+    }
+  }
+  ```
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## `$exceptionHandler`
+
+  - by default just logs
+  - can override - perhaps to publish it?
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Well that's not very magic...
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## ...but there are still gotchas
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Never bind to the scope...
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## ...bind to an object *on* the scope
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Why?
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  ## TO ESCAPE THE GHOSTS!!!
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## Sharing data
+
+  - child's own property will ghost parent's
+  - use objects to share data between scopes
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Ghost spotting
+
+  ```
+  var parent = {
+    title: "app", 
+    user: {name: "bob"}
+  };
+  var child = Object.create(parent)
+  child.title // 'app'
+
+  parent.title = 'fancy app'
+  child.title // 'fancy app'
+
+  child.title = 'child'
+  parent.title // 'changed again'
+  child.title // 'child'
+  // we lost link - child now has its own 'title' property
+
+  child.user.name = 'sue'
+  child.user.name  // what'll it be?
+  parent.user.name  // and here?
+  ```
+
+</script></section>
+
+<section data-markdown data-state=highlight><script type="text/template">
+  
+  # Let's try that out
+
+  - exercises/tricky-scopes
+
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Scope life-cycle
+
+  - scopes don't live forever
+  - e.g in a `ng-repeat` when item is deleted
+  - listen to `$destroy` event
+  - make sure you clean up times etc!
+</script></section>
+
+<section  data-tags=inside data-markdown><script type="text/template">
+  ## listen you say?
+</script></section>
+
+<section data-markdown  data-tags=inside data-state=title><script type="text/template">
+  ## Scope's pubSub
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## `$emit` and `$broadcast`
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## `$emit`
+   
+  - triggers event on current scope and then back up to root
+</script></section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## `$broadcast`
+
+  - like `$digest`, current scope and down
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Using pubSub
+
+  - more like DOM events than other systems
+  - can cancel, see current/target scope etc
+
+  ```javascript
+  app.controller("video",function($scope) {
+    $scope.$watch = function(video) {
+      // up 
+      $scope.$emit("watched",video.id);
+      // down
+      $scope.$broadcast("watched",video.id);
+    }
+  })
+  ```
+
+  ```javascript
+  app.controller("watchCount",function($scope) {
+    var counts = {};
+    $scope.$on("watched",function(event,id) {
+      counts[id] = (counts[id] || 0) + 1;
+    })
+  })
+  ```
+
+</script></section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## How to use
+
+  - I'd suggest: for very scope dependent things
+  - e.g no need for controllers to care where event came from
+  - For more general use, pick a simpler/faster option
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## So back to `$destroy`
+
+  ```javascript
+  app.controller("watchCount",function($scope,$interval) {
+    var tick = $interval(function() {
+      // $scope isn't getting GC'd until this
+      // function is
+    },500);
+    $scope.$on("$destroy",function() {
+      // frees the callback, and therefore the $scope
+      $interval.cancel(tick);
+    })
+  })
+  ```
+  
+
+</script></section>
+
+
 
 
 <section data-markdown data-state=title><script type="text/template">
@@ -1857,45 +1920,6 @@ app.directive("tourStep",function() {
   ## ...what about the hard parts?
 </script></section>
 
-<section data-markdown data-tags=inside><script type="text/template">
-  ## Directives
-</script></section>
-
-<section  data-tags=inside data-markdown><script type="text/template">
-  ## What's required?
-
-  - compile a template containing our directive
-  - get access to the `scope` so we can set data/fire events
-  - check if directive worked
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## Testing directives
-
-  ```javascript 
-  describe("notifications",function() {
-    var $compile;
-    var $rootScope;
-
-    beforeEach(inject(function(_$rootScope_,_$compile_) {
-      $compile = _$compile_; // _aService_ avoids shadowing var aService
-      $rootScope = _$rootScope_;
-    }));
-
-    it("sets the message as visible on notify",function(notifications) {
-      var el = $compile("<div><div notifications></div></div>")($rootScope);
-      
-      $rootScope.$broadcast("notify","something");
-      $rootScope.$apply();
-      
-      expect(el.find(".notification-content.ng-hide").length)
-        .toBe(0,"should be visible");
-    });
-  });
-  ```
-
-</script></section>
-
 <section data-markdown><script type="text/template">
   ## OK... how about controllers?
 </script></section>
@@ -1935,28 +1959,59 @@ app.directive("tourStep",function() {
   ## ...testing them is easy
 </script></section>
 
-<section data-markdown><script type="text/template">
-  
-  ## Round-up
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Testing Directives
+</script></section>
 
-  - Have your code specialise via MVC
-  - Bring your own model
-  - Big HTML!
-  - Controllers write to scope, views read
-  - Services are a module system concept only
-  - It's so testable there's just no excuse
+<section  data-tags=inside data-markdown><script type="text/template">
+  ## What's required?
+
+  - compile a template containing our directive
+  - get access to the `scope` so we can set data/fire events
+  - check if directive worked
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Testing directives
+
+  ```javascript 
+  describe("notifications",function() {
+    var $compile;
+    var $rootScope;
+
+    beforeEach(inject(function(_$rootScope_,_$compile_) {
+      $compile = _$compile_; // _aService_ avoids shadowing var aService
+      $rootScope = _$rootScope_;
+    }));
+
+    it("sets the message as visible on notify",function(notifications) {
+      var el = $compile("<div><div notifications></div></div>")($rootScope);
+      
+      $rootScope.$broadcast("notify","something");
+      $rootScope.$apply();
+      
+      expect(el.find(".notification-content.ng-hide").length)
+        .toBe(0,"should be visible");
+    });
+  });
+  ```
 
 </script></section>
 
-<section data-markdown><script type="text/template">
-  ## So...
-</script></section>
 
-<section data-markdown><script type="text/template">
-  ## Time to build something complete!
 
-  - exercises/complete-example
-</script></section>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <section data-markdown><script type="text/template">
