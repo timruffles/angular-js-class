@@ -32,9 +32,12 @@
               & implement the show behaviour for the
               default content displayed if the list is empty
               -->
-            <div>Only display me when list is empty</div>
+            <div ng-show="list.length === 0">Only display me when list is empty</div>
             <p ng-repeat="item in list">
               {{ item.title }}
+              <a ng-click="remove($index)">
+                x
+              </a>
             </p>
           </div>
 
