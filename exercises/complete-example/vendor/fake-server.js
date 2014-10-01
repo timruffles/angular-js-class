@@ -50,43 +50,43 @@ function createFakeServer(resourceName,localStorageOverride) {
   }
 }
 
-function Storage(ls,resourceName) {
-  this.ls = ls;
-  this.ls.id = ls.id || 0;
+function Storage(localStorage,resourceName) {
+  this.localStorage = localStorage;
+  this.localStorage.id = localStorage.id || 0;
   this.resourceName = resourceName;
 }
 Storage.prototype = {
   all: function() {
     var match = new RegExp('^' + this.resourceName);
-    var asJson = Object.keys(this.ls).filter(function(x) {
+    var asJson = Object.keys(this.localStorage).filter(function(x) {
       return match.test(x);
     }).map(function(k) {
-      return this.ls[k];
+      return this.localStorage[k];
     },this);
     return "[" + asJson.join(",") + "]";
   },
   nextId: function() {
-    var next = parseInt(this.ls.id) + 1;
-    return this.ls.id = next;
+    var next = parseInt(this.localStorage.id) + 1;
+    return this.localStorage.id = next;
   },
   get: function(id) {
-    return this.ls[this.resourceName + '-' + id];
+    return this.localStorage[this.resourceName + '-' + id];
   },
   create: function(v) {
     v.id = this.nextId();
-    return this.ls[this.resourceName + '-' + v.id] = JSON.stringify(v);
+    return this.localStorage[this.resourceName + '-' + v.id] = JSON.stringify(v);
   },
   update: function(u,id) {
     var img = JSON.parse(this.get(id))
     for(var p in u) {
       img[p] = u[p]
     }
-    var updated = this.ls[this.resourceName + '-' + id] = JSON.stringify(img);
+    var updated = this.localStorage[this.resourceName + '-' + id] = JSON.stringify(img);
     return updated;
   },
   remove: function(id) {
-    if(!this.ls[this.resourceName + '-' + id]) return false;
-    delete this.ls[this.resourceName + '-' + id];
+    if(!this.localStorage[this.resourceName + '-' + id]) return false;
+    delete this.localStorage[this.resourceName + '-' + id];
     return true;
   }
 }
