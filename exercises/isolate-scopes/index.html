@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html ng-app=exercise>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Angular Exercise</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="../vendor/foundation/css/normalize.css" rel="stylesheet">
+        <link href="../vendor/foundation/css/foundation.css" rel="stylesheet">
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8">
+
+    </head>
+    <body>
+        <div class=row ng-controller=SearchCtrl>
+
+          <p class='alert-box success'>Create a custom "fuzzy date" input type that can be used </p>
+
+
+          <form class=row>
+
+            <label class="large-2 columns">
+              Destination
+              <select ></select>
+            </label>
+
+            <label  class="large-2 columns">
+              Airport
+              <select></select>
+            </label>
+
+            <label  class="large-2 columns">
+              Date
+              <!-- design a custom input which captures date and fuzzy possibility,
+                   and binds to a date-range object on the scope { start, end } -->
+
+
+            </label>
+
+            <button>
+              Search
+            </button>
+
+          </form>
+          
+
+
+        </div>
+
+        <!-- use this fuzzy-date template to define the markup -
+             the HTML5 `input type=date` will be useful -->
+        <script type="text/ng-template" id="fuzzy-date.html">
+          
+        </script>
+
+
+        <script src="../vendor/underscore.js"></script>
+        <script src="../vendor/angular/angular.js"></script>
+        <script src="main.js"></script>
+    </body>
+</html>
