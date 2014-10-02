@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">  
+    <title>AngularJS</title>
+    <link rel="stylesheet" href="reveal/css/reveal.css">
+    <!-- <link rel="stylesheet" href="reveal/css/print/pdf.css"> -->
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="reveal/css/reveal.min.css">
+    <link rel="stylesheet" href="reveal/lib/css/github.css">
+
+    <link rel="stylesheet" href="slides-theme/style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section data-markdown data-state="highlight"><script type="text/template">
+
+  # AngularJS
+  ![shield](img/angular-shield.svg)
+
+</script>
+</section>
+
+<section data-markdown><script type="text/template">
+  <h3 style='text-transform:inherit' contenteditable>wifi: ??? / ???</h3>
+  <h3 contenteditable> clone/DL: github.com/timruffles/angular-js-class</h3>
+</script>
+</section>
+
+<section data-markdown data-state=title><script type="text/template">
+
+  ## Day two
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+  ## Today
+
+  - animations
+  - directives - level 1
+  - testing
+  - application structure
+  - lifecycle + pubSub
+  - promises
+  - directives - level 2
+
+</script></section>
+
+
+
+  
+<section data-markdown data-state=title><script type="text/template">
+  ## Animations
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## `ng-animate`
+
+  - optional module, like `ngRoute`
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## drop-in
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## CSS-driven
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Example: `ng-show` and `ng-hide`
+
+  - both powered via addition of `ng-hide`
+  - default style is `.ng-hide { display: none!important; }`
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## CSS hooks - addClass
+
+  ```css
+  // ON
+  // about to arrive
+  .notification-content.ng-hide-add
+
+  // transitions should be triggered
+  .notification-content.ng-hide-add-active
+  .notification-content.ng-hide
+
+  // animation done
+  .notification-content.ng-hide
+
+  // OFF
+  // about to depart
+  .notification-content.ng-hide-remove
+  .notification-content.ng-hide
+
+  // transitions should be triggered
+  .notification-content.ng-hide-remove-active
+  .notification-content.ng-hide-remove
+
+  // animation done
+  ```
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  ## Simple example
+
+  ```css
+  .notification-content {
+    opacity: 1;
+    height: 2.5em;
+    transition: all 0.5s;
+  }
+
+  .notification-content.ng-hide-add,
+  .notification-content.ng-hide-remove {
+    display: block!important;
+  }
+
+  .notification-content.ng-hide {
+    opacity: 0;
+  }
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## CSS 'hooks'
+
+  - different for each animation
+  - can trigger CSS3 animations as well
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Flexibility
+
+  - even a JS animation option!
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Flexibility
+
+  - even a JS animation option!
+
+</script></section>
+
+<section data-markdown data-state=title><script type="text/template">
+  ## Let's try
+
+  - exercises/animation
+
+</script></section>
+
+
+
+
+<section  data-tags=inside data-markdown><script type="text/template">
+  
+  ## Directives I
+
+  - The big USP of angular
+  - Extend the DOM
+  - As simple as preventing default click-behaviour on `a href=''`
+  - To whole new widgets, with their own hierarchy of controllers
+
+</script></section>
+
+
+<section data-tags=inside>
+  
+  <h2>Directives in DOM</h2>
+
+  <ul>
+    <li>Invoked many ways: element names (IE9+), classes, attributes, etc
+    <li>Can lock down triggers per directive (default just attr)
+    <li>e.g `a` directive only available as element name, so augments all `a`s
+  </ul>
+
+  <script type=cs code-example>
+  app.directive("myDirective",function() {});
+
+  <my-directive></my-directive>
+  <div my-directive></div>
+  <div class="my-directive"></div>
+  <div data-my-directive></div>
+  </script>
+
+</section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## Directives in Angular
+
+  - All the cool bits are from directives
+  - `ngRepeat`, `ngInclude`, `ngClick` etc all directives
+  - So no magic: all tools available to `ng` is available to you
+
+</script></section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## Defining
+
+  - defined on modules as normal
+  - return either a config object, or just fn to link to element
+  - lots of control: we'll cover a moderately complex case
+  - advanced directives: you'll need to look at `$compile`
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## Define example
+
+  ```javascript
+  app.directive("someName",function($location /* injected */) {
+    return {
+      link: function(scope,el,attrs) {
+      }
+    }
+  });
+  // equivalent
+  app.directive("someName",function($location /* injected */) {
+    return function(scope,el,attrs) {
+    }
+  });
+  ```
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## Let's write one
+
+  - execises/first-directive
+
+</script></section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## Templates
+
+  - can specify via `template` for a template string, or `templateUrl`
+  - pass `replace: true` to replace the current element with the template
+
+</script></section>
+
+
+<section data-markdown data-state=title><script type="text/template">
+  
+  ## Testing
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Testing
+
+  - unit testing: isolation
+  - end to end testing: integration/functional
+  - this is where dependency-injection comes in handy!
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Unit tests
+
+  - test one unit of functionality in isolation
+  - stub out dependencies for speed/simplicity of testing
+
+  ```
+  // app code
+  var app = angular.module("app",[]);
+  app.filter("first",function(xs) { return xs[0] });
+
+  // test code
+  describe("myFilter",function() {
+    // setup our injector with the module we want
+    beforeEach(module("app"))
+    // wrap test code with injector to get at our code
+    it("should only return first",inject(function(first) {
+      expect(first("hello")).toEqual("h");
+    })
+  })
+  ```
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## Testing: tools
+
+  - test framework: mocha, Jasmine
+  - test server/runner: Karma
+  - assertions: chai, referree
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## For today
+  - Jasmine, test framework, runner and assertions
+  - BDD style for assertions and suite
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## What does Angular change?
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## How we wrap our code
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## So... how do we unwrap it?
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## `module()`
+
+  - sets up injector to include module(s)
+  - or to stub dependencies
+
+  ```
+  var moduleSettingFunction = module("app")
+  module("app",function($provide) {
+    // here we use $provide just like our module
+    // allowing us to override factories, values etc
+    $provide.value("something",override);
+  })
+  ```
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## `inject()`
+
+  - runs function with dependencies taken from module(s)
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## What do we want to inject?
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Fake versions of services
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Mocks n stubs
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Both fakes
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Mocks: function voyeurism
+
+  ```javascript
+  var spy = Jasmine.createSpy("spyName");
+  spy("Howdy!!!");
+  expect(spy).toHaveBeenCalledWith("hello");
+  ```
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Mocks: asserting call behaviour
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Stubs
+
+  - replace dependencies of a unit
+
+  ```javascript
+  function simpleCode(getAnswerFromTelescope) {
+    var number = getAnswerFromTelescope();
+    // we just want to test this bit
+    return number + 1;
+  }
+  function getAnswerFromTelescope() {
+    // horribly slow
+    // non-deterministic
+    return 42;
+  }
+
+  expect(simpleCode(function() { return 1 })).toBe(2)
+  ```
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Mocks are tests, stubs support tests
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Both are fakes
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Let's test drive something
+
+  - implement a tracking system
+  - `event(eventName)` counts the number of times its invoked with a given event
+  - `save()` fires a `HTTP POST` with the currently tracked events
+
+  ```javascript
+  app.controller("user",function($scope,tracking,$interval) {
+    $scope.$watch = function() {
+      tracking.event("watch");
+    }
+    $interval(function() {
+      tracking.save();
+    },5000);
+  });
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## You'll want to mock out `$http`
+</script></section>
+
+
+<section data-markdown data-state=highlight><script type="text/template">
+  ## Your first test
+
+  - exercises/first-test
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## That wasn't very radical
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## ...what about the hard parts?
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## OK... how about controllers?
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Testing controllers
+  ```javascript
+  describe("drawingListItem controller",function() {
+    var controller;
+    var $scope;
+
+    beforeEach(inject(function($rootScope,$controller) {
+      $scope = $rootScope.$new();
+
+      controller = $controller('drawingListItem',{
+        $scope: $scope
+      });
+      $scope.$apply();
+    }));
+
+    it('saves drawing after the name has been changed', inject(function($q) {
+      spyOn($scope.drawing,"$save").andReturn($q.when(true));
+      $scope.$apply(function() {
+        $scope.drawing.name = "foo";
+      }); 
+      expect($scope.drawing.$save).toHaveBeenCalled();
+    }));
+  });
+  ```
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## If your controllers don't talk to DOM...
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## ...testing them is easy
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Testing Directives
+</script></section>
+
+<section  data-tags=inside data-markdown><script type="text/template">
+  ## What's required?
+
+  - compile a template containing our directive
+  - get access to the `scope` so we can set data/fire events
+  - check if directive worked
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Testing directives
+
+  ```javascript 
+  describe("notifications",function() {
+    var $compile;
+    var $rootScope;
+
+    beforeEach(inject(function(_$rootScope_,_$compile_) {
+      $compile = _$compile_; // _aService_ avoids shadowing var aService
+      $rootScope = _$rootScope_;
+    }));
+
+    it("sets the message as visible on notify",function(notifications) {
+      var el = $compile("<div><div notifications></div></div>")($rootScope);
+      
+      $rootScope.$broadcast("notify","something");
+      $rootScope.$apply();
+      
+      expect(el.find(".notification-content.ng-hide").length)
+        .toBe(0,"should be visible");
+    });
+  });
+  ```
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Directives II
+</script></section>
+  
+<section data-markdown data-tags=inside><script type="text/template">
+  ## ...what are isolate scopes?
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## Directive scopes
+
+  - need to control level of sharing with parent
+  - default: shares parent scope
+  - in config, `scope: true` to create a new child scope
+  - pass a `scope: {}`, create an isolate scope
+  - isolate: can control access to individual attrs on parent
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+
+  ## It's all about weird symbols
+
+  ```javascript
+  scope: {
+    "localName": "=name", // 2 way binding between localName and name
+    "href": "@href", // live binding to href on directive's DOM el 
+    "dyanmic": "&someExpression" // provides a function wrapper for an expression
+  }
+  ```
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## Directive controllers
+
+  - directives can need controllers too
+  - allows multiple directives to communicate & share a parent
+  - same job: expose behaviour to scope
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+## Example
+
+```javascript
+  app.directive("tourStep",function() {
+      return {
+        controller: function($scope) {
+          // normal controller code - nothing
+          // related to DOM
+        }
+      }
+  });
+
+  app.directive("tourStep",function() {
+      return {
+        // prefix like '^' controls where controller is
+        // looked for: so here looking up DOM to find a directive 
+        // called 'tour' with a controller defined
+        require: "^tour",
+        link: function(scope,el,attrs,controller) {
+          // fourth argument becomes our controller
+        }
+      }
+  });
+```
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## Transclusion
+
+  - ARGH! Sounds so scary
+  - Actually pretty simple: function to clone & comile a chunk of DOM
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## Transclusion example
+
+  ```javascript
+  app.directive("transcludeDemo",function() {
+    return {
+      transclude: "element",
+      template: "<section><div ng-transclude></div></section>",
+      compile: function data-tags=inside(el,attr,transcludeLink) {
+        return function link(scope,el,attrs,controller) {
+        }
+      }
+    }
+  });
+  ```
+
+</script></section>
+
+<section data-markdown  data-tags=inside data-state=highlight><script type="text/template">
+  
+  ## All together
+
+  - goal: product tour
+  - read through code
+  - code-to-read/complex-directive
+
+</script></section>
+
+  
+<section data-markdown><script type="text/template">
+  ## Application structure
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Folder/module structure
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Two main patterns
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Type folders
+
+  ```
+  app
+    controllers
+    services
+    directives
+  ```
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  ## Feature folders
+
+  ```
+  app
+    account
+    checkout
+    dashboard
+    chat
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Which scales?
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Feature folders
+
+  - atomic chunks
+  - cohesive
+  - lazy-loadable
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Data-visibility
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Global variables
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Why are they bad?
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Not all created equal
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## *Mutable* global variables
+
+  - `window.user.name = "sue"`
+  - hard to know where that occured
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  ## Global variables
+
+  - testing? not so much with JS
+  - reasoning
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Mutable globals in ng I
+
+  - visible from any service/controller/directive
+  - no control
+
+  ```javascript
+  app.factory("Card", function() {
+    return {
+      number: null,
+      cvs: null,
+    }
+  });
+  ```
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Mutable globals in ng II
+
+  - a big hammer
+  - is it *really* app-wide?
+
+  ```javascript
+  app.controller("SomeCtrl", function($rootScope, Checkout) {
+    $rootScope.checkout = Checkout;
+  });
+  ```
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  ## Small controllers
+
+  - controllers are modules/classes
+  - big modules/classes likely to be
+    - confused (too many jobs)
+    - hard to maintain
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Use teams of controllers
+
+  - each with a small job
+  - share data only if necessary
+  - easier to test, debug, understand
+</script></section>
+
+<section>
+  <h2>Example</h2>
+  <img src=img/gmail.png>
+</section>
+
+<section data-markdown><script type="text/template">
+
+  <script type=cs code-example>
+    <div ng-controller=InboxCtrl>
+      <nav ng-controller=NavCtrl>
+        <a ng-click="select('primary')">Primary</a>
+        <a ng-click="select('social')">Social</a>
+      </nav>
+      <div ng-controller=MessageCtrl>
+        <ul>
+          <li ng-repeat="message in mailbox.messages">
+            {{ message.from }} - {{ message.subject }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </script>
+</script></section>
+  
+
+
+<section data-markdown><script type="text/template">
+
+  ## System of controllers
+
+  ```javascript
+    function InboxCtrl($scope, Mailbox) {
+      $scope.select = function(id) {
+        $scope.mailbox = Mailbox.get(id)
+      }
+      $scope.select("primary")
+    }
+    function MessageCtrl($scope) {
+    }
+  ```
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+  ## Eyebrow raises
+
+  - controllers > ~ 100 LOC
+  - > ~10 methods
+  - they're just glue, so keep small'n'simple
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+  ## Where to extract?
+
+  - is it actually domain logic? models
+  - is it persisting (anywhere)? persistence
+  - is it formatting? filter/service
+  - complex logic? helper nouns/verbs
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+
+  ## Scope is a public API
+
+  - sharing methods with children
+  - sharing methods with view
+  - don't expose anything not required!
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+  ## Function-locations
+
+  <script type=cs code-example>
+    function InboxCtrl($scope, Mailbox, Spam) {
+
+      var controllerPrivateVar = 10;
+
+      function controllerPrivateMethod() {
+      }
+    }
+  </script>
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+  ## Controller properties
+
+  - remember, controllers are constructors!
+
+  <script type=cs code-example>
+    function InboxCtrl($scope, Mailbox, Spam) {
+    }
+
+    InboxCtrl.properties.controllerMethod = function() {
+    }
+  </script>
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+  ## When to use?
+
+  - I stick with locals in 90% of cases
+  - Controller methods for coordinating controllers
+
+</script></section>
+
+
+<section data-markdown data-state=title><script type="text/template">
+  ## Lifecycle &amp; pubSub
+</script></section>
+
+<section data-markdown ><script type="text/template">
+  ## Lifecycle
+
+  - AngularJS scopes need to be GC'd like everything else
+  - to control this we'll need to learn about events
+
+</script></section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Scope life-cycle
+
+  - scopes don't live forever
+  - e.g in a `ng-repeat` when item is deleted
+  - listen to `$destroy` event
+  - make sure you clean up times etc!
+</script></section>
+
+<section  data-tags=inside data-markdown><script type="text/template">
+  ## listen you say?
+</script></section>
+
+<section data-markdown  data-tags=inside data-state=title><script type="text/template">
+  ## Scope's pubSub
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## `$emit` and `$broadcast`
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## `$emit`
+   
+  - triggers event on current scope and then back up to root
+</script></section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## `$broadcast`
+
+  - like `$digest`, current scope and down
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Using pubSub
+
+  - more like DOM events than other systems
+  - can cancel, see current/target scope etc
+
+  ```javascript
+  app.controller("video",function($scope) {
+    $scope.$watch = function(video) {
+      // up 
+      $scope.$emit("watched",video.id);
+      // down
+      $scope.$broadcast("watched",video.id);
+    }
+  })
+  ```
+
+  ```javascript
+  app.controller("watchCount",function($scope) {
+    var counts = {};
+    $scope.$on("watched",function(event,id) {
+      counts[id] = (counts[id] || 0) + 1;
+    })
+  })
+  ```
+</script></section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## How to use
+
+  - I'd suggest: for very scope dependent things
+  - e.g no need for controllers to care where event came from
+  - For more general use, pick a simpler/faster option
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  
+  ## So back to `$destroy`
+
+  ```javascript
+  app.controller("watchCount",function($scope,$interval) {
+    var tick = $interval(function() {
+      // $scope isn't getting GC'd until this
+      // function is
+    },500);
+    $scope.$on("$destroy",function() {
+      // frees the callback, and therefore the $scope
+      $interval.cancel(tick);
+    })
+  })
+  ```
+
+</script></section>
+
+
+
+
+  
+<section data-markdown data-state=title><script type="text/template">
+  ## Promises
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## An IOU
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Values for async
+
+  - A promise is a value, returned immediately
+  - Later fulfilled or rejected - once
+  - Can use before or after value arrives
+  - Chain promises together
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+
+  ## Intuition
+
+  ![Promise chain](img/promises.png)
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+
+  ## Promises in practice
+
+  - `.then()` returns a new promise - for the return value of the function
+  - `.then()` with a function that accepts the value when it arrives
+
+  ```javascript
+  var user = getUser(params["id"]);
+  var profile = user.then(getProfile);
+  var accountPage = Promise.spread(user,profile).then(accountPageTemplate);
+
+  accountPage.then(
+    renderToDom,
+    renderErrorMessage
+  );
+  ```
+
+</script></section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+
+  ## `then` is either:
+
+  - An action to take when promise settles
+  - A recipe for a new promised value
+
+</script></section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Angular's promises
+
+  - `$q` - is to `Q` as `jQLite` is to `jQuery`
+  - most of what you'll need: not broken like `jQuery` promises
+
+  ```javascript
+  app.controller("user",function($scope,$q) {
+    var deferred = $q.defer();
+    var promise = deferred.promise;
+    // $q.all to create a promise for resolution
+    // of multiple promises
+    $q.all([promise,anotherPromise]).then(something);
+  })
+  ```
+</script></section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Promise tools
+
+  ```javascript
+   // returns a promise, if x is:
+   // - a non-promise, a resolved promise for x
+   // - a promise, that promise
+  $q.when(x)
+
+  // a promise for an array/object with all resolved
+  // promises values
+  $q.all([promise, value, promiseB, valueB])
+  ```
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Promise flow control
+
+  ```javascript
+  SomeQuery
+    .then(transform)
+    .then(function(value) {
+      if(!isOk(value)) {
+        throw new Error("Not ok!")
+      }
+      if(someTest(value)) {
+        return QueryA(value)
+      } else {
+        return QueryB(value)
+      }
+    })
+    .catch(function(err) {
+      throw new Error("Our query failed: " + err);
+    })
+    .finally(function() {
+      // anything that happens if resolved/rejected
+    });
+  ```
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Promises + collections
+
+  ```javascript
+  var userIds = [10,20,30,50,100];
+
+  // array of promises
+  var users = userIds.map(User.get);
+
+  // promise for array of {user, account}
+  var usersWithAccounts = $q.all(users)
+    .then(function(users) {
+      return users.map(function(user) {
+        return $q.all({
+          user: user,
+          account: Account.get(user)
+        });
+      });
+    });
+  ```
+</script></section>
+
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Promises conclusion
+
+  - promises give us values for async code
+  - don't just use as callbacks
+  - think about transformers for the values
+  - link related promises together
+
+</script></section>
+
+
+  
+<section data-markdown><script type="text/template">
+  ## Performance of Angular
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## What's slow?
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Work
+
+  - lots of `$watch()`
+  - > 2,000 is a Bad Thing® according to ng team
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Complex watches
+
+  - `$watch(bigObj, handler, true)` very expensive
+  - recursive comparison each digest
+  - new copy each change
+  - costly in time & space
+
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Avoiding watchers I
+
+  - Angular 1.3 easiest solution: one-time binds
+  - it's a form of caching, so be careful!
+
+  ```javascript
+    {{ ::story.title }}
+  ```
+    
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Avoiding watchers II
+
+  - don't use big hammers if you don't need
+  - e.g ng-repeat on a complex nav
+  - precompile, or just hand-code
+  - below creates `nav.length * 4` watchers
+
+  <script type=cs code-example>
+    <nav>
+      <a ng-repeat="item in nav" 
+         ng-href="{{ item.path }}" 
+         ng-attr="{disabled: unauthorised(item)}">
+         ng-class="{active: isActive(item)}">
+        {{ item.title }}
+      </a>
+    </nav>
+  </script>
+    
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Avoiding watchers III
+
+  - `$interpolate`
+  - for complex strings in DOM, you could create a lot of watchers!
+  - use little directives and `$interpolate` to reduces count
+
+  ```javascript
+  app.directive("complexRow", function($interpolate) {
+    var tpl = $interpolate("<span>{{ item.from | fromFilter }}</span><span>{{ item.subject }}</span>");
+    return {
+      function(scope, el, attrs) {
+        scope.$watch(attrs.item, function(newer, older) {
+          el.html(tpl({ item: newer }));
+        });
+      }
+    }
+  });
+  ```
+    
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Too much over wire
+
+  - load in layers
+  - e.g homepage shouldn't load in big chart library
+  - lazy-loading
+  - all standards: gzip, minify
+  - minified code still needs to be parsed!
+    
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Disable debug data (1.3)
+
+  - doesn't waste time with CSS + references for debugging
+  - can `angular.reloadWithDebugInfo();` at any time
+
+  ```javascript
+  myApp.config(['$compileProvider', function ($compileProvider) {
+    $compileProvider.debugInfoEnabled(false);
+  }]);
+  ```
+    
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Measure first!
+
+  - premature optimisation is the root of all evil
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## How to measure?
+
+  - dev tools!
+  - network + audit
+  - timeline
+  - flamegraph
+  - memory: saw-tooth
+</script></section>
+
+ 
+<section data-markdown data-state=title><script type="text/template">
+  ## Exercise
+
+  - grab Angular's homepage
+  - profile it!
+</script></section>
+
+
+ 
+<section data-markdown><script type="text/template">
+  ## Angular + inspect
+</script></section>
+
+<section data-markdown ><script type="text/template">
+  ## Tricks
+</script></section>
+
+<section data-markdown ><script type="text/template">
+  ## Accessing your services
+
+  - note this is a new injector - e.g not same instance
+
+  ```javascript
+  angular.injector(["ng", "yourApp"]).get("User");
+  ```
+</script></section>
+
+
+<section data-markdown ><script type="text/template">
+  ## Accessing scopes
+
+  - `angular.element().scope()`
+
+</script></section>
+
+
+
+
+
+
+
+
+
+<section data-markdown data-state=title><script type="text/template">
+  
+  ## Time to find the gaps
+
+  - exercises/complete-example
+  - has a backend
+  - anything you're still unsure about, have a go
+  - push yourself!
+
+
+</script></section>
+
+
+<section data-markdown data-state=title><script type="text/template">
+  
+  # That's a wrap!
+
+</script></section>
+
+
+<section data-markdown data-state=highlight><script type="text/template">
+
+  ## Thanks!
+
+  <br />
+  <br />
+  <br />
+
+  ### @timruffles
+  ### ask for SidekickJS beta + discount :)
+
+</script></section>
+
+
+</div>
+</div>
+
+<script>
+if(qString()["prune"]) {
+  pruneOutByTag.apply(null, qString()["prune"].split(","));
+}
+function qString() {
+  return location.search.substr(1).replace(/\/$/,'').split("&").reduce(function(all,pair) {
+    pair = pair.split("=");
+    all[pair[0]] = pair[1];
+    return all;
+  }, {});
+}
+function pruneOutByTag() {
+  [].slice.call(arguments).forEach(function(tag) {
+    [].forEach.call(document.querySelectorAll("section[data-tags*=" + tag + "]"),function(el) {
+      el.parentElement.removeChild(el);
+    });
+  });
+}
+</script>
+
+<script src="angular.js"></script>
+<script src="demo.js"></script>
+<script src="reveal/lib/js/head.min.js"></script>
+<script src="reveal/js/reveal.min.js"></script>
+<script>
+
+  var hljsDeferred;
+  var hljsPromise;
+  var mdDeferred;
+  var mdPromise;
+
+  angular.injector(["ng"]).invoke(function($q) {
+    hljsDeferred = $q.defer();
+    hljsPromise = hljsDeferred.promise;
+    mdDeferred = $q.defer();
+    mdPromise = mdDeferred.promise;
+  });
+
+  Reveal.initialize({
+
+    // Display controls in the bottom right corner
+    controls: false,
+
+    // Display a presentation progress bar
+    progress: true,
+
+    // Push each slide change to the browser history
+    history: true,
+
+    // Enable keyboard shortcuts for navigation
+    keyboard: true,
+
+    // Enable the slide overview mode
+    overview: true,
+
+    // Vertical centering of slides
+    center: false,
+
+    // Loop the presentation
+    loop: false,
+
+    // Change the presentation direction to be RTL
+    rtl: false,
+
+    // Number of milliseconds between automatically proceeding to the
+    // next slide, disabled when set to 0, this value can be overwritten
+    // by using a data-autoslide attribute on your slides
+    autoSlide: 0,
+
+    // Enable slide navigation via mouse wheel
+    mouseWheel: false,
+
+    // Apply a 3D roll to links on hover
+    rollingLinks: false,
+
+    // Transition style
+    transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+    dependencies: [
+        // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+        { src: 'reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+
+        // Interreveal/pret Markdown in <section> elements
+        { src: 'reveal/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); }, callback: mdDeferred.resolve },
+
+        // Syntareveal/x highlight for <code> elements
+          { src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { 
+              hljs.initHighlightingOnLoad(); 
+              hljsDeferred.resolve();
+          } },
+
+        // Zoom reveal/in and out with Alt+click
+        { src: 'reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+
+        // Speakreveal/er notes
+        { src: 'reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+
+        // Remotreveal/e control your reveal.js presentation using a touch device
+        // { src: 'reveal/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+    ]
+
+  });
+
+  Reveal.addEventListener( 'ready', function( event ) {
+    angular.injector(["ng"]).invoke(function($q) {
+      // bootstrap the slides after they've been markdown compiled
+      $q.all([hljsPromise,mdPromise]).then(function() {
+        angular.bootstrap(document.body,["slides"]);
+        angular.injector(["ng","slides"]).invoke(function($compile,$rootScope) {
+          [].forEach.call(document.querySelectorAll("section[data-markdown]"),function(slide) {
+            $compile(slide)($rootScope)
+          })
+        })
+      })
+    })
+  });
+  
+</script>
+</body>
+</html>
