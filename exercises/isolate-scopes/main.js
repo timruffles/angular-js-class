@@ -18,7 +18,38 @@ app.directive("fuzzyDate", function() {
   // - allows start/end dates to be set
   // - validates start/end logic
   // - has a fuzzy button that extends the start/end
+  return {
+    restrict: "E",
+    templateUrl: "fuzzy-date.html",
+    scope: {
+      "model": "="
+    },
+    link: function(scope, el, attrs) {
 
+      change(el[0].querySelector("[name=start]"), "start");
+      change(el[0].querySelector("[name=end]"), "end");
+
+      scope.$watch("fuzzy", function(yes, last) {
+        if(yes === last) return;
+        if(yes) {
+          scope.model.start = new Date(+new Date - 3 * DAYS);
+          scope.model.end = new Date(+new Date + 3 * DAYS);
+        } else {
+          scope.model.start = new Date(+new Date + 3 * DAYS);
+          scope.model.end = new Date(+new Date - 3 * DAYS);
+        }
+      });
+
+      function change(el, prop) {
+        el.valueAsDate = scope.model[prop];
+        el.addEventListener("change", function() {
+          scope.$apply(function() {
+            scope.model[prop] = el.valueAsDate;
+          });
+        });
+      }
+    }
+  }
 });
 
 

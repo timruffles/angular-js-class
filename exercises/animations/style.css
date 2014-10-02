@@ -4,3 +4,18 @@
  * most over the top animations wins
  *
  **/
+
+#thing {
+  opacity: 1;
+  height: 2.5em;
+  transition: all 0.5s;
+  display: block!important;
+}
+
+#thing.ng-hide-add,
+#thing.ng-hide-remove {
+}
+
+#thing.ng-hide {
+  opacity: 0;
+}

@@ -34,8 +34,9 @@
               Date
               <!-- design a custom input which captures date and fuzzy possibility,
                    and binds to a date-range object on the scope { start, end } -->
+              <fuzzy-date model="holiday.range"><fuzzy-date>
 
-
+              {{ holiday.range | dateRangeToInterval }}
             </label>
 
             <button>
@@ -51,7 +52,12 @@
         <!-- use this fuzzy-date template to define the markup -
              the HTML5 `input type=date` will be useful -->
         <script type="text/ng-template" id="fuzzy-date.html">
-          
+          <fieldset>
+            {{ model | dateRangeToInterval }}
+            <input type=date name=start>
+            <input type=date name=end>
+            <input type=checkbox name=fuzzy ng-model="fuzzy">
+          </fieldset>
         </script>
 
 

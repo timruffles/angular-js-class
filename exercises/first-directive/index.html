@@ -16,8 +16,16 @@
         <div class=row>
           <h1>Implement a flash message - click to dismiss</h1>
 
-          <a class='alert-box success' flash>Here's a temporary message - click to dismiss</a>
+          <cookie-crap></cookie-crap>
         </div>
+
+        <script type=text/ng-template id="cookie-crap.html">
+          <div>
+            <p>Cookies you cool?
+            <button ng-click=yes()>Yes!</button>
+            <button ng-click=no()>No!</button>
+          <div>
+        </script>
 
         <script src="../vendor/underscore.js"></script>
         <script src="../vendor/angular/angular.js"></script>
