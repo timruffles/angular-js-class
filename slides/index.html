@@ -500,13 +500,7 @@
 
 
 <section data-markdown><script type="text/template">
-  ## Angular believes in hierarchy
-</script></section>
-
-<section data-markdown><script type="text/template">
-  
-  ![hierarchy](img/scope-hierarchy.png)
-
+  ## Hierarchy of modules interacting
 </script></section>
 
 <section data-markdown><script type="text/template">
@@ -516,6 +510,10 @@
   - each `ng-controller` directive creates a new scope
   - scope is a child of current scope
 
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Use scopes to organise data/behaviour
 </script></section>
 
 <section data-markdown><script type="text/template">
@@ -777,7 +775,7 @@
 </section>
 
 <section data-markdown><script type="text/template">
-  ## Complex but not difficult :)
+  ## Many parts, but all simple
 </script></section>
 
 <section data-markdown><script type="text/template">
@@ -857,9 +855,10 @@
   - How do we access params?
 
   ```
-  app.controller("drawingCreateCtrl",function($scope,$routeParams) {
-      routeParams.id
-      // use any params defined in route config
+  app.controller("showCtrl",function($scope,$routeParams) {
+    // use any params defined in route config
+    // from url `/item/:id`
+    var itemId = routeParams.id
   })
 
   ```
@@ -880,9 +879,6 @@
   - exercises/routes
 
 </script></section>
-
-
-
 
 
 <section data-markdown data-tags=inside data-state=title><script type="text/template">
@@ -1463,13 +1459,13 @@ app.directive("tourStep",function() {
     scope.$watch("on",function(on) {
       console.log("lightbulb now: " + (on ? "on" : "off"))
     });
-    // nothing happens, digest hasn't been called
+
     scope.on = false;
     scope.on = true;
     scope.on = false;
-    // will trigger
+
     scope.$digest()
-    // triggers again, $apply = do then digest
+
     scope.$apply(function() {
       scope.on = true;
     });
