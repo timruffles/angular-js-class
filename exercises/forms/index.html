@@ -19,7 +19,9 @@
 
           <div ng-controller=BuyShoelaceCtrl>
 
-            Preview: <span ng-style="{ color: shoelace.color }">S</span>
+            <div class="shoelace-preview">
+              3D shoelace preview: <span ng-style="{ color: shoelace.color }">S</span>
+            </div>
 
             <p ng-if=message>{{ message }}</p>
 
