@@ -24,7 +24,7 @@
 
           <div ng-controller="TodoListCtrl">
             <p ng-repeat="todo in todos">
-              {{ todo.text }}
+              <span inline-edit='todo.text'>Hi {{ todo.text }}</span>
             </p>
           </div>
 
