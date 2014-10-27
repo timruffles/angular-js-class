@@ -21,7 +21,7 @@
 
           <div class='alert-box success'>
             <p>Routes allow us to use the URL to navigate between different templates.</p>
-            <p>Configure the rooting in main.js to power the tab system below.</p>
+            <p>Configure the routing in main.js to power the tab system below.</p>
             <p>Look up <code>ng-view</code> to place the routed content in the panel below.</p>
             <p>Define some templates below in the script tags. The first has been defined for you - read the <code>type</code> and <code>id</code> attributes carefully.</p>
 
@@ -30,13 +30,11 @@
           <div class=button-group>
             <a class=button href="#">Home</a>
             <a class=button href="#baked-goods">Baked goods</a>
-            <a class=button href="#coffee">Coffee</a>
+            <a class=button href="#coffee/peru">Coffee</a>
           </div>
 
           <div class=panel>
-            <!-- YOUR CODE -->
-            <!-- we want to attach the routed content here -->
-            <!-- have a look at how to use ng-view to achieve that -->
+            <ng-view></ng-view>
           </div>
 
         </div>
@@ -44,6 +42,14 @@
         <!-- TEMPLATES -->
         <script type="text/ng-template" id="home.html">
           <h1>Home</h1> 
+        </script>
+
+        <script type="text/ng-template" id="baked-goods.html">
+          <h1>Baked goods</h1> 
+        </script>
+
+        <script type="text/ng-template" id="coffee.html">
+          <h1>Coffee - {{ type }}</h1> 
         </script>
 
         <script src="../vendor/underscore.js"></script>

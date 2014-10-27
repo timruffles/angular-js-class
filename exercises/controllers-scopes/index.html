@@ -19,6 +19,7 @@
             Fix up this page. Have a look in console for any errors, then JS &amp; HTML source for hints.
           </div>
 
+
           <div ng-controller=defineMe>
             <!-- TODO all we need to do here is stop this
               controller throwing an error by defining it
@@ -38,15 +39,15 @@
             </p>
           </div>
 
-          <div ng-controller=tabs class=panel>
+          <div ng-controller="TabsCtrl as tabCtrl" class=panel>
             <h3>Tabs</h3>
             <!-- TODO read through the properties/functions
               this div is using - what needs to be defined
               on our scope? -->
             <div class=button-group>
-              <a class=button ng-click='showTab("a")'>Show a</a>
-              <a class=button ng-click='showTab("b")'>Show b</a>
-              <a class=button ng-click='showTab("c")'>Show c</a>
+              <a class=button ng-click='tabCtrl.showTab("a")'>Show a</a>
+              <a class=button ng-click='tabCtrl.showTab("b")'>Show b</a>
+              <a class=button ng-click='tabCtrl.showTab("c")'>Show c</a>
             </div>
             <p ng-show='tab == "a"'>
               I am tab A

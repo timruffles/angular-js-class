@@ -1,42 +1,47 @@
 <!DOCTYPE html>
 <html ng-app=exercise>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Angular Exercise</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link href="../vendor/foundation/css/normalize.css" rel="stylesheet">
-        <link href="../vendor/foundation/css/foundation.css" rel="stylesheet">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Angular Exercise</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    </head>
-    <body>
-
-        <div ng-controller=exercise>
-          <h1>Use <code>ng-model</code> to achieve data-binding with the below input</h1>
-          <h3>and this '' quoted phrase</h3>
-          <input ng-init='something = "data-binding"'>
-        </div>
-
-        <div ng-controller=exercise ng-init='bakedGoods = ["muffin","danish","carrot cake"]'>
-          <h1>Use <code>ng-repeat</code> to display a range of baked goods</h1>
-          <h3>Baked goods:</h3>
-          <ul>
-            <li>I should repeat with the name of a baked good</li>
-          </ul>
-        </div>
-
-        <div ng-controller=exercise>
-          <h1>Use <code>ng-click</code> and <code>ng-show</code> to create a toggled section</h1>
-          <p>Here one second</p>
-          <p>Gone the next</p>
-          <button>Toggle</button>
-        </div>
+<link href="../vendor/foundation/css/normalize.css" rel="stylesheet">
+<link href="../vendor/foundation/css/foundation.css" rel="stylesheet">
 
 
-        <script src="../vendor/underscore.js"></script>
-        <script src="../vendor/angular/angular.js"></script>
-        <script src="main.js"></script>
-    </body>
+<div ng-controller=exercise>
+  <h1>Use <code>ng-model</code> to achieve data-binding with the below input</h1>
+  <h3>and this '{{ something }}' quoted phrase</h3>
+  <input name="" ng-model="something" ng-init='something = "data-binding"'>
+</div>
+
+<div ng-controller=exercise 
+     ng-init='bakedGoods = ["muffin","danish","carrot cake"]'>
+
+  <h1>Use <code>ng-repeat</code> to display a range of baked goods
+  <h3>Baked goods:</h3>
+  <ul>
+    <li ng-repeat="good in bakedGoods">{{ good }}
+  </ul>
+
+</div>
+
+<div ng-controller=exercise>
+
+  <h1>Use <code>ng-click</code> and <code>ng-show</code> to create a toggled section
+
+  <p ng-if=visible>Here one second
+  <p ng-if='!visible'>Gone the next
+
+  <button ng-click='visible = !visible'>Toggle</button>
+
+</div>
+
+
+<script src="../vendor/underscore.js"></script>
+<script src="../vendor/angular/angular.js"></script>
+<script src="main.js"></script>
+
 </html>
