@@ -1,30 +1,43 @@
-var app = angular.module("exercise",[]);
+angular.module("exercise",["ngResource"])
+.controller("TodoCtrl", TodoCtrl)
+.controller("TodoListCtrl", TodoListCtrl)
+.service("TodoRepo", todoRepo)
 
-app.value("dummy",{defined: true});
+function TodoCtrl(TodoRepo, $scope) {
+  $scope.create = function() {
+    TodoRepo.create($scope.todo);
+    $scope.todo = {};
+  }
+}
 
-angular.injector(["ng"]).invoke(function($http) {
+function TodoListCtrl(TodoRepo, $scope) {
+  $scope.todos = TodoRepo.all();
+}
 
-  var err = console.error.bind(console);
-  var yay = console.log.bind(console);
+function todoRepo($resource) {
 
-  // retrieve all
-  $http.get("/api/things")
-    .then(yay,err)
+  var Todo = $resource("/api/todo/:id",
+      {id: "@id"},
+      { 
+        create: { method: "POST" },
+      });
 
-  // complete CRUD example
-  $http.post("/api/things",{name: "hi"})
-    .then(function(resp) {
-      return $http.put("/api/things/" + resp.data.id,{name: "changed"})
-    })
-    .then(function(resp) {
-      return $http.get("/api/things/" + resp.data.id).then(function(resp) {
-        if(resp.data.name !== "changed") throw new Error("Couldn't update/retrieve")
-        return resp
-      })
-    })
-    .then(function(resp) {
-      return $http.delete("/api/things/" + resp.data.id)
-    },err)
+  var all;
 
-});
+  this.create = function(data) {
+    var todo = Todo.create(data);
+    all.push(todo);
+    todo.$save();
+    return todo;
+  }
+
+  this.all = function() {
+    return all || (all = Todo.query());
+  }
+
+  this.get = function(id) {
+    return Todo.get(id);
+  }
+
+}
 
