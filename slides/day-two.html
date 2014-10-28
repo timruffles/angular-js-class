@@ -46,11 +46,12 @@
 
   ## Today
 
-  - animations
   - scopes
   - directives - recap
   - testing
   - application structure
+  - animations
+  - promise redux
   - lifecycle + pubSub
   - directives - level 2
   - measuring performance
@@ -58,106 +59,6 @@
 </script></section>
 
 
-
-  
-<section data-markdown data-state=title><script type="text/template">
-  ## Animations
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## `ng-animate`
-
-  - optional module, like `ngRoute`
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## drop-in
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## CSS-driven
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Example: `ng-show` and `ng-hide`
-
-  - both powered via addition of `ng-hide`
-  - default style is `.ng-hide { display: none!important; }`
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## CSS hooks - addClass
-
-  ```css
-  // ON
-  // about to arrive
-  .notification-content.ng-hide-add
-
-  // transitions should be triggered
-  .notification-content.ng-hide-add-active
-  .notification-content.ng-hide
-
-  // animation done
-  .notification-content.ng-hide
-
-  // OFF
-  // about to depart
-  .notification-content.ng-hide-remove
-  .notification-content.ng-hide
-
-  // transitions should be triggered
-  .notification-content.ng-hide-remove-active
-  .notification-content.ng-hide-remove
-
-  // animation done
-  ```
-
-</script></section>
-
-
-<section data-markdown><script type="text/template">
-  ## Simple example
-
-  ```css
-  .notification-content {
-    opacity: 1;
-    height: 2.5em;
-    transition: all 0.5s;
-  }
-
-  .notification-content.ng-hide-add,
-  .notification-content.ng-hide-remove {
-    display: block!important;
-  }
-
-  .notification-content.ng-hide {
-    opacity: 0;
-  }
-  ```
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## CSS 'hooks'
-
-  - different for each animation
-  - can trigger CSS3 animations as well
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Flexibility
-
-  - even a JS animation option!
-
-</script></section>
-
-<section data-markdown data-state=title><script type="text/template">
-  ## Let's try
-
-  - exercises/animation
-
-</script></section>
 
 
 
@@ -1331,6 +1232,110 @@
   - Controller methods for coordinating controllers
 
 </script></section>
+
+
+
+  
+<section data-markdown data-state=title><script type="text/template">
+  ## Animations
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## `ng-animate`
+
+  - optional module, like `ngRoute`
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## drop-in
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## CSS-driven
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Example: `ng-show` and `ng-hide`
+
+  - both powered via addition of `ng-hide`
+  - default style is `.ng-hide { display: none!important; }`
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## CSS hooks - addClass
+
+  ```css
+  // ON
+  // about to arrive
+  .notification-content.ng-hide-add
+
+  // transitions should be triggered
+  .notification-content.ng-hide-add-active
+  .notification-content.ng-hide-add
+
+  // animation done
+  .notification-content.ng-hide
+
+  // OFF
+  // about to depart
+
+  .notification-content.ng-hide-remove
+  .notification-content.ng-hide-remove-active
+  .notification-content.ng-hide
+
+  // animation done
+  ```
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  ## Simple example
+
+  ```css
+  /* override ng-hide's display: none!important */
+  .title { display: inline-block!important; }
+
+  /* define length of animation */
+  .title.ng-hide-add,
+  .title.ng-hide-remove {
+    transition: 2s linear all;
+    transform-origin: center center; }
+
+  /* hiding applied, define goal of transition */
+  .title.ng-hide,
+  .title.ng-hide-add-active {
+    transform: scale(0); }
+
+  /* hiding removed, return to normal */
+  .title.ng-hide-remove-active {
+    transform: scale(1); }
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## CSS 'hooks'
+
+  - different for each animation
+  - can trigger CSS3 animations as well
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Flexibility
+
+  - even a JS animation option!
+
+</script></section>
+
+<section data-markdown data-state=title><script type="text/template">
+  ## Let's try
+
+  - exercises/animation
+
+</script></section>
+
 
 
 
