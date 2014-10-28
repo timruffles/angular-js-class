@@ -4,3 +4,29 @@
  * most over the top animations wins
  *
  **/
+
+.title {
+  display: inline-block!important;
+}
+
+/*
+ * this defines the length of the animation
+ */
+.title.ng-hide-add,
+.title.ng-hide-remove {
+  transition: 0.25s linear all;
+  transform-origin: center center;
+}
+
+/* when the hiding is actually applied,
+   and the goal of the hiding transition progress */
+.title.ng-hide,
+.title.ng-hide-add-active {
+  transform: scale(0);
+}
+
+/* when the hiding is removed, return to normal */
+.title.ng-hide-remove-active {
+  transform: scale(1);
+}
+
