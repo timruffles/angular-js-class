@@ -1,0 +1,8 @@
+<div ng-controller=SearchResultCtrl>
+  <ul>
+    <li ng-repeat="product in results">
+      <h3>{{ product.title }}</h3>
+      <button ng-click='cart.add(product)'>Buy</button> 
+    </li>
+  </ul>
+</div>
