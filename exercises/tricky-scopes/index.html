@@ -20,10 +20,12 @@
           <p class='alert-box success'>Make sure you can see the issues described, then take a look and figure out what the cause could be &amp; try out your fix.</p>
 
 
+          <!-- scope from main -->
           <div ng-controller=main>
-            <p>Count is: {{count}}</p>
+            <p>Count is: {{count.value}}</p>
+            <!-- scope for child : childScope = Object.create(mainScope) -->
             <div ng-controller=child>
-              <p>Count is: {{count}}</p>
+              <p>Count is: {{count.value}}</p>
               <button ng-click=increment()>Increase</button>
               <button ng-click=delayedIncrement()>Delayed Increase</button>
             </div>

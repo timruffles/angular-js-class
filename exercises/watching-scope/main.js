@@ -1,11 +1,12 @@
 var app = angular.module("exercise",[]);
 
 app.controller("user",function($scope,$timeout) {
-  $scope.user = {list: [],name: "bob the generic user"};
+  $scope.user = {list: [],name: "bob the generic user", account: {}};
 
   $scope.$watch(function() {
     console.log("$digest checking watchers");
   });
+
 
   // Exactly the watch created by <h1>Hello {{user.name}}</h1>
   $scope.$watch("user.name",function(newValue,oldValue) {

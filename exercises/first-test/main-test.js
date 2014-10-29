@@ -1,9 +1,27 @@
 describe('Tracking', function() {
+
   beforeEach(module("exercise",function($provide) {
+    // mock n stub
+    var postSpy = jasmine.createSpy("httpPost");
+
+    // provide a fake version of http
+    $provide.value("$http", {
+      post: postSpy,
+    });
+
   }));
-  it('allows events to be tracked', inject(function(tracking) {
+
+  it('tracks events to server', inject(function(tracking, $http) {
+
+    tracking.event("watch");
+    tracking.event("watch");
+    tracking.event("watch");
+
+    tracking.save();
+
+    expect($http.post).toHaveBeenCalledWith("/api/track", {watch: 3});
+
   }));
-  it('posts to save', inject(function(tracking) {
-  }));
+
 });
 

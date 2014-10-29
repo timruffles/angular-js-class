@@ -7,17 +7,42 @@ app.controller("SearchCtrl", function($scope, Holiday) {
 
 app.filter("dateRangeToInterval", function() {
   return function(range) {
-    var duration = Math.ceil((range.end - range.start) / (DAYS));
+    var duration = Math.ceil((range.end - range.start) / DAYS);
     return duration + " days";
   }
 });
 
 app.directive("fuzzyDate", function() {
-  // define a direct that
+  // define a directive that
   // - is given a variable to store the range to
   // - allows start/end dates to be set
   // - validates start/end logic
   // - has a fuzzy button that extends the start/end
+
+  return {
+    template: [
+      "<div>",
+      "  <h2>{{ title }}</h2>",
+      "  <label>Start: <input ng-model='model.start'></label>",
+      "  <label>End: <input ng-model='model.end'></label>",
+      "  <label>Fuzzy? <input type=checkbox></label>",
+      "</div>",
+    ].join(""),
+    // configure scope:
+    // - allow reading/writing to date-model attribute
+    scope: {
+      model: "=dateModel",
+      title: "@",
+    },
+    // restrict: decides how the directive will be
+    // applied
+    restrict: "E",
+    // replace: will we replace the existing logic?
+    replace: true,
+    link: function(scope) {
+      // write to scope prop to change
+    },
+  }
 
 });
 

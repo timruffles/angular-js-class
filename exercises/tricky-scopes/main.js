@@ -1,16 +1,27 @@
 var app = angular.module("exercise",[]);
 
 app.controller("main",function($scope) {
-  $scope.count = 0
+  $scope.count = { value: 0 };
 })
 
-app.controller("child",function($scope) {
+app.controller("child",function($scope, $timeout) {
   $scope.increment = function() {
-    $scope.count += 1
+    $scope.count.value += 1;
   }
   $scope.delayedIncrement = function() {
-    setTimeout(function() {
-      $scope.count += 1
+    $timeout(function() {
+      $scope.count.value += 1;
     },250); // just perceptible delay
   }
 })
+
+
+
+
+main = {count: 0}
+child = {}
+
+
+// situation two
+main = {count: 0}
+child = {count: 1}

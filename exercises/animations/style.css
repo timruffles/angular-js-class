@@ -5,12 +5,25 @@
  *
  **/
 
-/* TODO override ng-hide's display: none!important */
+/* override ng-hide's display: none!important */
 .title { 
+	display: inline-block!important; 
 }
 
-/* TODO define length of animation */
+/* define length of animation */
+.title.ng-hide-add,
+.title.ng-hide-remove {
+  transition: 0.25s all;
+  transform-origin: center center; 
+}
 
-/* TODO hiding applied, define goal of transition */
+/* hiding applied, define goal of transition */
+.title.ng-hide,
+.title.ng-hide-add-active {
+  transform: scale(0); 
+}
 
-/* TODO hiding removed, return to normal */
+/* hiding removed, return to normal */
+.title.ng-hide-remove-active {
+  transform: scale(1); 
+}
