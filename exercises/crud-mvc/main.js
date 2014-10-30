@@ -1,11 +1,11 @@
 var app = angular.module("exercise",[]);
 
 app.controller("orderList",function($scope) {
-  // YOUR CODE
+  // TODO implement deleting done orders
 });
 
 app.controller("addOrder",function($scope) {
-  // YOUR CODE
+  // TODO implement new orders
 });
 
 app.controller("orders",function($scope) {

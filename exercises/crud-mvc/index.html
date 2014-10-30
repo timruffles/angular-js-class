@@ -28,6 +28,7 @@
             <div class=task>Display orders to the user, and allow user to remove completed orders</div>
             <div ng-repeat='order in orders' class=order>
               {{ order.text }} 
+              <!-- TODO need some way to delete orders -->
               <button class=small>Done</button>
             </div>
           </div>
@@ -36,6 +37,8 @@
           <div class=add-order ng-controller=addOrder>
             <h2>New order</h2>
             <div class=task>Allow the user to add orders via the below form, using directives and the addOrder controller.</div>
+
+            <!-- TODO wire up this form -->
             <form>
               <label>
                 Order text
