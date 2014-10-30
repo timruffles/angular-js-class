@@ -617,15 +617,18 @@
 
   ```
   // app code
-  var app = angular.module("app",[]);
-  app.filter("first",function(xs) { return xs[0] });
+  angular.module("app",[])
+  .filter("first",function() {
+    return function(xs) { return xs[0] }
+  });
 
   // test code
   describe("myFilter",function() {
     // setup our injector with the module we want
     beforeEach(module("app"))
     // wrap test code with injector to get at our code
-    it("should only return first",inject(function(first) {
+    it("should only return first",inject(function($filter) {
+      var first = $filter("first");
       expect(first("hello")).toEqual("h");
     })
   })
