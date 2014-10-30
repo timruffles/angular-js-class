@@ -1558,12 +1558,13 @@
   beforeEach(inject(function($rootScope,$controller) {
 
     // a scope for us to use, can pass object to $new()
-    $scope = $rootScope.$new();
+    $scope = $rootScope.$new({
+      todos: []
+    });
 
     // instantiate our controller
     controller = $controller('TodoForm',{
-      $scope: $scope,
-      todos: []
+      $scope: $scope
     });
 
     // any watchers setup in constructor
