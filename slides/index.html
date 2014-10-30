@@ -498,6 +498,45 @@
 
 </script></section>
 
+
+<section data-markdown><script type="text/template">
+  
+  ## in constructor
+
+  ```javascript
+  function UserCtrl($scope, User) {
+    this.signup = function(formData) {
+      User.signup(formData);
+    }
+  }
+  ```
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## via prototype
+
+  ```javascript
+  function UserCtrl($scope, User) {
+    this.User = User;
+  }
+
+  UserCtrl.prototype.signup = function(formData) {
+    this.User.signup(formData);
+  }
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Pros/cons
+
+  - in constructor: easy access to services
+  - prototype: efficiency if you'll have 100s of instances
+</script></section>
+
 <section data-markdown><script type="text/template">
   ## If controllers don't perform view logic, where does it live?
 </script></section>
@@ -743,14 +782,6 @@
 </script></section>
 
 <section data-markdown><script type="text/template">
-  ## DI is a goal
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Services are Angular's way of achieving it
-</script></section>
-
-<section data-markdown><script type="text/template">
   ## Services live in modules
 </script></section>
 
@@ -863,9 +894,9 @@
 
 <section data-markdown><script type="text/template">
   
-  ## REGEX (like all good magic)
+  ## REGEX
 
-  - parses our function as a string!
+  - parses our function as a string
   - minification breaks: transform in build with tools like `ng-annotate`
 
   ```
@@ -881,11 +912,30 @@
 
 </script></section>
 
+
+<section data-markdown><script type="text/template">
+  
+  ## Service implementations
+
+  - multiple implementations of same service
+  - switch at built-time
+  - or `.provide` and config methods to config at startup
+
+  ```javascript
+  angular.module('LocalStorage').factory("storage", ls);
+  angular.module('RemoteStorage').factory("storage", rs);
+  ```
+
+</script></section>
+
+
 <section data-markdown><script type="text/template">
   ## We've covered
 
   - the big ideas of Angular
-  - controllers, scopes and built-in directives
+  - controllers
+  - scopes
+  - built-in directives
 </script></section>
 
 
@@ -900,8 +950,6 @@
   - exercises/crud-mvc
 
 </script></section>
-
-
 
 <section data-markdown data-state=title><script type="text/template">
   
@@ -980,9 +1028,21 @@
 
   - either `template` for a HTML string/function returning HTML string
   - or `templateUrl` for a URL to get an HTML string
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Script-tag
+
   - hack: if there's a script tag with `id == templateUrl`, it'll use that
   - we'll need that as we're on a `file://` url
-</script></section>
+
+  <code style="white-space: pre; font-size: 1.5rem;">
+  &lt;script type='text/ng-template' id='some-template.html'>
+    &lt;h1>Woohoo I can write HTML&lt;/h1>
+    &lt;p>Outside of JS&lt;/p>
+  &lt;/script>
+  </code>
+
 
 <section data-markdown><script type="text/template">
   we control how URL works via `$locationProvider` (e.g pushState or hash)
@@ -1248,26 +1308,36 @@
 
   - boiler-plate reduction for HTTP APIs
   - one of the many flavours of REST by default
-  - gives you a constructor for instances, and static query methods
-  - return empty instances - `{}` or `[]` - for easy data-binding
 
 </script></section>
 
-
 <section data-markdown><script type="text/template">
-  
-  ## `$resource` in use
 
-  ```
-  $scope.users = Users.query()
-  // can now use in 'ng-repeat="user in users"'
+  ## Creating instances
+
+  - gives you a constructor for instances
+
+  ```javascript
   $scope.user = new User()
+
   $scope.user.id = 15
   $scope.user.get(); // will fetch data
   ```
 
 </script></section>
 
+<section data-markdown><script type="text/template">
+  
+  ## `isArray` methods like query
+
+  - return empty instances - `[]` - for easy data-binding
+
+  ```
+  $scope.users = Users.query()
+  // can now use in 'ng-repeat="user in users"'
+  ```
+
+</script></section>
 
 <section data-markdown><script type="text/template">
   
@@ -1276,17 +1346,21 @@
   - configure a specific `$resource`
   - can do lower-level config via same params as `$http`
 
+
+</script></section>
+
+<section data-markdown><script type="text/template">
   ```javascript
-  app.factory("User",function($resource) {
-    var User = $resource("/api/user/:id",
+  var User = $resource("/api/user/:id",
     // parameter defaults - use @xx to take xx attribute of resource
-    {id: '@id'},{
-      // extra methods
+    {
+      id: '@id'
+    },
+    // extra methods
+    {
       'query':  {method:'GET', isArray:true, url: "/api/users"},
       'create': {method:'POST', url: "/api/users"},
     });
-    return User;
-  })
   ```
 </script></section>
 
@@ -1327,42 +1401,63 @@
   ## `module()`
 
   - sets up injector to include module(s)
-  - or to stub dependencies
 
+  ```javascript
+  // set injector to use 'app' module
+  beforeEach(module("app"))
   ```
-  var moduleSettingFunction = module("app")
-  module("app",function($provide) {
-    // here we use $provide just like our module
-    // allowing us to override factories, values etc
-    $provide.value("something",override);
-  })
-  ```
+
 
 </script></section>
-
 
 <section data-markdown><script type="text/template">
   
   ## `inject()`
 
   - runs function with dependencies taken from module(s)
+  - standard DI
+
+  ```javascript
+  // we wrap our test functions with 'inject()'
+  // to give us access to code for testing
+  it("logs", inject(function($log) {
+
+    $log.log("hello logging service!");
+    // assertions etc
+
+  }));
+  ```
 
 </script></section>
 
 <section data-markdown><script type="text/template">
-  ## What do we want to inject?
+  ## Major benefit of DI: easy fake services
 </script></section>
 
 <section data-markdown><script type="text/template">
-  ## Fake versions of services
+  
+  ## Faking
+
+  ```
+  module("app",function($provide) {
+  
+    // here we use $provide just like our module
+    // allowing us to override services
+    $provide.value("$log", {
+      log: logSpy
+    });
+
+  })
+  ```
+
 </script></section>
 
 <section data-markdown><script type="text/template">
-  ## Mocks n stubs
+  ## Two reason to fake services
 </script></section>
 
 <section data-markdown><script type="text/template">
-  ## Both fakes
+  ## Mocking or stubbing
 </script></section>
 
 <section data-markdown><script type="text/template">
@@ -1371,6 +1466,8 @@
   ```javascript
   var spy = Jasmine.createSpy("spyName");
   spy("Howdy!!!");
+
+  // fails
   expect(spy).toHaveBeenCalledWith("hello");
   ```
 </script></section>
@@ -1382,7 +1479,7 @@
 <section data-markdown><script type="text/template">
   ## Stubs
 
-  - replace dependencies of a unit
+  - support unit test by faking method responses
 
   ```javascript
   function simpleCode(getAnswerFromTelescope) {
@@ -1390,13 +1487,14 @@
     // we just want to test this bit
     return number + 1;
   }
-  function getAnswerFromTelescope() {
-    // horribly slow
-    // non-deterministic
-    return 42;
+
+  function stubbedTelescope() {
+    // we just return canned data, rather
+    // than doing something slow/non-deterministic
+    return 1;
   }
 
-  expect(simpleCode(function() { return 1 })).toBe(2)
+  expect(simpleCode(stubbedTelescope)).toBe(2)
   ```
 </script></section>
 
@@ -1416,6 +1514,9 @@
   - `event(eventName)` counts the number of times its invoked with a given event
   - `save()` fires a `HTTP POST` with the currently tracked events
 
+</script></section>
+
+<section data-markdown><script type="text/template">
   ```javascript
   app.controller("user",function($scope,tracking,$interval) {
     $scope.$watch = function() {
@@ -1426,16 +1527,15 @@
     },5000);
   });
   ```
-
 </script></section>
 
 <section data-markdown><script type="text/template">
-  ## You'll want to mock out `$http`
+  ## hint: you'll want to mock out `$http`
 </script></section>
 
 
 <section data-markdown data-state=highlight><script type="text/template">
-  ## Your first test
+  ## First Angular test
 
   - exercises/first-test
 
@@ -1446,32 +1546,24 @@
 </script></section>
 
 <section data-markdown><script type="text/template">
-  ## Controller test boilerplate
-  ```javascript
-  describe("Todo form",function() {
-    var controller;
-    var $scope;
+  ## Setup
+```javascript
+  // this is similar for most controller tests
+  beforeEach(inject(function($rootScope,$controller) {
 
-    beforeEach(inject(function($rootScope,$controller) {
-      $scope = $rootScope.$new();
+    // a scope for us to use, can pass object to $new()
+    $scope = $rootScope.$new();
 
-      controller = $controller('TodoForm',{
-        $scope: $scope,
-        todos: []
-      });
-      $scope.$apply();
-    }));
-
-    it('handles  submission', function() {
-      controller.add({ message: "get milk" });
-      expect($scope.todos).toContain({ message: "get milk" });
+    // instantiate our controller
+    controller = $controller('TodoForm',{
+      $scope: $scope,
+      todos: []
     });
 
-    it("publishes a method that filters only valid todos", function() {
-      expect($scope.validTodo({ message: "" })).toBeFalse();
-    });
-  });
-  ```
+    // any watchers setup in constructor
+    $scope.$apply();
+  }));
+```
 </script></section>
 
 <section data-markdown><script type="text/template">
@@ -1481,6 +1573,22 @@
 <section data-markdown><script type="text/template">
   ## ...testing them is easy
 </script></section>
+
+<section data-markdown><script type="text/template">
+  ```javascript
+  // testing a controller method itself
+  it('handles  submission', function() {
+    controller.add({ message: "get milk" });
+    expect($scope.todos).toContain({ message: "get milk" });
+  });
+
+  // testing a method controller adds to scope
+  it("publishes a method that filters valid todos", function() {
+    expect($scope.validTodo({ message: "" })).toBeFalse();
+  });
+  ```
+</script></section>
+
 
 <section data-markdown ><script type="text/template">
   ## Testing Directives
@@ -1495,11 +1603,40 @@
 </script></section>
 
 <section data-markdown ><script type="text/template">
-  ## Testing directives
+  ## Setup
 
   ```javascript 
-  describe("notifications",function() {
-    it("sets the message as visible on notify", inject(function($rootScope, $compile, notifications) {
+  var scope = $rootScope.$new({
+    some: "data"
+  });
+
+  var createEl = $compile("<div><div notifications></div></div>");
+  var el = createEl(scope);
+  ```
+</script></section>
+
+<section data-markdown ><script type="text/template">
+  ## Normal DOM unit-testing
+
+  - jQuery is your friend - synthetic events etc
+
+  ```javascript 
+  it("reveals notification content", function() {
+
+    expect(el.find(".notification-content.ng-hide").length)
+      .toBe(0);
+
+  });
+  ```
+</script></section>
+
+<section data-markdown ><script type="text/template">
+  ## Complete test
+
+  ```javascript 
+  it("reveals notification content on notify", 
+    inject(function($rootScope, $compile, notifications) {
+
       var scope = $rootScope.$new({
         some: "data"
       });
@@ -1511,11 +1648,18 @@
       
       expect(el.find(".notification-content.ng-hide").length)
         .toBe(0, "should be visible");
-    }));
-  });
+
+  }));
   ```
 </script></section>
 
+<section data-markdown><script type="text/template">
+  
+  ## Walk-through
+
+  - take the complete-example and wire it up
+
+</script></section>
 
 <section data-markdown><script type="text/template">
   
