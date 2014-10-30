@@ -35,10 +35,14 @@ app.directive("codeSample",function($compile) {
     }
   }
 });
+
 app.directive("codeExample",function($compile) {
   return function(scope,el) {
     var code = angular.element("<div class=code-example><pre><code></code></pre></div>")
-    var src = formatLines(el.html())
+    var src = formatLines(el[0].innerHTML)
+    
+    // TODO marked (or something else) seems to add a closing 'p' to end of code examples, not sure why/how
+    src = src.replace(/^<\/p>\n|<\/p>$/, "");
     code[0].querySelector("code").innerText = src;
     el.replaceWith(code)
 		hljs.highlightBlock( code[0] );
