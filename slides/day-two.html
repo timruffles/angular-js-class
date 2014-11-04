@@ -524,207 +524,6 @@
 </script></section>
 
 
-<section data-markdown data-state=title><script type="text/template">
-  
-  ## Testing directives & controllers
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-  
-  ## Testing
-
-  - unit testing: isolation
-  - end to end testing: integration/functional
-  - this is where dependency-injection comes in handy!
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-  
-  ## Unit tests
-
-  - test one unit of functionality in isolation
-  - stub out dependencies for speed/simplicity of testing
-
-  ```
-  // app code
-  angular.module("app",[])
-  .filter("first",function() {
-    return function(xs) { return xs[0] }
-  });
-
-  // test code
-  describe("myFilter",function() {
-    // setup our injector with the module we want
-    beforeEach(module("app"))
-    // wrap test code with injector to get at our code
-    it("should only return first",inject(function($filter) {
-      var first = $filter("first");
-      expect(first("hello")).toEqual("h");
-    })
-  })
-  ```
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Tools
-  - Jasmine, test framework, runner and assertions
-  - BDD style for assertions and suite
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## What does Angular change?
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## How we wrap our code
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## So... how do we unwrap it?
-</script></section>
-
-<section data-markdown><script type="text/template">
-  
-  ## `module()`
-
-  - sets up injector to include module(s)
-  - or to stub dependencies
-
-  ```
-  var moduleSettingFunction = module("app")
-  module("app",function($provide) {
-    // here we use $provide just like our module
-    // allowing us to override factories, values etc
-    $provide.value("something",override);
-  })
-  ```
-
-</script></section>
-
-
-<section data-markdown><script type="text/template">
-  
-  ## `inject()`
-
-  - runs function with dependencies taken from module(s)
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Testing controllers
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Setup
-```javascript
-  // this is similar for most controller tests
-  beforeEach(inject(function($rootScope,$controller) {
-
-    // a scope for us to use, can pass object to $new()
-    $scope = $rootScope.$new({
-      todos: []
-    });
-
-    // instantiate our controller
-    controller = $controller('TodoForm',{
-      $scope: $scope
-    });
-
-    // any watchers setup in constructor
-    $scope.$apply();
-  }));
-```
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## If your controllers don't talk to DOM...
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## ...testing them is easy
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ```javascript
-  // testing a controller method itself
-  it('handles  submission', function() {
-    controller.add({ message: "get milk" });
-    expect($scope.todos).toContain({ message: "get milk" });
-  });
-
-  // testing a method controller adds to scope
-  it("publishes a method that filters valid todos", function() {
-    expect($scope.validTodo({ message: "" })).toBeFalse();
-  });
-  ```
-</script></section>
-
-
-<section data-markdown ><script type="text/template">
-  ## Testing Directives
-</script></section>
-
-<section  data-markdown><script type="text/template">
-  ## What's required?
-
-  - compile a template containing our directive
-  - get access to the `scope` so we can set data/fire events
-  - check if directive worked
-</script></section>
-
-<section data-markdown ><script type="text/template">
-  ## Setup
-
-  ```javascript 
-  var scope = $rootScope.$new({
-    some: "data"
-  });
-
-  var createEl = $compile("<div><div notifications></div></div>");
-  var el = createEl(scope);
-  ```
-</script></section>
-
-<section data-markdown ><script type="text/template">
-  ## Normal DOM unit-testing
-
-  - jQuery is your friend - synthetic events etc
-
-  ```javascript 
-  it("reveals notification content", function() {
-
-    expect(el.find(".notification-content.ng-hide").length)
-      .toBe(0);
-
-  });
-  ```
-</script></section>
-
-<section data-markdown ><script type="text/template">
-  ## Complete test
-
-  ```javascript 
-  it("reveals notification content on notify", 
-    inject(function($rootScope, $compile, notifications) {
-
-      var scope = $rootScope.$new({
-        some: "data"
-      });
-
-      var createEl = $compile("<div><div notifications></div></div>");
-      var el = createEl(scope);
-      
-      $rootScope.$broadcast("notify","something");
-      
-      expect(el.find(".notification-content.ng-hide").length)
-        .toBe(0, "should be visible");
-
-  }));
-  ```
-</script></section
 <section data-markdown><script type="text/template">
   
   ## Directives in Angular
@@ -950,11 +749,221 @@
 </script></section>
 
 <section data-markdown data-state=title><script type="text/template">
+  
+  ## Testing directives & controllers
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Testing
+
+  - unit testing: isolation
+  - end to end testing: integration/functional
+  - this is where dependency-injection comes in handy!
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Unit tests
+
+  - test one unit of functionality in isolation
+  - stub out dependencies for speed/simplicity of testing
+
+  ```
+  // app code
+  angular.module("app",[])
+  .filter("first",function() {
+    return function(xs) { return xs[0] }
+  });
+
+  // test code
+  describe("myFilter",function() {
+    // setup our injector with the module we want
+    beforeEach(module("app"))
+    // wrap test code with injector to get at our code
+    it("should only return first",inject(function($filter) {
+      var first = $filter("first");
+      expect(first("hello")).toEqual("h");
+    })
+  })
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Tools
+  - Jasmine, test framework, runner and assertions
+  - BDD style for assertions and suite
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## What does Angular change?
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## How we wrap our code
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## So... how do we unwrap it?
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## `module()`
+
+  - sets up injector to include module(s)
+  - or to stub dependencies
+
+  ```
+  var moduleSettingFunction = module("app")
+  module("app",function($provide) {
+    // here we use $provide just like our module
+    // allowing us to override factories, values etc
+    $provide.value("something",override);
+  })
+  ```
+
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+  
+  ## `inject()`
+
+  - runs function with dependencies taken from module(s)
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Testing controllers
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Setup
+```javascript
+  // this is similar for most controller tests
+  beforeEach(inject(function($rootScope,$controller) {
+
+    // a scope for us to use, can pass object to $new()
+    $scope = $rootScope.$new({
+      todos: []
+    });
+
+    // instantiate our controller
+    controller = $controller('TodoForm',{
+      $scope: $scope
+    });
+
+    // any watchers setup in constructor
+    $scope.$apply();
+  }));
+```
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## If your controllers don't talk to DOM...
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## ...testing them is easy
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ```javascript
+  // testing a controller method itself
+  it('handles  submission', function() {
+    controller.add({ message: "get milk" });
+    expect($scope.todos).toContain({ message: "get milk" });
+  });
+
+  // testing a method controller adds to scope
+  it("publishes a method that filters valid todos", function() {
+    expect($scope.validTodo({ message: "" })).toBeFalse();
+  });
+  ```
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Let's have a go
+</script></section>
+
+
+<section data-markdown ><script type="text/template">
+  ## Testing Directives
+</script></section>
+
+<section  data-markdown><script type="text/template">
+  ## What's required?
+
+  - compile a template containing our directive
+  - get access to the `scope` so we can set data/fire events
+  - check if directive worked
+</script></section>
+
+<section data-markdown ><script type="text/template">
+  ## Setup
+
+  ```javascript 
+  var scope = $rootScope.$new({
+    some: "data"
+  });
+
+  var createEl = $compile("<div><div notifications></div></div>");
+  var el = createEl(scope);
+  ```
+</script></section>
+
+<section data-markdown ><script type="text/template">
+  ## Normal DOM unit-testing
+
+  - jQuery is your friend - synthetic events etc
+
+  ```javascript 
+  it("reveals notification content", function() {
+
+    expect(el.find(".notification-content.ng-hide").length)
+      .toBe(0);
+
+  });
+  ```
+</script></section>
+
+<section data-markdown ><script type="text/template">
+  ## Complete test
+
+  ```javascript 
+  it("reveals notification content on notify", 
+    inject(function($rootScope, $compile, notifications) {
+
+      var scope = $rootScope.$new({
+        some: "data"
+      });
+
+      var createEl = $compile("<div><div notifications></div></div>");
+      var el = createEl(scope);
+      
+      $rootScope.$broadcast("notify","something");
+      
+      expect(el.find(".notification-content.ng-hide").length)
+        .toBe(0, "should be visible");
+
+  }));
+  ```
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Let's try
+</script></section>
+
+<section data-markdown data-state=title><script type="text/template">
   ## Custom inputs and advanced forms
 </script></section>
 
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Quick refresher on `form`
 
   - `form` + `name=` puts an object with form API on scope
@@ -963,14 +972,14 @@
   
 </script></section>
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown><script type="text/template">
   ## `ngModelController`
   
   - complete system for handling inputs
   - using `ngModelController` you can turn anything into an input
 </script></section>
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown><script type="text/template">
   ## `ngModelController`
   
   - `$setViewValue`
@@ -980,7 +989,7 @@
   - `$render()` to display
 </script></section>
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Getting it
 
   - normal `require` API
@@ -997,7 +1006,7 @@
   ```
 </script></section>
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown><script type="text/template">
   ## `$setViewValue()`
   
   ```javascript
@@ -1007,7 +1016,7 @@
   ```
 </script></section>
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown><script type="text/template">
   ## `$parsers`
 
   - an array of functions
@@ -1023,7 +1032,7 @@
   ```
 </script></section>
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown><script type="text/template">
   ## `$validators`
 
   - a key value object
@@ -1038,7 +1047,7 @@
 </script></section>
 
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown><script type="text/template">
   ## `$formatters`
 
   - format to string value for `$render`
@@ -1052,7 +1061,7 @@
 </script></section>
 
   
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown><script type="text/template">
   ## Exercise
 
   `exercises/advanced-forms`
