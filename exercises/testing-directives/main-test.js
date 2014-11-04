@@ -1,5 +1,7 @@
 describe('flash directive', function() {
 
+  beforeEach(module("exercise"));
+
   var compileEl;
   var scope;
 
