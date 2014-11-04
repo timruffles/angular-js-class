@@ -47,21 +47,16 @@
   ## Today
 
   - scopes
-  - directives - recap
+  - lifecycle + pubSub
   - testing
   - application structure
   - animations
   - promise redux
-  - lifecycle + pubSub
-  - directives - level 2
+  - i18n
+  - directives
   - measuring performance
 
 </script></section>
-
-
-
-
-
 
 <section data-markdown data-state=title><script type="text/template">
   ## How do scopes work?
@@ -1417,10 +1412,21 @@
 
 
 
-<section data-markdown data-state=title><script type="text/template">
-  ## Promises redux
+
+<section data-markdown data-tags=inside><script type="text/template">
+  ## Promises
 </script></section>
 
+<section data-markdown data-tags=inside><script type="text/template">
+
+  ## An IOU
+
+  - A promise is a value, returned immediately
+  - Later fulfilled or rejected - once
+  - Can use before or after value arrives
+  - Chain promises together
+
+</script></section>
 
 <section data-markdown data-tags=inside><script type="text/template">
 
@@ -1429,6 +1435,27 @@
   ![Promise chain](img/promises.png)
 
 </script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
+
+  ## Promises in practice
+
+  - `.then()` with a function that accepts the value when it arrives
+  - `.then()` returns a new promise - for the return value of the function
+
+  ```javascript
+  var user = getUser(params["id"]);
+  var profile = user.then(getProfile);
+  var accountPage = Promise.spread(user,profile).then(accountPageTemplate);
+
+  accountPage.then(
+    renderToDom,
+    renderErrorMessage
+  );
+  ```
+
+</script></section>
+
 
 <section data-markdown data-tags=inside><script type="text/template">
 
@@ -1441,6 +1468,21 @@
 
 
 <section data-markdown data-tags=inside><script type="text/template">
+  ## Angular's promises
+
+  - `$q` - is to `Q` as `jQLite` is to `jQuery`
+
+  ```javascript
+  var tenner = $q(function(resolve, reject) {
+    // some non-promise code
+    setTimeout(function() {
+      resolve("£10");
+    }, 500);
+  });
+  ```
+</script></section>
+
+<section data-markdown data-tags=inside><script type="text/template">
   ## Promise tools
 
   ```javascript
@@ -1448,6 +1490,9 @@
    // - a non-promise, a resolved promise for x
    // - a promise, that promise
   $q.when(x)
+
+  // a rejected promise
+  $q.reject(x)
 
   // a promise for an array/object with all resolved
   // promises values
@@ -1540,6 +1585,57 @@
 
 </script></section>
 
+<section data-markdown data-state=title><script type="text/template">
+  ## i18n
+</script></section>
+
+<section data-markdown data-state=title><script type="text/template">
+  ## Powers filters
+  
+  - `currency`, `number`, `date`
+</script></section>
+
+<section data-markdown data-state=title><script type="text/template">
+  ## via inclusion
+  
+  - pick a locale
+  - include after `angular.js`
+  - build time
+</script></section>
+
+<section data-markdown data-state=title><script type="text/template">
+  ## e.g
+
+  - no more `10/22/2014`, yay!
+  
+  ```html
+  <script src=vendor/angular/angular.js></script>
+  <script src=vendor/angular/i18n/angular-locale_en-gb.js></script>
+  ```
+</script></section>
+
+<section data-markdown data-state=title><script type="text/template">
+  ## Date
+  
+  - string constants are localised
+  
+  ```html
+  <span>{{ holiday.start | date:'shortDate' }}</span>
+  ```
+</script></section>
+
+<section data-markdown data-state=title><script type="text/template">
+  ## Currency
+  
+  - defaults to locale
+  - can override via passing locale
+  
+  ```html
+  {{ holiday.price | currency }}
+  {{ holiday.localPrice | currency:holiday.localCurrency }}
+  ```
+</script></section>
+
 
 
   
@@ -1570,8 +1666,6 @@
   - grab Angular's homepage
   - profile it!
 </script></section>
-
-
 
 
 
