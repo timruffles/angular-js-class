@@ -814,7 +814,7 @@
   - `factory`: return value is your service
 
   ```javascript
-  app.factory("tracking", function($http /*, other deps */) {
+  module.factory("tracking", function($http /*, other deps */) {
     return {
       event: function(name) {
         $http.post("/api/events", { event: name });
@@ -824,7 +824,7 @@
   ```
 
   ```javascript
-  app.factory("User",function(tracking) {
+  module.factory("User",function(tracking) {
     // in some module code
     //...
     tracking.event("signup")
@@ -855,7 +855,7 @@
   ```javascript
   // we get our deps from ng module system,
   // not global
-  app.factory("User",function(tracking) {
+  module.factory("User",function(tracking) {
 
     // plain ol' JS code, nothing to do with angular
     // between here and...
@@ -1003,7 +1003,7 @@
   ## `routeProvider`
 
   ```
-  app.config(function($routeProvider) {
+  module.config(function($routeProvider) {
     $routeProvider
       .when("/item/:id",{
         templateUrl: "/tpls/show.html",
@@ -1053,7 +1053,7 @@
   ## `location`
 
   ```
-  app.config(function($locationProvider) {
+  module.config(function($locationProvider) {
     $locationProvider.html5Mode(true);
   });
   ```
@@ -1090,7 +1090,7 @@
   - How do we access params?
 
   ```
-  app.controller("showCtrl",function($scope,$routeParams) {
+  module.controller("showCtrl",function($scope,$routeParams) {
     // use any params defined in route config
     // from url '/item/:id'
     var itemId = $routeParams.id
@@ -1178,13 +1178,13 @@
   ## Define example
 
   ```javascript
-  app.directive("someName",function($location /* injected */) {
+  module.directive("someName",function($location /* injected */) {
     return function(scope,el,attrs) {
     }
   });
 
   // short for
-  app.directive("someName",function($location /* injected */) {
+  module.directive("someName",function($location /* injected */) {
     return {
       link: function(scope,el,attrs) {
       }
@@ -1524,7 +1524,7 @@
 
 <section data-markdown><script type="text/template">
   ```javascript
-  app.controller("user",function($scope,tracking,$interval) {
+  module.controller("user",function($scope,tracking,$interval) {
     $scope.$watch = function() {
       tracking.event("watch");
     }
