@@ -26,7 +26,7 @@
             <p ng-if=message>{{ message }}</p>
 
             <!-- TODO handle submission by calling `buy()` method -->
-            <form name=shoelaceForm>
+            <form name=shoelaceForm ng-submit=buy()>
               <label for=shoelace-color>
                 Colour
                 <input ng-model=shoelace.color name=color 
@@ -40,8 +40,10 @@
               </label>
 
               <!-- TODO disable submit until the form is valid -->
-              <button>Buy</button>
+              <button ng-disabled=shoelaceForm.$invalid>Buy</button>
             </form>
+
+            {{ laces }}
 
           </div>
 

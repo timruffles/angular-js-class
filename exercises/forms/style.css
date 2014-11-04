@@ -3,3 +3,30 @@
   padding: 1em;
   margin: 1em;
 }
+
+form {
+  width: 80%;
+  margin: 0 auto;
+  padding: 1em;
+  border: 1px solid white;
+}
+
+button {
+  transition: all 0.25s
+}
+
+form[name=shoelaceForm], form[name=shoelaceForm] input {
+  transition: all 0.5s
+}
+
+form[name=shoelaceForm] input.ng-invalid.ng-dirty {
+  background: rgb(255, 218, 191);
+}
+
+form[name=shoelaceForm].ng-dirty.ng-valid {
+  background: rgb(230, 255, 223);
+  border: 1px solid rgb(154, 255, 147);
+}
+
+form[name=shoelaceForm] input.ng-invalid.ng-dirty {
+}

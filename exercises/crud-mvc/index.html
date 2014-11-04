@@ -29,7 +29,8 @@
             <div ng-repeat='order in orders' class=order>
               {{ order.text }} 
               <!-- TODO need some way to delete orders -->
-              <button class=small>Done</button>
+              <button class=small
+                      ng-click="done($index)">Done</button>
             </div>
           </div>
 
@@ -39,10 +40,10 @@
             <div class=task>Allow the user to add orders via the below form, using directives and the addOrder controller.</div>
 
             <!-- TODO wire up this form -->
-            <form>
+            <form name=newOrderForm ng-submit="add()">
               <label>
                 Order text
-                <input>
+                <input ng-model="order.text">
               </label>
               <button>Add order</button>
             </form>

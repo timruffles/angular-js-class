@@ -3,6 +3,8 @@ var app = angular.module("exercise",[]);
 // TODO
 // we're missing a controller
 // - you'll see an error in the console that'll suggest what to fix.
+app.controller("defineMe",function($scope) {
+});
 
 app.controller("listful",function($scope) {
   // TODO

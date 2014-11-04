@@ -7,20 +7,39 @@ function orderRepo($resource) {
   var repo = {};
 
   // TODO define our resource
-  // - the URL is '/api/order'
+  // - the URL is '/api/order/:id'
   // - add a `create` method that POSTs
+  var Order = $resource("/api/order/:id",
+      // map properties of instances to the url
+      {
+        id: "@id",
+      },
+      {
+        create: { method: "POST" },
+      });
 
   // this is a place to cache the list of
   // all orders, so we can update it with newly created ones
   var all;
 
   // TODO retrieve list of orders, from local cache if possible
+  // - Order.query -> retrieve array of orders
   repo.all = function() {
+    if(!all) {
+      all = Order.query();
+    }
+    return all;
   }
 
   // TODO create order, and update cached list,
   // *or* query for all and then update
   repo.create = function(data) {
+    var order = Order.create(data);
+
+    var all = repo.all();
+    all.push(order);
+
+    return order;
   }
 
 

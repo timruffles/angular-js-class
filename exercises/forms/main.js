@@ -1,10 +1,21 @@
 var exercise = angular.module("exercise",[])
 
+
 exercise.controller("BuyShoelaceCtrl", function($scope) {
+  var master = {
+    count: 5
+  };
+  $scope.shoelace = angular.copy(master);
+
   $scope.buy = function() {
-    // TODO don't run if form is invalid
-    // TODO add lace to laces list
-    // TODO reset form
+
+    if($scope.shoelaceForm.$invalid) {
+      return;
+    }
+
+    $scope.laces.push($scope.shoelace);
+
+    $scope.shoelace = angular.copy(master);
   } 
 });
 
