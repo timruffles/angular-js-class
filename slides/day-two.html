@@ -68,11 +68,10 @@
 
 <section data-markdown data-tags=inside><script type="text/template">
 
-  ## ...they are
+  ## Two big features
 
-  - an object to bind to
-  - organised into parent/child relationships
-  - used by controller/view/directives
+  1. can share data with children
+  1. magically know when data changes
 
 </script></section>
 
@@ -118,12 +117,66 @@
 
 </script></section>
 
-<section data-markdown data-tags=inside><script type="text/template">
-  ## Okay that was easy...
+<section data-markdown><script type="text/template">
+  ## Never bind to the scope...
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## ...bind to an object *on* the scope
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Why?
+</script></section>
+
+<section data-markdown><script type="text/template">
+  
+  ## Sharing data
+
+  - child's own property will ghost parent's
+  - use objects to share data between scopes
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Ghost spotting
+
+  ```
+  var parent = {
+    title: "app"
+  };
+  var child = Object.create(parent)
+
+  child.title // 'app'
+
+  parent.title = 'fancy app'
+  child.title // 'fancy app'
+
+  child.title = 'child'
+  parent.title // 'fancy app'
+  // we lost link - child now has its own 'title' property
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Ghost spotting
+
+  ```
+  var parent = {
+    title: "app"
+  };
+  var child = Object.create(parent)
+
+  child.user.name = 'sue'
+
+  child.user.name   // what'll it be?
+  parent.user.name  // and here?
+  ```
+
 </script></section>
 
 <section data-markdown data-tags=inside><script type="text/template">
-  ## ...how does binding work?
+  ## Data-binding
 </script></section>
 
 <section data-markdown data-tags=inside><script type="text/template">
@@ -215,9 +268,9 @@
     console.log("showing: " + (yes ? "yes" : "no"))
   });
 
-  scope.on = false;
-  scope.on = true;
-  scope.on = false;
+  scope.show = false;
+  scope.show = true;
+  scope.show = false;
   ```
 
 </script></section>
@@ -337,76 +390,6 @@
   - by default just logs
   - can override - e.g with a gmail style error notifier
   - consumers of custom directives will expect it
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## Some magic explained...
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## ...but there are still gotchas
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Never bind to the scope...
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## ...bind to an object *on* the scope
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Why?
-</script></section>
-
-<section data-markdown><script type="text/template">
-  
-  ## Sharing data
-
-  - child's own property will ghost parent's
-  - use objects to share data between scopes
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Ghost spotting
-
-  ```
-  var parent = {
-    title: "app"
-  };
-  var child = Object.create(parent)
-
-  child.title // 'app'
-
-  parent.title = 'fancy app'
-  child.title // 'fancy app'
-
-  child.title = 'child'
-  parent.title // 'fancy app'
-  // we lost link - child now has its own 'title' property
-
-  child.user.name = 'sue'
-  child.user.name  // what'll it be?
-  parent.user.name  // and here?
-  ```
-
-</script></section>
-
-<section data-markdown><script type="text/template">
-  ## Ghost spotting
-
-  ```
-  var parent = {
-    title: "app"
-  };
-  var child = Object.create(parent)
-
-  child.user.name = 'sue'
-
-  child.user.name   // what'll it be?
-  parent.user.name  // and here?
-  ```
-
 </script></section>
 
 <section data-markdown data-state=highlight><script type="text/template">
@@ -1207,12 +1190,12 @@
   <script type=cs code-example>
     <div ng-controller='InboxCtrl as inboxCtrl'>
       <nav ng-controller='NavCtrl as navCtrl'>
-        <a ng-click="select('primary')">Primary</a>
-        <a ng-click="select('social')">Social</a>
+        <a ng-click="inboxCtrl.select('primary')">Primary</a>
+        <a ng-click="inboxCtrl.select('social')">Social</a>
       </nav>
       <div ng-controller='MessageCtrl as msgCtrl'>
         <ul>
-          <li ng-repeat="message in mailbox.messages">
+          <li ng-repeat="message in inboxCtrl.mailbox.messages">
             {{ message.from }} - {{ message.subject }}
           </li>
         </ul>
@@ -1229,10 +1212,10 @@
 
   ```javascript
     function InboxCtrl($scope, Mailbox) {
-      $scope.select = function(id) {
-        $scope.mailbox = Mailbox.get(id)
+      this.select = function(id) {
+        this.mailbox = Mailbox.get(id)
       }
-      $scope.select("primary")
+      this.select("primary")
     }
     function MessageCtrl($scope) {
       // message specific behaviour
@@ -1598,13 +1581,13 @@
   ## i18n
 </script></section>
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown ><script type="text/template">
   ## Powers filters
   
   - `currency`, `number`, `date`
 </script></section>
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown ><script type="text/template">
   ## via inclusion
   
   - pick a locale
@@ -1612,7 +1595,7 @@
   - build time
 </script></section>
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown ><script type="text/template">
   ## e.g
 
   - no more `10/22/2014`, yay!
@@ -1623,7 +1606,7 @@
   ```
 </script></section>
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown ><script type="text/template">
   ## Date
   
   - string constants are localised
@@ -1633,7 +1616,7 @@
   ```
 </script></section>
 
-<section data-markdown data-state=title><script type="text/template">
+<section data-markdown ><script type="text/template">
   ## Currency
   
   - defaults to locale
