@@ -2,10 +2,11 @@
   <h1>{{ title }}</h1>
 
   <div class=tr-modal-content>
+    <!-- this is where our dynamic content ends up -->
     <div ng-transclude></div>
   </div>
 
-  <button ng-click="acceptedModel = !acceptedModel">
+  <button ng-if="options.dismissable !== false" ng-click="acceptedModel = !acceptedModel">
     OK
   </button>
 </div>

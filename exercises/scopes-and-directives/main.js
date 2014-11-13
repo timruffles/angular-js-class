@@ -1,83 +1,58 @@
 angular.module("exercise",[])
 .controller("AppCtrl", function($scope) {
 
+  // we're using this message as a handler
   $scope.sayThanks = function() {
     alert("thanks!");
   };
 
+  // here is our user object
   $scope.user = {
     termsAndConditions: false,
     name: "Harold",
   }
 
 })
-.factory("modalManager", function() {
-  // allow controllers to show specific modals
-  var mng = {
-    register: function() {
-    },
-    show: function() {
-    },
-  };
-  var modals = {};
-
-  return mng;
-
-})
-.directive("trModal", function($timeout, $document) {
+.directive("trModal", function() {
   // defaults to only matching on attributes
   return {
 
-    restrict: "E",
+    // TODO configure as custom element
+    // TODO configure scope access for API
+    // TODO configure to transclude dynamic content
 
-    scope: {
-      options: "&",
-      title: "@",
-      acceptedModel: "=",
-      dismissed: "&", 
-      shown: "=",
-    },
 
     templateUrl: "./modal.html",
+    // replace true as we can't compose with directives
+    // on our element
     replace: true,
 
-    transclude: true,
 
     link: function(scope, el, attrs) {
 
-      removeFromDom();
+      var config = {};
 
-      // deep watch to get an options object,
-      // just make sure they're all scalars
-      scope.$watch(scope.options, config, true);
+      hide();
 
-      scope.$watch("acceptedModel", function(v) {
-        console.log("accepted: ", v);
-      });
+      // TODO need to watch options (as object) and update config
 
-      scope.doThing = function() {
-        alert("hi");
-      }
 
-      scope.$watch("shown", function(yes) {
-        if(yes)
-          show();
-        else
-          removeFromDom();
-      });
+      // TODO shown and hide modal when 'shown'
+      // value changes
 
+
+      // WARNING - angular.element().remove()
+      // will destroy the scope, not just pluck
+      // element from DOM. Not what we want
       function show() {
-        $document.find("body")[0].appendChild(el[0]);
+        // TODO ensure element is in DOM
       }
-
-      function removeFromDom() {
-        if(!el[0].parentElement) return;
-        el[0].parentElement.removeChild(el[0]);
+      function hide() {
+        // TODO remove element from DOM
       }
 
       function config(conf, old) {
-        console.log(conf)
-        scope.config = conf;
+        // TODO update our config, applying defaults
       }
     },
 
