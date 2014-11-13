@@ -1,0 +1,10 @@
+.tr-modal {
+  position: fixed;
+  left: 45%;
+  background: #fff;
+  padding: 2em;
+  border: 1px solid #000;
+  box-shadow: 4px 4px 4px #888;
+  top: -25%;
+}
+

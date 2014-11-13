@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="../vendor/foundation/css/foundation.css" type="text/css" media="screen" charset="utf-8">
+<div class=row>
+<h1 id="-your-modal-"><code>your-modal</code></h1>
+<p class='alert-box success'>We&#39;re going to build a modal widget. This is an example of readme driven development. We&#39;ll look at this readme and use the features of Angular scopes to develop a comprehensive directive example.</p>
+<p><code>your-modal</code> allows you to create a modal with dynamic content and title, show/hide behaviour, and click to dismiss.</p>
+<h2 id="example">Example</h2>
+<p>Provide the content for the modal within the <code>your-modal</code> tags:</p>
+<pre><code class="lang-html">&lt;your-modal
+    title=&quot;Welcome, {{ user.name }}&quot;
+    options=&quot;{ dismissable: true }&quot;
+    accepted-model=&quot;user.acceptedTerms&quot;
+    dismissed=&quot;sayThankYou()&quot;
+    shown=&#39;userForm.$valid &amp;&amp; userForm.$submitted&#39;&gt;
+  &lt;p&gt;{{ user.name }}, we need you to accept some terms before we continue.&lt;/p&gt;
+  &lt;p ng-repeat=&quot;paragraph in terms.paragraphs&quot;&gt;
+    {{ :: paragrah }}
+  &lt;/p&gt;
+&lt;/your-modal&gt;</code></pre>
+<h2 id="options">Options</h2>
+<h3 id="-title-"><code>title=</code></h3>
+<p>Set the title attribute as an interpolated string:</p>
+<pre><code>&lt;your-modal title=&quot;Welcome, {{ user.name }}&quot;&gt;</code></pre>
+<h3 id="-options-"><code>options=</code></h3>
+<p>Set options for the modal via an object:</p>
+<pre><code>&lt;your-modal options=&quot;{ dismissable: true }&quot;&gt;
+&lt;your-modal options=&quot;modalOptions&quot;&gt;</code></pre>
+<h3 id="-accept-model-"><code>accept-model=</code></h3>
+<p>Set place to bind the user&#39;s acceptance of terms</p>
+<pre><code>&lt;your-modal options=&quot;user.acceptedTerms&quot;&gt;</code></pre>
+<h3 id="-dismissed-"><code>dismissed=</code></h3>
+<p>An expression to run when the user has dismissed the modal</p>
+<pre><code>&lt;your-modal dimissed=&quot;sayThankYou()&quot;&gt;</code></pre>
+<h3 id="-shown-"><code>shown=</code></h3>
+<p>A property to bind to. While the property evaluates truthy, the modal will be shown.</p>
+<pre><code>&lt;your-modal shown=&#39;userForm.$valid &amp;&amp; userForm.$submitted&#39;&gt;</code></pre>
+
+</div>
