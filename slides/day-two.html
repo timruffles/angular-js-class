@@ -194,7 +194,7 @@
 
   ```
   var parent = {
-    title: "app"
+    user: { name: "bob" }
   };
   var child = Object.create(parent)
 
@@ -1307,7 +1307,7 @@
   
   ```javascript
   link: functions(scope, el, attrs, ngModel) {
-    ngModel.$validators.parsable = canParse;
+    ngModel.$formatters.push(toDateString);
   }
   ```
 </script></section>
@@ -1706,7 +1706,7 @@
     function InboxCtrl($scope, Mailbox, Spam) {
     }
 
-    InboxCtrl.properties.controllerMethod = function() {
+    InboxCtrl.prototype.controllerMethod = function() {
     }
   ```
 
@@ -2036,7 +2036,7 @@
   ## Lazy-loading
 
   - not very smooth
-  - register additional modules on `$compileProvider` and `$moduleProvider`
+  - register additional modules on `$provide`, `$compileProvider` and `$controllerProvider`
 
 </script></section>
 
