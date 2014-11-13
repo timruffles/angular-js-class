@@ -1168,11 +1168,13 @@
   - jQuery is your friend - synthetic events etc
 
   ```javascript 
-  it("reveals notification content", function() {
+  it("reveals on click", function() {
 
-    expect(el.find(".notification-content.ng-hide").length)
-      .toBe(0);
+    // setup spies
+    // ...
 
+    // fire DOM event
+    el.find(".show-me").click()
   });
   ```
 </script></section>
