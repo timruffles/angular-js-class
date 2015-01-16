@@ -27,8 +27,9 @@
             <h2>Feed</h2>
             <div class=task>Display orders to the user, and allow user to remove completed orders</div>
             <div ng-repeat='order in orders' class=order>
-              {{ order.text }} 
-              <button class=small>Done</button>
+              <input ng-if="order.editing" ng-model="order.text" ng-blur="order.editing = false" >
+              <span ng-if="!order.editing" ng-click="edit(order)" ng-bind=order.text ></span>
+              <button class=small ng-click="remove(order)">Done</button>
             </div>
           </div>
 
@@ -36,12 +37,13 @@
           <div class=add-order ng-controller=addOrder>
             <h2>New order</h2>
             <div class=task>Allow the user to add orders via the below form, using directives and the addOrder controller.</div>
-            <form>
+
+            <form name=orderForm ng-submit="createOrder()">
               <label>
                 Order text
-                <input>
+                <input name="text" fancy-validation  ng-model="order.text" required>
               </label>
-              <button>Add order</button>
+              <button ng-disabled="orderForm.$invalid">Add order</button>
             </form>
           </div>
 
