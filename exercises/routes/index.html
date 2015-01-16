@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <base href="/routes">
         <title>Angular Exercise</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,15 +29,12 @@
           </div>
 
           <div class=button-group>
-            <a class=button href="#">Home</a>
-            <a class=button href="#baked-goods">Baked goods</a>
-            <a class=button href="#coffee">Coffee</a>
+            <a class=button ng-href="/routes">Home</a>
+            <a class=button ng-href="/routes/baked-goods">Baked goods</a>
+            <a class=button ng-href="/routes/coffee">Coffee</a>
           </div>
 
-          <div class=panel>
-            <!-- YOUR CODE -->
-            <!-- we want to attach the routed content here -->
-            <!-- have a look at how to use ng-view to achieve that -->
+          <div class=panel ng-view>
           </div>
 
         </div>
@@ -49,7 +47,7 @@
         <script src="../vendor/underscore.js"></script>
         <script src="../vendor/angular/angular.js"></script>
         <script src="../vendor/angular/angular-route.js"></script>
-        <script src="main.js"></script>
+        <script src="/routes/main.js"></script>
 
     </body>
 </html>
