@@ -13,10 +13,17 @@
     </head>
     <body>
 
-        <div class=row>
+        <div class=row ng-controller="answerCtrl">
           <h1>Implement a flash message - click to dismiss</h1>
 
-          <a class='alert-box success' flash>Here's a temporary message - click to dismiss</a>
+          <tr-flash
+             tr-flash-answer="record($answer)"
+             tr-currently-selected="selected.name"
+             tr-flash-controller="trFlashCtrl">
+           We use COOKIES be afraid!!
+           <button ng-click='trFlashCtrl.remove()'>I am not afraid, feel free to hand me a cookie</button>
+           <button ng-click='trFlashCtrl.remove()'>ARRRRRRGH! Flee</button>
+         </tr-flash>
         </div>
 
         <script src="../vendor/underscore.js"></script>
