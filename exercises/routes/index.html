@@ -21,7 +21,7 @@
           <h1>Routes</h1>
 
           <div ng-if="wrongConfig()" class='alert-box alert'>
-            You must run a server to use pushState URLs and AJAX template loading - you're loading this page via file:// and it will not work!
+            You're looking at this via a server - you run it with html5mode and ajax templates rather than hashChange
           </div>
 
           <div class='alert-box success'>
@@ -33,9 +33,9 @@
           </div>
 
           <div class=button-group>
-            <a class=button ng-href="/routes">Home</a>
-            <a class=button ng-href="/routes/baked-goods">Baked goods</a>
-            <a class=button ng-href="/routes/coffee">Coffee</a>
+            <a class=button ng-href="#">Home</a>
+            <a class=button ng-href="#baked-goods">Baked goods</a>
+            <a class=button ng-href="#coffee">Coffee</a>
           </div>
 
           <div class=panel ng-view>

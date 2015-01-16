@@ -3,27 +3,28 @@ var app = angular.module("exercise",["ngRoute"]);
 app.config(function($locationProvider) {
   // won't work for file://
   // normally we'd use this to enable pushState
-  $locationProvider.html5Mode(true);
+  // so we're using hashChange
+  // $locationProvider.html5Mode(true);
 });
 
 app.config(function($routeProvider) {
   // we'd like to define three routes for the three paths
   // - how can we do that?
   $routeProvider
-    .when("/routes/baked-goods", {
-      templateUrl: "/routes/baked-goods.html",
+    .when("/baked-goods", {
+      template: "<h1>Baked goods</h1>",
     })
-    .when("/routes", {
-      templateUrl: "/routes/home.html",
+    .when("/", {
+      template: "<h1>Home</h1>",
     })
-    .when("/routes/coffee", {
-      templateUrl: "/routes/coffee.html",
+    .when("/coffee", {
+      template: "<h1>Coffee</h1>",
     })
 });
 
 app.controller("configWarnCtrl", function($location, $scope) {
   $scope.wrongConfig = function() {
-    return $location.protocol() === "file";
+    return $location.protocol() !== "file";
   }
 
 });
