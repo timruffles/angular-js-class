@@ -21,3 +21,9 @@ app.config(function($routeProvider) {
     })
 });
 
+app.controller("configWarnCtrl", function($location, $scope) {
+  $scope.wrongConfig = function() {
+    return $location.protocol() === "file";
+  }
+
+});

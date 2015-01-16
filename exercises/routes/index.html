@@ -17,8 +17,12 @@
     </head>
     <body>
 
-        <div class=row>
+        <div class=row ng-controller='configWarnCtrl'>
           <h1>Routes</h1>
+
+          <div ng-if="wrongConfig()" class='alert-box alert'>
+            You must run a server to use pushState URLs and AJAX template loading - you're loading this page via file:// and it will not work!
+          </div>
 
           <div class='alert-box success'>
             <p>Routes allow us to use the URL to navigate between different templates.</p>
