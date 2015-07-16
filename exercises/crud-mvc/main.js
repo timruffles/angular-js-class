@@ -1,7 +1,16 @@
 var app = angular.module("exercise",[]);
 
 app.controller("orderList",function($scope) {
-  // TODO implement deleting done orders
+  $scope.bulkDeleteTargets = {};
+
+  $scope.remove = function(index) {
+    $scope.orders.splice(index, 1);
+  };
+
+  $scope.bulkDelete = function() {
+    Object.keys($scope.bulkDeleteTargets).forEach($scope.remove);
+    $scope.bulkDeleteTargets = {};
+  };
 });
 
 app.controller("addOrder",function(

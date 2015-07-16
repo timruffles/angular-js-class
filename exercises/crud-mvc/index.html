@@ -25,14 +25,35 @@
 
           <div ng-controller=orderList class=orders>
             <h2>Feed</h2>
+
             <div class=task>
               Display orders to the user, and allow user to remove completed orders
             </div>
+
             <div ng-repeat='order in orders' class=order>
-              {{ order.text }} 
-              <!-- TODO need some way to delete orders -->
-              <button class=small>Done</button>
+              <input ng-model="bulkDeleteTargets[$index]"
+                     type=checkbox>
+
+
+              <span ng-if="!order.editing" 
+                    ng-click="order.editing = true"
+                    >
+                    {{ order.text }}
+              </span>
+
+              <input ng-model='order.text'
+                     ng-if="order.editing"
+                     ng-blur="order.editing = false"
+                     >
+
+              <button 
+                  ng-click="remove($index)" 
+                  class=small>Done</button>
             </div>
+
+            <button ng-click="bulkDelete()">
+              Delete bulk
+            </button>
           </div>
 
 
