@@ -5,6 +5,16 @@ function trackingFactory($http) {
 
   var events = {};
 
+  tracking.event = function(name) {
+    events[name] = (events[name] || 0) + 1;
+    return events[name];
+  };
+
+  tracking.save = function() {
+    $http.post('/api/events'); 
+  }
+
+
   return tracking;
 }
 
