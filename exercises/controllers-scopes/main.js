@@ -1,16 +1,28 @@
 var app = angular.module("exercise",[]);
 
-// TODO
-// we're missing a controller
-// - you'll see an error in the console that'll suggest what to fix.
+app.controller("defineMe",function($scope) {
+});
+
 
 app.controller("listful",function($scope) {
   // TODO
-  $scope.list = []; // looking a bit bare
+  $scope.list = [
+    { title: "a" }, 
+    { title: "b" }, 
+  ]; // looking a bit bare
+
+  $scope.empty = function() {
+    return $scope.list.length === 0; 
+  }
 })
 
-app.controller("tabs",function($scope) {
+app.controller("tabs", function($scope) {
+  $scope.tab = "a";
   // TODO
   // the view is expecting a function to be defined
   // on the scope - can you fill it in?
+  //
+  $scope.showTab = function(id) {
+    $scope.tab = id; 
+  }
 })
