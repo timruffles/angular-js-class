@@ -4,15 +4,24 @@ describe('flash directive', function() {
 
   var compileEl;
   var scope;
+  var el;
 
-  beforeEach(inject(function() {
-    // TODO compile html with directive inside
-    // TODO create a scope
+  beforeEach(inject(function(
+    $compile
+    , $rootScope
+  ) {
+    scope = $rootScope.$new();
+
+    var linkFn = $compile("<div><div flash></div></div>");
+    el = linkFn(scope);
   }));
 
   it('removes element on click', inject(function() {
-    // TODO use compileEl to create a live DOM node with your directive
-    // TODO test that clicks remove the element
+    expect(el.find("[flash]").length).toBe(1);
+
+    el.find("[flash]").click();
+
+    expect(el.find("[flash]").length).toBe(0);
   }));
 });
 
