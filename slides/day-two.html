@@ -788,7 +788,7 @@
 
   ```javascript
   scope: {
-     // 2 way binding between localName and name
+     // interpolated value of attribute
     "title": "@title",
   },
   link: function(scope) {
@@ -806,18 +806,21 @@
 
   ## Expression
 
+  - pass variables for expression
+
   ```javascript
   scope: {
-     // 2 way binding between localName and name
     "done": "&done",
   },
   link: function(scope) {
-    scope.done() // calls onDimissed()
+    scope.done({
+      reason: "because"
+    }) // calls onDimissed()
   }
   ```
 
   ```html
-  <panel done="onDimissed()"></panel>
+  <panel done="onDimissed(reason)"></panel>
   ```
 </script></section>
 
