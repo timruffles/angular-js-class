@@ -1963,23 +1963,12 @@
 
   - Angular 1.3 easiest solution: one-time binds
   - it's a form of caching, so be careful!
-  - `ng-once` and others for 1.2
+  - `ng-once` and others for <= 1.2
 
   <script type=cs code-example>
-    {{ ::story.title }}
+    {{ :: story.title }}
   </script>
   
-</script></section>
-
-<section data-markdown data-tags=inside><script type="text/template">
-  ## Avoiding watchers II
-
-  - don't use big hammers if you don't need
-  - e.g ng-repeat on a complex nav
-  - precompile, or just hand-code
-  - following creates `nav.length * 4` watchers
-
-    
 </script></section>
 
 <section data-markdown data-tags=inside><script type="text/template">
@@ -1998,6 +1987,22 @@
 
 </script></section>
 
+<section data-markdown data-tags=inside><script type="text/template">
+  ## One-time when immutable
+
+  <script type=cs code-example>
+    <nav>
+      <a ng-repeat="item in :: nav" 
+         ng-href="{{ :: item.path }}" 
+         ng-attr="{ disabled: unauthorised(item)}">
+         ng-class="{ active: isActive(item) }">
+        {{ :: item.title }}
+      </a>
+    </nav>
+  </script>
+
+</script></section>
+
 
 <section data-markdown data-tags=inside><script type="text/template">
   ## Avoiding watchers III
@@ -2008,7 +2013,8 @@
 
   ```javascript
   module.directive("complexRow", function($interpolate) {
-    var tpl = $interpolate("<span>{{ item.from | fromFilter }}</span><span>{{ item.subject }}</span>");
+    var tpl = $interpolate("<span>{{ item.date | date:'shortDate' }}</span>" +
+      "<span>{{ item.subject }}</span>");
     return {
       function(scope, el, attrs) {
         scope.$watch(attrs.item, function(newer, older) {
@@ -2080,123 +2086,14 @@
 </div>
 
 <script>
-if(qString()["prune"]) {
-  pruneOutByTag.apply(null, qString()["prune"].split(","));
-}
-function qString() {
-  return location.search.substr(1).replace(/\/$/,'').split("&").reduce(function(all,pair) {
-    pair = pair.split("=");
-    all[pair[0]] = pair[1];
-    return all;
-  }, {});
-}
-function pruneOutByTag() {
-  [].slice.call(arguments).forEach(function(tag) {
-    [].forEach.call(document.querySelectorAll("section[data-tags*=" + tag + "]"),function(el) {
-      el.parentElement.removeChild(el);
-    });
-  });
-}
+
 </script>
 
 <script src="angular.js"></script>
 <script src="demo.js"></script>
 <script src="reveal/lib/js/head.min.js"></script>
 <script src="reveal/js/reveal.min.js"></script>
-<script>
+<script src="revealConfig.js"></script>
 
-  var hljsDeferred;
-  var hljsPromise;
-  var mdDeferred;
-  var mdPromise;
-
-  angular.injector(["ng"]).invoke(function($q) {
-    hljsDeferred = $q.defer();
-    hljsPromise = hljsDeferred.promise;
-    mdDeferred = $q.defer();
-    mdPromise = mdDeferred.promise;
-  });
-
-  Reveal.initialize({
-
-    // Display controls in the bottom right corner
-    controls: false,
-
-    // Display a presentation progress bar
-    progress: true,
-
-    // Push each slide change to the browser history
-    history: true,
-
-    // Enable keyboard shortcuts for navigation
-    keyboard: true,
-
-    // Enable the slide overview mode
-    overview: true,
-
-    // Vertical centering of slides
-    center: false,
-
-    // Loop the presentation
-    loop: false,
-
-    // Change the presentation direction to be RTL
-    rtl: false,
-
-    // Number of milliseconds between automatically proceeding to the
-    // next slide, disabled when set to 0, this value can be overwritten
-    // by using a data-autoslide attribute on your slides
-    autoSlide: 0,
-
-    // Enable slide navigation via mouse wheel
-    mouseWheel: false,
-
-    // Apply a 3D roll to links on hover
-    rollingLinks: false,
-
-    // Transition style
-    transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
-
-    dependencies: [
-        // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
-        { src: 'reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-
-        // Interreveal/pret Markdown in <section> elements
-        { src: 'reveal/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-        { src: 'reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); }, callback: mdDeferred.resolve },
-
-        // Syntareveal/x highlight for <code> elements
-          { src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { 
-              hljs.initHighlightingOnLoad(); 
-              hljsDeferred.resolve();
-          } },
-
-        // Zoom reveal/in and out with Alt+click
-        { src: 'reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-
-        // Speakreveal/er notes
-        { src: 'reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
-
-        // Remotreveal/e control your reveal.js presentation using a touch device
-        // { src: 'reveal/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
-    ]
-
-  });
-
-  Reveal.addEventListener( 'ready', function( event ) {
-    angular.injector(["ng"]).invoke(function($q) {
-      // bootstrap the slides after they've been markdown compiled
-      $q.all([hljsPromise,mdPromise]).then(function() {
-        angular.bootstrap(document.body,["slides"]);
-        angular.injector(["ng","slides"]).invoke(function($compile,$rootScope) {
-          [].forEach.call(document.querySelectorAll("section[data-markdown]"),function(slide) {
-            $compile(slide)($rootScope)
-          })
-        })
-      })
-    })
-  });
-  
-</script>
 </body>
 </html>
