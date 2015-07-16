@@ -3,3 +3,8 @@
   padding: 1em;
   margin: 1em;
 }
+
+
+[name=shoelaceForm] .ng-invalid {
+  background: red;
+}

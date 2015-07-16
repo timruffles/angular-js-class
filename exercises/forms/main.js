@@ -1,10 +1,21 @@
 var exercise = angular.module("exercise",[])
 
 exercise.controller("BuyShoelaceCtrl", function($scope) {
+
+
+  $scope.shoelace = {
+    count: 5,
+  };
+
+
   $scope.buy = function() {
-    // TODO don't run if form is invalid
-    // TODO add lace to laces list
-    // TODO reset form
+    $scope.laces.push({
+      color: $scope.shoelace.color,
+      count: $scope.shoelace.count,
+    })
+
+
+    $scope.shoelace = {};
   } 
 });
 

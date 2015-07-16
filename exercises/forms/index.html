@@ -17,7 +17,8 @@
 
           <h1>Sally's Shoelace Shop</h1>
 
-          <div ng-controller=BuyShoelaceCtrl>
+          <div ng-controller='BuyShoelaceCtrl'
+              >
 
             <div class="shoelace-preview">
               3D shoelace preview: <span ng-style="{ color: shoelace.color }">S</span>
@@ -25,8 +26,10 @@
 
             <p ng-if=message>{{ message }}</p>
 
-            <!-- TODO handle submission by calling `buy()` method -->
-            <form name=shoelaceForm>
+            <form name=shoelaceForm 
+                  ng-submit="buy()"
+
+                  >
               <label for=shoelace-color>
                 Colour
                 <input ng-model=shoelace.color name=color 
@@ -36,11 +39,29 @@
               <label for=shoelace-quantity>
                 Quantity
                 <input ng-model=shoelace.count name=count 
-                       id=shoelace-quantity required type=number min=1 max=5>
+                       id=shoelace-quantity type=number >
               </label>
 
-              <!-- TODO disable submit until the form is valid -->
-              <button>Buy</button>
+              <label for=shoelace-quantity>
+                Embossed initials
+                <input ng-model=shoelace.initials name=initials 
+                       required
+                       id=initials >
+              </label>
+
+               <label for=shoelace-quantity>
+                Brand
+                <input ng-model=brand name=initials 
+                       required
+                       id=initials >
+
+                <ul>
+                  <li ng-repeat="suggestion in suggestions">
+                  </li>
+                </ul>
+              </label>
+
+              <button ng-disabled="shoelaceForm.$invalid">Buy</button>
             </form>
 
           </div>
