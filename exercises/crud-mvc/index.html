@@ -25,7 +25,9 @@
 
           <div ng-controller=orderList class=orders>
             <h2>Feed</h2>
-            <div class=task>Display orders to the user, and allow user to remove completed orders</div>
+            <div class=task>
+              Display orders to the user, and allow user to remove completed orders
+            </div>
             <div ng-repeat='order in orders' class=order>
               {{ order.text }} 
               <!-- TODO need some way to delete orders -->
@@ -39,12 +41,18 @@
             <div class=task>Allow the user to add orders via the below form, using directives and the addOrder controller.</div>
 
             <!-- TODO wire up this form -->
-            <form>
+            <form name="orderForm"
+                ng-submit="add()"
+                >
               <label>
                 Order text
-                <input>
+                <input name=text
+                       ng-model="order.text"
+                       required
+                       minlength=3
+                       >
               </label>
-              <button>Add order</button>
+              <button ng-disable="orderForm.$invalid">Add order</button>
             </form>
           </div>
 
