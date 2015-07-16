@@ -19,42 +19,42 @@
             Fix up this page. Have a look in console for any errors, then JS &amp; HTML source for hints.
           </div>
 
-          <div ng-controller=defineMe>
+          <div ng-controller='DefineMeCtrl as defineMe'>
             <!-- TODO all we need to do here is stop this
               controller throwing an error by defining it
               (can't just delete this div, cheater) -->
           </div>
 
-          <div ng-controller=listful class=panel>
+          <div ng-controller='ListfulCtrl as listful' class=panel>
             <h3>Items</h3>
             <!--
               TODO we'll need to give this view some data
               & implement the show behaviour for the
               default content displayed if the list is empty
               -->
-            <div ng-if="empty()">Only display me when list is empty</div>
-            <p ng-repeat="item in list">
+            <div ng-if="listful.empty()">Only display me when list is empty</div>
+            <p ng-repeat="item in listful.list">
               {{ item.title }}
             </p>
           </div>
 
-          <div ng-controller=tabs class=panel>
+          <div ng-controller='TabsCtrl as tabCtrl' class=panel>
             <h3>Tabs</h3>
             <!-- TODO read through the properties/functions
               this div is using - what needs to be defined
               on our scope? -->
             <div class=button-group>
-              <a class=button ng-click='showTab("a")'>Show a</a>
-              <a class=button ng-click='showTab("b")'>Show b</a>
-              <a class=button ng-click='showTab("c")'>Show c</a>
+              <a class=button ng-click='tabCtrl.showTab("a")'>Show a</a>
+              <a class=button ng-click='tabCtrl.showTab("b")'>Show b</a>
+              <a class=button ng-click='tabCtrl.showTab("c")'>Show c</a>
             </div>
-            <p ng-show='tab == "a"'>
+            <p ng-show='tabCtrl.tab == "a"'>
               I am tab A
             </p>
-            <p ng-show='tab == "b"'>
+            <p ng-show='tabCtrl.tab == "b"'>
               I am tab B
             </p>
-            <p ng-show='tab == "c"'>
+            <p ng-show='tabCtrl.tab == "c"'>
               I am tab C
             </p>
           </div>
