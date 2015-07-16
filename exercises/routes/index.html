@@ -29,12 +29,23 @@
           </div>
 
           <div class=button-group>
+<<<<<<< Updated upstream
             <a class=button ng-href="/routes">Home</a>
             <a class=button ng-href="/routes/baked-goods">Baked goods</a>
             <a class=button ng-href="/routes/coffee">Coffee</a>
           </div>
 
           <div class=panel ng-view>
+=======
+            <a class=button href="#">Home</a>
+            <a class=button href="#baked-goods/bread">Bread</a>
+            <a class=button href="#baked-goods/cake">Cake</a>
+            <a class=button href="#coffee">Coffee</a>
+          </div>
+
+          <div class=panel>
+            <div ng-view></div>
+>>>>>>> Stashed changes
           </div>
 
         </div>
@@ -42,6 +53,16 @@
         <!-- TEMPLATES -->
         <script type="text/ng-template" id="home.html">
           <h1>Home</h1> 
+        </script>
+
+        <script type="text/ng-template" id="coffee.html">
+          <h1>Coffee</h1> 
+        </script>
+
+        <script type="text/ng-template" id="goods.html">
+          <div ng-controller="BakedGoodsCtrl">
+            <h1>Baked good: {{ id }}</h1> 
+          </div>
         </script>
 
         <script src="../vendor/underscore.js"></script>

@@ -25,6 +25,9 @@
 
           <div ng-controller=orderList class=orders>
             <h2>Feed</h2>
+            <div ng-if="orders.$pending">
+              Loading....
+            </div>
             <div ng-repeat='order in orders' class=order>
               {{ order.text }} 
               <button class=small ng-click=done($index)>Done</button>
