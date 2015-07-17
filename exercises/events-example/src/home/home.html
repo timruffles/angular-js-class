@@ -1,0 +1,10 @@
+<h1>Upcoming Events</h1>
+
+<ul>
+  <li ng-if="!ctrl.events.$resolved">
+    Loading...
+  </li>
+  <li ng-repeat="event in ctrl.events track by event.id">
+    <h2>{{ :: event.title }}</h2>
+  </li>
+</ul>
