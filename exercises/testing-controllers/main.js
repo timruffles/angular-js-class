@@ -1,4 +1,4 @@
-angular.module("exercise",[]);
+angular.module("exercise",[])
 .controller("ToggleCtrl",function($scope, UserRepo) {
 
   $scope.user = {

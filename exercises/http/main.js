@@ -1,4 +1,5 @@
-// TODO - implement orderRepo
+// TODO - implement orderRepo: read the rest of the file, but
+//                             you only need to modify orderRepo
 
 // orderRepo abstracts the persistence of Orders, in an
 // active-record style.
