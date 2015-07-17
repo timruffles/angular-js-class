@@ -15,7 +15,7 @@ function HomeCtrl(
   
   var self = this;
 
-  self.events = Event.query();
+	// TODO retrieve events 
 
 }
 

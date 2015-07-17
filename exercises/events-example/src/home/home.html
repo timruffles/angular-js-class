@@ -5,11 +5,10 @@
     Loading...
   </li>
   <li class='event-listing-item'
-      ng-repeat="event in ctrl.events track by event.id">
     <h2>
-      <a href="/events/{{ :: event.id }}">
-        {{ :: event.title }}
-      </a>
-    </h2> <span class='date'>{{ :: event.date | date:"shortDate" }}</span>
+			<!-- TODO event name, and link to event (eventsShow.js for route) -->
+    </h2> <span class='date'>
+			<!-- TODO show event date, with filter -->
+		</span>
   </li>
 </ul>

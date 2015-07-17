@@ -16,16 +16,7 @@ function EventsShowCtrl(
   
   var self = this;
 
-  self.event = new Event({
-    id: $routeParams.id,
-  });
-
-  self.event.$get()
-    .then(function() {
-      self.success = true; 
-    }, function() {
-      self.failure = true; 
-    });
+	// TODO query for event, and set success or failure
 }
 
 function routes($routeProvider) {

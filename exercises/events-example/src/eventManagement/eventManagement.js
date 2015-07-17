@@ -23,31 +23,22 @@ function EventCrudCtrl(
   self.creating = false;
 
   self.remove = function(event) {
-    event.$delete()
-     .then(function() {
-       var index = self.events.indexOf(event); 
-       self.events.splice(index, 1);
-     })
+		// TODO remove event
   }
 
   self.create = function(event) {
     event.preventDefault();
 
-    self.creating = true;
-
-    self.newEvent.$save()
-      .then(function() {
-        self.events.push(self.newEvent); 
-        resetForm();
-      });
+		// TODO create
   }
 
   function resetForm() {
     if($scope.createEvent) {
+			// reset the form state
       $scope.createEvent.$setPristine();
     }
 
-    self.newEvent = new Event;
+		// TODO create event
   }
 
 }
