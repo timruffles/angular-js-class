@@ -13,6 +13,15 @@ app.controller("user",function($scope,$timeout) {
     console.log("user.name now '%s' was '%s'",newValue,oldValue);
   });
 
+  $scope.$watchCollection("user",function(newValue,oldValue) {
+    // run whenever value of expression changes
+    console.log(newValue, oldValue);
+  });
+
+  $scope.$watch("user",function(newValue,oldValue) {
+    // run whenever value of expression changes
+    console.log("deep", newValue, oldValue);
+  }, true);
 
   $scope.$watch(function($scope) {
     return $scope.user.name;

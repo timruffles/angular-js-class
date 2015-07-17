@@ -21,12 +21,14 @@
 
 
           <div ng-controller=main>
-            <p>Count is: {{count}}</p>
-            <div ng-controller=child>
-              <p>Count is: {{count}}</p>
-              <button ng-click=increment()>Increase</button>
-              <button ng-click=delayedIncrement()>Delayed Increase</button>
-            </div>
+            <p>Count is: {{count.counter}}</p>
+						<div ng-if=true>
+							<div ng-controller=child>
+								<p>Count is: {{count.counter}}</p>
+								<button ng-click=increment()>Increase</button>
+								<button ng-click=delayedIncrement()>Delayed Increase</button>
+							</div>
+						</div>
           </div>
         </div>
 

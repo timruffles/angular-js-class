@@ -22,6 +22,7 @@
 
           <p>The user's name is {{ user.name }}</p>
 
+          <button ng-click="user.list.push('a')">Append</button>
           <button ng-click="">Has an ng-click</button>
           <button ng-click="timeout()">ng-click calls function that uses $timeout</button>
         </div>
