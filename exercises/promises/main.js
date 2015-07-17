@@ -3,6 +3,13 @@ angular.module("exercise",[])
 .factory("stories", stories)
 .factory("redditApi", redditApi)
 
+// TODO:
+//
+//   you'll be writing the redditApi service
+//
+//   look at the application code to see the API you should produce. we're looking to use promises to transform the response into the format the controller expects
+//
+//   check out the responses from the reddit API to understand how we need to modify the data
 
 function redditApi($http) {
   // TODO this is the only factory you'll need to modify
