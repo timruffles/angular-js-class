@@ -54,6 +54,7 @@ function stories(redditApi) {
   }
 
   Story.prototype = {
+		// this is an ES5 getter.
     get comments() {
       if(this._comments) {
         return this._comments;
