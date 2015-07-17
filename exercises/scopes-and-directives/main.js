@@ -59,6 +59,14 @@ angular.module("exercise",[])
         shown ? show() : hide(); 
       });
 
+
+      scope.$watch("acceptedModel", function(yes) {
+        if(yes) {
+          scope.dismissed();
+          hide();
+        }
+      });
+
       // WARNING - angular.element().remove()
       // will destroy the scope, not just pluck
       // element from DOM. Not what we want
