@@ -18,12 +18,21 @@
     </head>
     <body>
 
-        <header>
-          <h3>EventDim</h3>
-          <a href="/create">Add an event</a>
-        </header>
+        <nav class="top-bar">
+          <ul class="title-area">
+            <h3>EventDim</h3>
+          </ul>
 
-        <div ng-view>
+          <section class="top-bar-section">
+            <ul class="right">
+              <li class="active">
+                <a href="/events/create">Add an event</a>
+              </li>
+            </ul>
+          </section>
+        </nav>
+
+        <div ng-view class='row'>
         </div>
 
         
@@ -42,6 +51,7 @@
         <script src="/src/main.js"></script>
         <script src="/src/home/home.js"></script>
         <script src="/src/eventManagement/eventManagement.js"></script>
-        <script src="/src/models/events.js"></script>
+        <script src="/src/events/events.js"></script>
+        <script src="/src/events/eventsShow.js"></script>
     </body>
 </html>

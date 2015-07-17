@@ -31,24 +31,28 @@ function createFakeServer(resourceName,localStorageOverride) {
     xhr.respond(200,{},records.all());
     return true;
   }
+
   function get(xhr,id) {
     var img = records.get(id);
-    if(!img) xhr.respond(404);
+    if(!img) return xhr.respond(404);
     xhr.respond(200,{},img);
     return true;
   }
+
   function create(xhr) {
     var jsonRecord = records.create(JSON.parse(xhr.requestBody));
     xhr.respond(200,{},jsonRecord);
     return true;
   }
+
   function update(xhr,id) {
     var img = records.get(id);
-    if(!img) xhr.respond(404);
+    if(!img) return xhr.respond(404);
     var saved = records.update(JSON.parse(xhr.requestBody),id);
     xhr.respond(200,{},saved);
     return true;
   }
+
   function remove(xhr,id) {
     var resp = records.remove(id) ? 200 : 404;
     xhr.respond(resp,{},"{}");

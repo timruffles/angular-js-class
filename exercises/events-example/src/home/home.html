@@ -1,10 +1,15 @@
 <h1>Upcoming Events</h1>
 
-<ul>
+<ul class='event-list'>
   <li ng-if="!ctrl.events.$resolved">
     Loading...
   </li>
-  <li ng-repeat="event in ctrl.events track by event.id">
-    <h2>{{ :: event.title }}</h2>
+  <li class='event-listing-item'
+      ng-repeat="event in ctrl.events track by event.id">
+    <h2>
+      <a href="/events/{{ :: event.id }}">
+        {{ :: event.title }}
+      </a>
+    </h2> <span class='date'>{{ :: event.date | date:"shortDate" }}</span>
   </li>
 </ul>

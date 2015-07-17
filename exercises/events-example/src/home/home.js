@@ -1,3 +1,6 @@
+/**
+ * home page display - a listing of most recent events
+ */
 (function() {
 "use strict"
   

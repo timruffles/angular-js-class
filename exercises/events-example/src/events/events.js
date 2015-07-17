@@ -1,3 +1,7 @@
+/**
+ * event active record - domain + persistence
+ * for events
+ */
 (function() {
 "use strict"
 

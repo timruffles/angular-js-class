@@ -3,3 +3,30 @@
   padding: 1em;
   margin: 1em 0;
 }
+
+table {
+  width: 100%;
+}
+
+.title-area h3 {
+  color: #fff;
+  text-transform: uppercase;
+  margin: 0 0 0 1rem;
+  font-weight: 100;
+}
+
+.create-event-form {
+  margin: 0 0 2em 0;
+  overflow: auto;
+}
+
+.event-listing-item {
+  overflow: auto;
+}
+
+.event-list {
+  list-style-type: none;
+}
+.event-listing-item h2 {
+  display: inline;
+}
