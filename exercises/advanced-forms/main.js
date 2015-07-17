@@ -2,17 +2,22 @@ var app = angular.module("exercise",[]);
 
 
 
-app.directive("humanDate", function($filter) {
+app.directive("humanDate", function(dateFilter) {
   // directive should do a best effort to handle numeric or human dates
   return {
     require: "ngModel",
     link: function(scope, el, attrs, ngModel) {
 
-      // TODO use angular's parsing feature with 'parse()'
+      //  use angular's parsing feature with 'parse()'
+      ngModel.$parsers.push(parse);
 
-      // TODO use angular's formatting with 'formatDate()' 
+      //  use angular's formatting with 'formatDate()' 
+      ngModel.$formatters.push(formatDate);
 
-      // TODO use angular's validation feature with 'parse()' indicate when the date isn't valid
+      //  use angular's validation feature with 'parse()' indicate when the date isn't valid
+      ngModel.$validators.parseableDate = parse;
+
+      
 
       function parseOrFallback(value) {
         var parsed = parse(value)
@@ -41,6 +46,13 @@ app.directive("humanDate", function($filter) {
 });
 
 app.controller("SearchCtrl", function($scope) {
+
+  $scope.debugForm = function() {
+    return JSON.stringify($scope.holidayForm,
+     null,
+     4); 
+  };
+
   $scope.holiday = {
     start: new Date(+new Date + 31 * DAYS), 
     end: new Date(+new Date + 38 * DAYS),
