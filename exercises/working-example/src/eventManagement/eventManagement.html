@@ -1,0 +1,61 @@
+<h1>Event Management</h1>
+
+<form name=createEvent 
+      class='create-event-form'
+      ng-submit="ctrl.create($event)"
+      ng-disabled="createEvent.$submitted"
+      >
+  <label class='small-4 columns'>
+    Title: 
+    <input name="title"
+           required
+           ng-model='ctrl.newEvent.title'>
+  </label>
+  
+  <label class='small-4 columns'>
+    Date: 
+    <input name="date"
+           type=date
+           required
+           ng-model='ctrl.newEvent.date'>
+  </label>
+
+  <div 
+         class='small-12 columns'
+         >
+    <input type="submit"
+           value="Create"
+           ng-disabled='createEvent.$invalid'>
+  </div>
+</form>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Date</th>
+    <th></th>
+  </tr>
+
+  <tr ng-if='!ctrl.events.$resolved'>
+    <td colspan=3>Loading</td>
+  </tr>
+
+  <tr ng-if='ctrl.events.$resolved && ctrl.events.length === 0'>
+    <td colspan=3>No events, time to get organising!</td>
+  </tr>
+
+  <tr ng-repeat="event in ctrl.events">
+    <td>
+      <a href="/events/{{ :: event.id }}">
+        {{ event.title }}
+      </a>
+    </td>
+
+    <td>{{ event.date | date:"shortDate" }}</td>
+
+    <td>
+        <button ng-click="ctrl.edit(event)">Edit</button>
+        <button ng-click="ctrl.remove(event)">x</button>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app=events>
+    <head>
+        <base href="/">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+        <title>Angular Exercise</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="../vendor/foundation/css/normalize.css" rel="stylesheet">
+        <link href="../vendor/foundation/css/foundation.css" rel="stylesheet">
+
+        <link href="style.css" rel="stylesheet">
+
+    </head>
+    <body>
+
+        <nav class="top-bar">
+          <ul class="title-area">
+            <h3>EventDim</h3>
+          </ul>
+
+          <section class="top-bar-section">
+            <ul class="right">
+              <li class="active">
+                <a href="/events/create">Add an event</a>
+              </li>
+            </ul>
+          </section>
+        </nav>
+
+        <div ng-view class='row'>
+        </div>
+
+        
+        <script src="/src/demo/sinon.js"></script>
+        <script src="/src/demo/fake-server.js"></script>
+
+        <script>
+          createFakeServer("event");
+        </script>
+
+        <script src="/vendor/underscore.js"></script>
+        <script src="/vendor/angular/angular.js"></script>
+        <script src="/vendor/angular/angular-route.js"></script>
+        <script src="/vendor/angular/angular-resource.js"></script>
+
+        <script src="/src/main.js"></script>
+        <script src="/src/home/home.js"></script>
+        <script src="/src/eventManagement/eventManagement.js"></script>
+        <script src="/src/events/events.js"></script>
+        <script src="/src/events/eventsShow.js"></script>
+    </body>
+</html>

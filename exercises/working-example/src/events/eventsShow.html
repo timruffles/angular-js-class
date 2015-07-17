@@ -1,0 +1,15 @@
+<div ng-if="!ctrl.event.$resolved">
+  <p>Loading...</p>
+</div>
+
+<div ng-if="ctrl.success">
+  <h1>{{ :: ctrl.event.title }}</h1>
+
+  <p>This event is taking place on {{ :: ctrl.event.date | date:"shortDate" }}</p>
+</div>
+
+<div ng-if="ctrl.failure">
+  <h1>Oh dear!</h1>
+
+  <p>We couldn't find the event you asked for. Would you like to <a href="/events/create">create one?</a>.</p>
+</div>
