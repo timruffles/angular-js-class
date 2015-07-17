@@ -17,10 +17,11 @@
 
           <label>
             Accepted: 
-            <input type=checkbox ng-model=user.termsAndConditions >
+            <input type=checkbox ng-model="user.termsAndConditions">
 
 
             <input ng-model="user.name" >
+
             <button ng-click="user.askForTerms = !user.askForTerms">
               Ask
             </button>
@@ -44,8 +45,20 @@
         </div>
 
         <script type="text/ng-template"
-                id="modal.html">
+                id="./modal.html">
+<div class=tr-modal>
+  <h1>{{ title }}</h1>
 
+  <div class=tr-modal-content>
+    <!-- this is where our dynamic content ends up -->
+    <div ng-transclude></div>
+  </div>
+
+  <button ng-show="options.dismissable !== false" 
+          ng-click="acceptedModel = !acceptedModel">
+    OK
+  </button>
+</div>
         </script>
 
         <script src="../vendor/underscore.js"></script>
