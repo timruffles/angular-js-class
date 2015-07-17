@@ -48,8 +48,8 @@
 
   - scopes
   - lifecycle + pubSub
-  - testing
   - application structure
+  - functional tests
   - animations
   - promise redux
   - i18n
@@ -1471,8 +1471,71 @@
 
 </script></section>
 
+<section data-markdown data-state=title><script type="text/template">
+  ## Functional testing
+</script></section>
 
+<section data-markdown><script type="text/template">
+  ## Dark secret of unit tests
+</script></section>
 
+<section data-markdown><script type="text/template">
+  ## You can have 100% unit test coverage and a broken app
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## End to end/functional tests
+
+  - Do the bits work together?
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## End to end/functional tests
+
+  ```javascript
+  var fixtures = require("./fixtures");
+
+  describe('logging in', function() {
+    beforeAll(fixtures.reset);
+
+    describe('with correct credentials', function() {
+
+      beforeAll(function() {
+        browser.get('https://localhost:3000');
+        var user = fixtures.users.activeUser;
+        loginAttempt(user, {password: "Password1"});
+      });
+
+      it("should log me in", function() {
+        expectIsLoggedIn(true);
+      });
+
+      it("should redirect me to the account page", function() {
+        expect($$(".login-in-success").count()).toBeGreaterThan(0,
+          'should see welcome');
+      });
+
+    });
+  ```
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Protractor
+
+  - Toolkit around WebDriver (Selinium)
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## Where to functional test?
+</script></section>
+
+<section data-markdown><script type="text/template">
+  ## What would really piss off your boss/users?
+
+  - test to stop those situations occuring
+  - e.g login, purchase, close account etc
+</script></section>
   
 <section data-markdown data-state=title><script type="text/template">
   ## Animations
